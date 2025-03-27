@@ -44,9 +44,6 @@ const Navigation = () => {
           <Link to="/" className={isActive('/') ? 'nav-link-active' : 'nav-link'}>
             Home
           </Link>
-          <Link to="/login" className={isActive('/login') ? 'nav-link-active' : 'nav-link'}>
-            Login
-          </Link>
           <Link to="/dashboard" className={isActive('/dashboard') ? 'nav-link-active' : 'nav-link'}>
             Dashboard
           </Link>
@@ -70,13 +67,23 @@ const Navigation = () => {
             </DropdownMenuContent>
           </DropdownMenu>
           
-          <Link to="/screening" className='primary-button'>
-            Get Started
-          </Link>
+          <div className="flex items-center ml-4 space-x-2">
+            <Link to="/login" className="text-tutor-orange hover:text-tutor-dark-orange font-medium transition-colors">
+              Login
+            </Link>
+            <Link to="/screening" className='primary-button'>
+              Get Started
+            </Link>
+          </div>
         </div>
         
         {/* Mobile Menu Button */}
         <div className="md:hidden flex items-center gap-2">
+          {/* Login Link - Mobile */}
+          <Link to="/login" className="text-tutor-orange font-medium mr-2">
+            Login
+          </Link>
+          
           {/* Language Selector - Mobile */}
           <DropdownMenu>
             <DropdownMenuTrigger className="p-2 text-tutor-dark-gray">
@@ -112,13 +119,6 @@ const Navigation = () => {
               onClick={() => setIsMenuOpen(false)}
             >
               Home
-            </Link>
-            <Link 
-              to="/login" 
-              className={isActive('/login') ? 'nav-link-active' : 'nav-link'}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Login
             </Link>
             <Link 
               to="/dashboard" 
