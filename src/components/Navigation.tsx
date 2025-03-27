@@ -1,16 +1,29 @@
 
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Languages } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [language, setLanguage] = useState('English');
   const location = useLocation();
   
   const isActive = (path: string) => location.pathname === path;
   
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLanguageChange = (lang: string) => {
+    setLanguage(lang);
+    // In a real app, this would trigger language context changes
+    console.log(`Language changed to: ${lang}`);
   };
   
   return (
@@ -37,19 +50,53 @@ const Navigation = () => {
           <Link to="/chat-tutor" className={isActive('/chat-tutor') ? 'nav-link-active' : 'nav-link'}>
             AI Tutor
           </Link>
+          
+          {/* Language Selector - Desktop */}
+          <DropdownMenu>
+            <DropdownMenuTrigger className="nav-link flex items-center gap-1">
+              <Languages className="w-4 h-4" />
+              <span>{language}</span>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="bg-white">
+              <DropdownMenuItem onClick={() => handleLanguageChange('English')}>
+                English
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleLanguageChange('Amharic')}>
+                Amharic
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          
           <Link to="/screening" className='primary-button'>
             Get Started
           </Link>
         </div>
         
         {/* Mobile Menu Button */}
-        <button 
-          className="md:hidden p-2 text-tutor-dark-gray" 
-          onClick={toggleMenu}
-          aria-label="Toggle menu"
-        >
-          {isMenuOpen ? <X /> : <Menu />}
-        </button>
+        <div className="md:hidden flex items-center gap-2">
+          {/* Language Selector - Mobile */}
+          <DropdownMenu>
+            <DropdownMenuTrigger className="p-2 text-tutor-dark-gray">
+              <Languages className="w-5 h-5" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="bg-white">
+              <DropdownMenuItem onClick={() => handleLanguageChange('English')}>
+                English
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleLanguageChange('Amharic')}>
+                Amharic
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          
+          <button 
+            className="p-2 text-tutor-dark-gray" 
+            onClick={toggleMenu}
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <X /> : <Menu />}
+          </button>
+        </div>
       </div>
       
       {/* Mobile Menu */}
