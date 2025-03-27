@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -237,7 +238,7 @@ const Dashboard = () => {
                   className="bg-tutor-orange hover:bg-tutor-dark-orange"
                   asChild
                 >
-                  <Link to="/chat-tutor">
+                  <Link to="/learn?tab=chat-tutor">
                     <MessageSquare className="mr-2 h-4 w-4" />
                     Chat with Tutor
                   </Link>
