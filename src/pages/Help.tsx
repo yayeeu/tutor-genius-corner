@@ -5,6 +5,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
+import { HelpCard } from "@/components/help/HelpCard";
+import { ContactSupportSection } from "@/components/help/ContactSupportSection";
 
 const Help = () => {
   return (
@@ -20,69 +22,36 @@ const Help = () => {
         </p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <BookOpen className="h-5 w-5 text-tutor-orange" />
-                Getting Started
-              </CardTitle>
-              <CardDescription>Learn how to use the EduNova platform</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2 list-disc pl-5 text-tutor-dark-gray">
-                <li>How to navigate the dashboard</li>
-                <li>Understanding your learning progress</li>
-                <li>Using the AI Tutor for personalized help</li>
-                <li>Taking practice tests and assessments</li>
-              </ul>
-            </CardContent>
-            <CardFooter>
-              <Button variant="outline" className="w-full">
-                View Guides
-              </Button>
-            </CardFooter>
-          </Card>
+          <HelpCard 
+            icon={<BookOpen className="h-5 w-5 text-tutor-orange" />}
+            title="Getting Started"
+            description="Learn how to use the EduNova platform"
+            items={[
+              "How to navigate the dashboard",
+              "Understanding your learning progress",
+              "Using the AI Tutor for personalized help",
+              "Taking practice tests and assessments"
+            ]}
+            buttonText="View Guides"
+          />
           
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileQuestion className="h-5 w-5 text-tutor-purple" />
-                Frequently Asked Questions
-              </CardTitle>
-              <CardDescription>Quick answers to common questions</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2 list-disc pl-5 text-tutor-dark-gray">
-                <li>How do I reset my password?</li>
-                <li>Can I download materials for offline use?</li>
-                <li>How are my study recommendations generated?</li>
-                <li>What subjects are currently supported?</li>
-              </ul>
-            </CardContent>
-            <CardFooter>
-              <Button variant="outline" className="w-full">
-                View FAQ
-              </Button>
-            </CardFooter>
-          </Card>
+          <HelpCard 
+            icon={<FileQuestion className="h-5 w-5 text-tutor-purple" />}
+            title="Frequently Asked Questions"
+            description="Quick answers to common questions"
+            items={[
+              "How do I reset my password?",
+              "Can I download materials for offline use?",
+              "How are my study recommendations generated?",
+              "What subjects are currently supported?"
+            ]}
+            buttonText="View FAQ"
+          />
         </div>
         
         <Separator className="my-8" />
         
-        <div className="bg-tutor-beige/30 rounded-lg p-6 mb-8">
-          <h2 className="text-xl font-semibold text-tutor-navy mb-4 flex items-center gap-2">
-            <MessageCircle className="h-5 w-5 text-tutor-orange" />
-            Contact Support
-          </h2>
-          <p className="text-tutor-dark-gray mb-4">
-            Can't find what you're looking for? Our support team is here to help.
-          </p>
-          <Button asChild>
-            <Link to="/contact">
-              Contact Support
-            </Link>
-          </Button>
-        </div>
+        <ContactSupportSection />
       </div>
     </div>
   );
