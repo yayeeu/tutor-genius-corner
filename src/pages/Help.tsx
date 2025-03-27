@@ -4,6 +4,7 @@ import { HelpCircle, BookOpen, MessageCircle, FileQuestion } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Link } from "react-router-dom";
 
 const Help = () => {
   return (
@@ -76,8 +77,10 @@ const Help = () => {
           <p className="text-tutor-dark-gray mb-4">
             Can't find what you're looking for? Our support team is here to help.
           </p>
-          <Button>
-            Contact Support
+          <Button asChild>
+            <Link to="/contact">
+              Contact Support
+            </Link>
           </Button>
         </div>
       </div>
