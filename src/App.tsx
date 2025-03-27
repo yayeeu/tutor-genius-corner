@@ -41,7 +41,6 @@ const App = () => (
                   <ChatTutor />
                 </ProtectedRoute>
               } />
-              <Route path="/practice/:subject" element={<Practice />} />
               <Route path="/practice" element={<Practice />} />
               <Route path="/screening" element={<ScreeningAssignment />} />
               <Route path="/about" element={<About />} />

@@ -90,7 +90,7 @@ const ChatTutor = () => {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {subjectData.slice(0, displayedSubjects).map((subject, index) => (
-                  <Link to={`/chat-tutor?subject=${subject.title.toLowerCase()}`} key={index}>
+                  <Link to={`/practice?subject=${subject.title}`} key={index}>
                     <SubjectCard 
                       title={subject.title}
                       description={subject.description}
