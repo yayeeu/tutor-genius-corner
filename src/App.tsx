@@ -11,7 +11,7 @@ import Footer from "./components/Footer";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import ChatTutor from "./pages/ChatTutor";
+import Learn from "./pages/Learn";
 import Practice from "./pages/Practice";
 import ScreeningAssignment from "./pages/ScreeningAssignment";
 import About from "./pages/About";
@@ -41,9 +41,9 @@ const App = () => (
                   <Dashboard />
                 </ProtectedRoute>
               } />
-              <Route path="/chat-tutor" element={
+              <Route path="/learn" element={
                 <ProtectedRoute>
-                  <ChatTutor />
+                  <Learn />
                 </ProtectedRoute>
               } />
               <Route path="/practice" element={<Practice />} />

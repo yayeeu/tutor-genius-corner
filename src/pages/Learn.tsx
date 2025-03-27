@@ -47,8 +47,8 @@ const subjectData = [
   }
 ];
 
-const ChatTutor = () => {
-  const [activeTab, setActiveTab] = useState('chat');
+const Learn = () => {
+  const [activeTab, setActiveTab] = useState('chat-tutor');
   const [displayedSubjects, setDisplayedSubjects] = useState(6);
 
   const handleShowMore = () => {
@@ -65,17 +65,17 @@ const ChatTutor = () => {
           </p>
         </div>
 
-        <Tabs defaultValue="chat" value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <Tabs defaultValue="chat-tutor" value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="bg-white border border-tutor-light-gray mb-4">
-            <TabsTrigger value="chat">Chat with Tutor</TabsTrigger>
-            <TabsTrigger value="subjects">Your Subjects</TabsTrigger>
+            <TabsTrigger value="chat-tutor">Chat with Tutor</TabsTrigger>
+            <TabsTrigger value="your-subjects">Your Subjects</TabsTrigger>
           </TabsList>
           
-          <TabsContent value="chat" className="animate-fade-in">
+          <TabsContent value="chat-tutor" className="animate-fade-in">
             <ChatInterface />
           </TabsContent>
           
-          <TabsContent value="subjects" className="animate-fade-in">
+          <TabsContent value="your-subjects" className="animate-fade-in">
             <div className="space-y-6">
               <div className="flex justify-between items-center">
                 <h2 className="text-xl font-semibold">Your Subjects</h2>
@@ -120,4 +120,4 @@ const ChatTutor = () => {
   );
 };
 
-export default ChatTutor;
+export default Learn;

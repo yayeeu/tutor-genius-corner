@@ -110,7 +110,7 @@ const Practice = () => {
             <BreadcrumbList>
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link to="/chat-tutor">
+                  <Link to="/learn">
                     <Home className="h-4 w-4" />
                   </Link>
                 </BreadcrumbLink>
@@ -118,7 +118,7 @@ const Practice = () => {
               <BreadcrumbSeparator />
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link to="/learn?tab=subjects">Dashboard</Link>
+                  <Link to="/learn?tab=your-subjects">Dashboard</Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />

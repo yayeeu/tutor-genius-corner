@@ -52,7 +52,7 @@ const Navigation = () => {
             )}
             {user && (
               <>
-                <Link to="/chat-tutor" className={`${isActive('/chat-tutor') ? 'nav-link-active' : 'nav-link'} flex items-center`}>
+                <Link to="/learn" className={`${isActive('/learn') ? 'nav-link-active' : 'nav-link'} flex items-center`}>
                   <MessageCircle className="h-4 w-4 mr-2" />
                   <span>Learn</span>
                 </Link>
@@ -152,8 +152,8 @@ const Navigation = () => {
               {user && (
                 <>
                   <Link 
-                    to="/chat-tutor" 
-                    className={`${isActive('/chat-tutor') ? 'nav-link-active' : 'nav-link'} flex items-center`}
+                    to="/learn" 
+                    className={`${isActive('/learn') ? 'nav-link-active' : 'nav-link'} flex items-center`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <MessageCircle className="h-4 w-4 mr-2" />
