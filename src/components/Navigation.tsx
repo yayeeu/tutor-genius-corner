@@ -100,9 +100,6 @@ const Navigation = () => {
             <Link to="/" className={isActive('/') ? 'nav-link-active' : 'nav-link'}>
               Home
             </Link>
-            <Link to="/about" className={isActive('/about') ? 'nav-link-active' : 'nav-link'}>
-              About
-            </Link>
             <Link to="/dashboard" className={isActive('/dashboard') ? 'nav-link-active' : 'nav-link'}>
               Dashboard
             </Link>
@@ -135,13 +132,6 @@ const Navigation = () => {
                 Home
               </Link>
               <Link 
-                to="/about" 
-                className={isActive('/about') ? 'nav-link-active' : 'nav-link'}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                About
-              </Link>
-              <Link 
                 to="/dashboard" 
                 className={isActive('/dashboard') ? 'nav-link-active' : 'nav-link'}
                 onClick={() => setIsMenuOpen(false)}
@@ -160,6 +150,14 @@ const Navigation = () => {
               
               {/* Secondary mobile menu items */}
               <div className="flex flex-col space-y-3 text-sm">
+                <Link 
+                  to="/about" 
+                  className="flex items-center gap-2 text-tutor-gray hover:text-tutor-purple"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <Info className="w-4 h-4" />
+                  <span>About</span>
+                </Link>
                 <Link 
                   to="/login" 
                   className="flex items-center gap-2 text-tutor-gray hover:text-tutor-purple"
