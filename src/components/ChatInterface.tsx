@@ -1,6 +1,5 @@
-
 import { useState, useRef, useEffect } from 'react';
-import { SendHorizontal, Sparkles, BookOpen, Clock, ChevronRight } from 'lucide-react';
+import { SendHorizontal, Sparkles, BookOpen, ChevronRight } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -210,33 +209,6 @@ const ChatInterface = () => {
                 ))}
               </ul>
             </div>
-            
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-tutor-gray flex items-center">
-                <Clock className="w-4 h-4 mr-2" />
-                Recent Sessions
-              </h3>
-              <ul className="space-y-2">
-                <li>
-                  <Button 
-                    variant="ghost" 
-                    className="w-full justify-start text-tutor-gray hover:text-tutor-dark-orange hover:bg-white"
-                  >
-                    <span>Math Homework Help</span>
-                    <ChevronRight className="w-4 h-4 ml-auto" />
-                  </Button>
-                </li>
-                <li>
-                  <Button 
-                    variant="ghost" 
-                    className="w-full justify-start text-tutor-gray hover:text-tutor-dark-orange hover:bg-white"
-                  >
-                    <span>Science Project Ideas</span>
-                    <ChevronRight className="w-4 h-4 ml-auto" />
-                  </Button>
-                </li>
-              </ul>
-            </div>
           </div>
         </ScrollArea>
       </div>
@@ -367,4 +339,3 @@ const ChatInterface = () => {
 };
 
 export default ChatInterface;
-
