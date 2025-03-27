@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { useToast } from "@/hooks/use-toast";
+import { useAuth } from '@/contexts/AuthContext';
 import { 
   Card, 
   CardContent, 
@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useNavigate } from 'react-router-dom';
+import { Label } from "@/components/ui/label";
 
 type AuthMode = "login" | "signup";
 
@@ -43,11 +43,10 @@ const AuthForm = () => {
   const [mode, setMode] = useState<AuthMode>("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [grade, setGrade] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   
-  const { toast } = useToast();
-  const navigate = useNavigate();
+  const { signIn, signUp, isLoading } = useAuth();
   
   const toggleMode = () => {
     setMode(mode === "login" ? "signup" : "login");
@@ -55,27 +54,12 @@ const AuthForm = () => {
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
     
-    // Simulate authentication
-    setTimeout(() => {
-      setIsLoading(false);
-      
-      if (mode === "login") {
-        toast({
-          title: "Welcome back!",
-          description: "You have successfully logged in.",
-        });
-      } else {
-        toast({
-          title: "Account created!",
-          description: "Your account has been created successfully.",
-        });
-      }
-      
-      // Navigate to dashboard after successful auth
-      navigate("/dashboard");
-    }, 1500);
+    if (mode === "login") {
+      await signIn(email, password);
+    } else {
+      await signUp(email, password, name);
+    }
   };
   
   return (
@@ -92,10 +76,23 @@ const AuthForm = () => {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
+          {mode === "signup" && (
+            <div className="space-y-2">
+              <Label htmlFor="name">Full Name</Label>
+              <Input
+                id="name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter your full name"
+                required={mode === "signup"}
+                className="w-full"
+              />
+            </div>
+          )}
+          
           <div className="space-y-2">
-            <label htmlFor="email" className="text-sm font-medium">
-              Email
-            </label>
+            <Label htmlFor="email">Email</Label>
             <Input
               id="email"
               type="email"
@@ -108,9 +105,7 @@ const AuthForm = () => {
           </div>
           
           <div className="space-y-2">
-            <label htmlFor="password" className="text-sm font-medium">
-              Password
-            </label>
+            <Label htmlFor="password">Password</Label>
             <Input
               id="password"
               type="password"
@@ -124,9 +119,7 @@ const AuthForm = () => {
           
           {mode === "signup" && (
             <div className="space-y-2">
-              <label htmlFor="grade" className="text-sm font-medium">
-                Grade Level
-              </label>
+              <Label htmlFor="grade">Grade Level</Label>
               <Select value={grade} onValueChange={setGrade}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select your grade" />

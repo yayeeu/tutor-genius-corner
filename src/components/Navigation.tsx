@@ -15,13 +15,14 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
+import { useAuth } from '@/contexts/AuthContext';
+import UserAvatar from './UserAvatar';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const { user, signOut } = useAuth();
   
   const isActive = (path: string) => location.pathname === path;
   
@@ -65,43 +66,46 @@ const Navigation = () => {
             <Link to="/" className={isActive('/') ? 'nav-link-active' : 'nav-link'}>
               Home
             </Link>
-            <Link to="/chat-tutor" className={isActive('/chat-tutor') ? 'nav-link-active' : 'nav-link'}>
-              AI Tutor
-            </Link>
-            <Link to="/dashboard" className={isActive('/dashboard') ? 'nav-link-active' : 'nav-link'}>
-              Dashboard
-            </Link>
+            {user && (
+              <>
+                <Link to="/chat-tutor" className={isActive('/chat-tutor') ? 'nav-link-active' : 'nav-link'}>
+                  AI Tutor
+                </Link>
+                <Link to="/dashboard" className={isActive('/dashboard') ? 'nav-link-active' : 'nav-link'}>
+                  Dashboard
+                </Link>
+              </>
+            )}
           </div>
           
           {/* Student profile with dropdown menu */}
           <div className="hidden md:block">
-            <DropdownMenu>
-              <DropdownMenuTrigger className="focus:outline-none">
-                <div className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src="/lovable-uploads/e8e2205f-1e97-49b4-9f64-a561042e0a3b.png" alt="Student" />
-                    <AvatarFallback className="bg-tutor-orange text-white">ST</AvatarFallback>
-                  </Avatar>
-                  <div className="text-tutor-dark-gray">
-                    <p className="font-medium text-sm">Alex Johnson</p>
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger className="focus:outline-none">
+                  <div className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+                    <UserAvatar showName={true} />
                   </div>
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48 bg-white">
-                <DropdownMenuItem asChild>
-                  <Link to="/profile" className="flex items-center gap-2 cursor-pointer">
-                    <User className="h-4 w-4" />
-                    <span>My Account</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/login" className="flex items-center gap-2 cursor-pointer text-red-500 hover:text-red-600">
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48 bg-white">
+                  <DropdownMenuItem asChild>
+                    <Link to="/profile" className="flex items-center gap-2 cursor-pointer">
+                      <User className="h-4 w-4" />
+                      <span>My Account</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={signOut} className="flex items-center gap-2 cursor-pointer text-red-500 hover:text-red-600">
                     <LogOut className="h-4 w-4" />
                     <span>Log Out</span>
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link to="/login" className="flex items-center space-x-2 text-tutor-dark-gray hover:text-tutor-orange transition-colors">
+                <LogIn className="h-4 w-4" />
+                <span>Sign In</span>
+              </Link>
+            )}
           </div>
           
           {/* Mobile Menu Button */}
@@ -120,35 +124,21 @@ const Navigation = () => {
         {isMenuOpen && (
           <div className="md:hidden absolute top-[calc(4rem+1px)] inset-x-0 bg-white shadow-lg animate-fade-in">
             <div className="flex flex-col p-4 space-y-3">
-              {/* Mobile student profile with dropdown */}
-              <DropdownMenu>
-                <DropdownMenuTrigger className="w-full focus:outline-none">
-                  <div className="flex items-center p-2 mb-2 bg-tutor-beige/30 rounded-md">
-                    <Avatar className="h-8 w-8 mr-2">
-                      <AvatarImage src="/lovable-uploads/e8e2205f-1e97-49b4-9f64-a561042e0a3b.png" alt="Student" />
-                      <AvatarFallback className="bg-tutor-orange text-white">ST</AvatarFallback>
-                    </Avatar>
-                    <div className="text-left">
-                      <p className="font-medium text-sm text-tutor-dark-gray">Alex Johnson</p>
-                      <p className="text-xs text-tutor-gray">Grade 10</p>
-                    </div>
-                  </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-48 bg-white">
-                  <DropdownMenuItem asChild>
-                    <Link to="/profile" className="flex items-center gap-2 cursor-pointer">
-                      <User className="h-4 w-4" />
-                      <span>My Account</span>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link to="/login" className="flex items-center gap-2 cursor-pointer text-red-500 hover:text-red-600">
-                      <LogOut className="h-4 w-4" />
-                      <span>Log Out</span>
-                    </Link>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              {/* Mobile user profile */}
+              {user ? (
+                <div className="flex items-center p-2 mb-2 bg-tutor-beige/30 rounded-md">
+                  <UserAvatar className="mr-2" showName={true} />
+                </div>
+              ) : (
+                <Link 
+                  to="/login" 
+                  className="flex items-center gap-2 p-2 text-tutor-dark-gray"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <LogIn className="h-4 w-4" />
+                  <span>Sign In</span>
+                </Link>
+              )}
               
               <Link 
                 to="/" 
@@ -157,20 +147,25 @@ const Navigation = () => {
               >
                 Home
               </Link>
-              <Link 
-                to="/chat-tutor" 
-                className={isActive('/chat-tutor') ? 'nav-link-active' : 'nav-link'}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                AI Tutor
-              </Link>
-              <Link 
-                to="/dashboard" 
-                className={isActive('/dashboard') ? 'nav-link-active' : 'nav-link'}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Dashboard
-              </Link>
+              
+              {user && (
+                <>
+                  <Link 
+                    to="/chat-tutor" 
+                    className={isActive('/chat-tutor') ? 'nav-link-active' : 'nav-link'}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    AI Tutor
+                  </Link>
+                  <Link 
+                    to="/dashboard" 
+                    className={isActive('/dashboard') ? 'nav-link-active' : 'nav-link'}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Dashboard
+                  </Link>
+                </>
+              )}
               
               <Separator className="my-2" />
               
@@ -184,6 +179,19 @@ const Navigation = () => {
                   <Info className="w-4 h-4" />
                   <span>About</span>
                 </Link>
+                
+                {user && (
+                  <button 
+                    onClick={() => {
+                      signOut();
+                      setIsMenuOpen(false);
+                    }}
+                    className="flex items-center gap-2 text-red-500 hover:text-red-600"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span>Sign Out</span>
+                  </button>
+                )}
               </div>
             </div>
           </div>
