@@ -117,7 +117,7 @@ const Practice = () => {
               <BreadcrumbSeparator />
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link to="/chat-tutor">Dashboard</Link>
+                  <Link to="/dashboard?tab=subjects">Dashboard</Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
