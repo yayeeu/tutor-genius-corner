@@ -17,6 +17,7 @@ import ScreeningAssignment from "./pages/ScreeningAssignment";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Profile from "./pages/Profile";
+import Products from "./pages/Products";
 import NotFound from "./pages/NotFound";
 import TermsOfService from "./pages/TermsOfService";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -36,6 +37,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/products" element={<Products />} />
               <Route path="/dashboard" element={
                 <ProtectedRoute>
                   <Dashboard />
