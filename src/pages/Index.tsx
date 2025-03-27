@@ -285,7 +285,7 @@ const Home2 = () => {
                   alt="EduNova Mobile App Preview" 
                   className="w-full h-auto rounded-3xl shadow-xl"
                 />
-                <div className="absolute -top-3 -right-3 bg-tutor-orange text-white text-xs font-bold px-3 py-1 rounded-full">
+                <div className="absolute -top-3 -right-3 bg-tutor-purple text-white text-xs font-bold px-3 py-1 rounded-full">
                   COMING SOON
                 </div>
               </div>

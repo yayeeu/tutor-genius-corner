@@ -97,7 +97,7 @@ const MobileAppSection = () => {
                 </span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                TutorGenius Mobile App
+                EduNova Mobile App
               </h2>
               <p className="text-tutor-gray mb-6">
                 Learn anywhere, anytime with our upcoming mobile app. Get instant access to your AI tutor, track your progress, and study on the go. Sign up now to be the first to know when it launches.
@@ -161,11 +161,11 @@ const MobileAppSection = () => {
             <div className="relative max-w-sm lg:max-w-md animate-float">
               <img 
                 src="/lovable-uploads/eadc44bc-fbb9-439b-b523-a4b715f71510.png" 
-                alt="TutorGenius Mobile App Preview" 
+                alt="EduNova Mobile App Preview" 
                 className="w-full h-auto rounded-3xl shadow-xl"
               />
-              <div className="absolute -top-3 -right-3 bg-tutor-orange text-white text-xs font-bold px-3 py-1 rounded-full">
-                BETA
+              <div className="absolute -top-3 -right-3 bg-tutor-purple text-white text-xs font-bold px-3 py-1 rounded-full">
+                COMING SOON
               </div>
             </div>
           </div>

@@ -32,12 +32,12 @@ const Products = () => {
               alt="EduNova Mobile App" 
               className="w-full h-full object-cover transition-transform hover:scale-105"
             />
-            <div className="absolute top-4 right-4 bg-tutor-orange text-white text-xs font-bold px-3 py-1 rounded-full">
-              BETA
+            <div className="absolute top-4 right-4 bg-tutor-purple text-white text-xs font-bold px-3 py-1 rounded-full">
+              COMING SOON
             </div>
           </div>
           <CardHeader>
-            <CardTitle>TutorGenius Mobile App</CardTitle>
+            <CardTitle>EduNova Mobile App</CardTitle>
             <CardDescription>Learn anywhere, anytime with our upcoming mobile app</CardDescription>
           </CardHeader>
           <CardContent>
@@ -47,15 +47,15 @@ const Products = () => {
             </p>
             <div className="mt-4 space-y-2">
               <div className="flex items-start">
-                <span className="bg-tutor-orange/10 p-1 rounded mr-2 text-tutor-orange">✓</span>
+                <span className="bg-tutor-purple/10 p-1 rounded mr-2 text-tutor-purple">✓</span>
                 <span className="text-sm">AI-Driven Adaptation for personalized learning</span>
               </div>
               <div className="flex items-start">
-                <span className="bg-tutor-orange/10 p-1 rounded mr-2 text-tutor-orange">✓</span>
+                <span className="bg-tutor-purple/10 p-1 rounded mr-2 text-tutor-purple">✓</span>
                 <span className="text-sm">Multi-Language Support (Amharic, Afaan Oromo, English)</span>
               </div>
               <div className="flex items-start">
-                <span className="bg-tutor-orange/10 p-1 rounded mr-2 text-tutor-orange">✓</span>
+                <span className="bg-tutor-purple/10 p-1 rounded mr-2 text-tutor-purple">✓</span>
                 <span className="text-sm">Designed for Ethiopian curriculum</span>
               </div>
             </div>
@@ -104,7 +104,7 @@ const Products = () => {
             </div>
           </CardContent>
           <CardFooter>
-            <Button className="w-full secondary-button">
+            <Button className="w-full primary-button">
               Coming Soon
             </Button>
           </CardFooter>
@@ -118,8 +118,8 @@ const Products = () => {
               alt="Offline School Server" 
               className="w-full h-full object-cover transition-transform hover:scale-105"
             />
-            <div className="absolute top-4 right-4 bg-tutor-navy text-white text-xs font-bold px-3 py-1 rounded-full">
-              DEVELOPMENT
+            <div className="absolute top-4 right-4 bg-tutor-purple text-white text-xs font-bold px-3 py-1 rounded-full">
+              COMING SOON
             </div>
           </div>
           <CardHeader>
@@ -133,21 +133,21 @@ const Products = () => {
             </p>
             <div className="mt-4 space-y-2">
               <div className="flex items-start">
-                <span className="bg-tutor-navy/10 p-1 rounded mr-2 text-tutor-navy">✓</span>
+                <span className="bg-tutor-purple/10 p-1 rounded mr-2 text-tutor-purple">✓</span>
                 <span className="text-sm">Local server for school-wide connectivity</span>
               </div>
               <div className="flex items-start">
-                <span className="bg-tutor-navy/10 p-1 rounded mr-2 text-tutor-navy">✓</span>
+                <span className="bg-tutor-purple/10 p-1 rounded mr-2 text-tutor-purple">✓</span>
                 <span className="text-sm">Content updates via periodic synchronization</span>
               </div>
               <div className="flex items-start">
-                <span className="bg-tutor-navy/10 p-1 rounded mr-2 text-tutor-navy">✓</span>
+                <span className="bg-tutor-purple/10 p-1 rounded mr-2 text-tutor-purple">✓</span>
                 <span className="text-sm">Supports multiple concurrent users</span>
               </div>
             </div>
           </CardContent>
           <CardFooter>
-            <Button className="w-full bg-tutor-navy hover:bg-tutor-navy/80 text-white">
+            <Button className="w-full primary-button">
               Coming Soon
             </Button>
           </CardFooter>
@@ -162,35 +162,35 @@ const Products = () => {
             </h2>
             <ul className="space-y-4">
               <li className="flex items-start">
-                <div className="bg-tutor-orange/20 p-2 rounded-full mr-3 text-tutor-orange mt-1">✓</div>
+                <div className="bg-tutor-purple/20 p-2 rounded-full mr-3 text-tutor-purple mt-1">✓</div>
                 <div>
                   <h3 className="font-semibold text-lg">Offline Accessibility</h3>
                   <p className="text-tutor-gray">Unlike global EdTech solutions requiring internet connectivity, EduNova operates entirely offline.</p>
                 </div>
               </li>
               <li className="flex items-start">
-                <div className="bg-tutor-orange/20 p-2 rounded-full mr-3 text-tutor-orange mt-1">✓</div>
+                <div className="bg-tutor-purple/20 p-2 rounded-full mr-3 text-tutor-purple mt-1">✓</div>
                 <div>
                   <h3 className="font-semibold text-lg">AI-Driven Adaptation</h3>
                   <p className="text-tutor-gray">Real-time learning customization enhances student engagement and retention.</p>
                 </div>
               </li>
               <li className="flex items-start">
-                <div className="bg-tutor-orange/20 p-2 rounded-full mr-3 text-tutor-orange mt-1">✓</div>
+                <div className="bg-tutor-purple/20 p-2 rounded-full mr-3 text-tutor-purple mt-1">✓</div>
                 <div>
                   <h3 className="font-semibold text-lg">Localized Multi-Language Support</h3>
                   <p className="text-tutor-gray">Content available in Amharic, Afaan Oromo, and English.</p>
                 </div>
               </li>
               <li className="flex items-start">
-                <div className="bg-tutor-orange/20 p-2 rounded-full mr-3 text-tutor-orange mt-1">✓</div>
+                <div className="bg-tutor-purple/20 p-2 rounded-full mr-3 text-tutor-purple mt-1">✓</div>
                 <div>
                   <h3 className="font-semibold text-lg">Diaspora Engagement</h3>
                   <p className="text-tutor-gray">Provides structured learning tools for Ethiopian families abroad seeking to preserve linguistic and cultural ties.</p>
                 </div>
               </li>
               <li className="flex items-start">
-                <div className="bg-tutor-orange/20 p-2 rounded-full mr-3 text-tutor-orange mt-1">✓</div>
+                <div className="bg-tutor-purple/20 p-2 rounded-full mr-3 text-tutor-purple mt-1">✓</div>
                 <div>
                   <h3 className="font-semibold text-lg">Hardware and Software Integration</h3>
                   <p className="text-tutor-gray">A dedicated Android-based tablet and Raspberry Pi-powered local server enable seamless implementation.</p>
