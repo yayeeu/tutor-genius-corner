@@ -78,7 +78,16 @@ const ChatTutor = () => {
           
           <TabsContent value="subjects" className="animate-fade-in">
             <div className="space-y-6">
-              <h2 className="text-xl font-semibold">Your Subjects</h2>
+              <div className="flex justify-between items-center">
+                <h2 className="text-xl font-semibold">Your Subjects</h2>
+                <Link 
+                  to="/dashboard" 
+                  className="text-sm text-tutor-orange hover:text-tutor-dark-orange flex items-center gap-1"
+                >
+                  View all
+                  <ArrowRight className="h-3 w-3" />
+                </Link>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {subjectData.slice(0, displayedSubjects).map((subject, index) => (
                   <Link to={`/chat-tutor?subject=${subject.title.toLowerCase()}`} key={index}>
