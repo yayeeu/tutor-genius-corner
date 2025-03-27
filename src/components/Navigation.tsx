@@ -1,12 +1,12 @@
-
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, GraduationCap, User, LogIn, Info, LogOut } from 'lucide-react';
+import { Menu, X, GraduationCap, User, LogIn, Info, LogOut, FileText } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import {
   NavigationMenu,
@@ -43,6 +43,14 @@ const Navigation = () => {
             <Link to="/about" className="flex items-center gap-1 text-white/80 hover:text-white transition-colors">
               <Info className="w-3 h-3" />
               <span>About</span>
+            </Link>
+            <Link to="/terms" className="flex items-center gap-1 text-white/80 hover:text-white transition-colors">
+              <FileText className="w-3 h-3" />
+              <span>Terms</span>
+            </Link>
+            <Link to="/privacy" className="flex items-center gap-1 text-white/80 hover:text-white transition-colors">
+              <FileText className="w-3 h-3" />
+              <span>Privacy</span>
             </Link>
           </div>
         </div>
@@ -178,6 +186,24 @@ const Navigation = () => {
                 >
                   <Info className="w-4 h-4" />
                   <span>About</span>
+                </Link>
+                
+                <Link 
+                  to="/terms" 
+                  className="flex items-center gap-2 text-tutor-gray hover:text-tutor-purple"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <FileText className="w-4 h-4" />
+                  <span>Terms of Service</span>
+                </Link>
+                
+                <Link 
+                  to="/privacy" 
+                  className="flex items-center gap-2 text-tutor-gray hover:text-tutor-purple"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <FileText className="w-4 h-4" />
+                  <span>Privacy Policy</span>
                 </Link>
                 
                 {user && (

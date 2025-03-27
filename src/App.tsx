@@ -16,6 +16,8 @@ import ScreeningAssignment from "./pages/ScreeningAssignment";
 import About from "./pages/About";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
+import TermsOfService from "./pages/TermsOfService";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +46,8 @@ const App = () => (
               <Route path="/practice" element={<Practice />} />
               <Route path="/screening" element={<ScreeningAssignment />} />
               <Route path="/about" element={<About />} />
+              <Route path="/terms" element={<TermsOfService />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
               <Route path="/profile" element={
                 <ProtectedRoute>
                   <Profile />
