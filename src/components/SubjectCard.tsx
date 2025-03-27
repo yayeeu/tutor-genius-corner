@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { BookOpen, BookCheck } from "lucide-react";
+import { BookCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export interface SubjectCardProps {
@@ -54,18 +54,7 @@ const SubjectCard = ({
           </ul>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between pt-2">
-        <Button 
-          variant="outline" 
-          size="sm"
-          className="text-tutor-gray hover:text-tutor-orange border-tutor-light-gray"
-          asChild
-        >
-          <Link to={`/chat-tutor?subject=${title.toLowerCase()}`}>
-            <BookOpen className="h-4 w-4 mr-2" />
-            <span>Study</span>
-          </Link>
-        </Button>
+      <CardFooter className="flex justify-end pt-2">
         <Button 
           size="sm"
           className="bg-tutor-orange hover:bg-tutor-dark-orange"
