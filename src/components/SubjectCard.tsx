@@ -59,9 +59,12 @@ const SubjectCard = ({
           variant="outline" 
           size="sm"
           className="text-tutor-gray hover:text-tutor-orange border-tutor-light-gray"
+          asChild
         >
-          <BookOpen className="h-4 w-4 mr-2" />
-          <span>Study</span>
+          <Link to={`/chat-tutor?subject=${title.toLowerCase()}`}>
+            <BookOpen className="h-4 w-4 mr-2" />
+            <span>Study</span>
+          </Link>
         </Button>
         <Button 
           size="sm"
