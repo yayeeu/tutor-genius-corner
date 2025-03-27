@@ -64,9 +64,13 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
         tutor: {
-          orange: '#F59E0B',
-          'light-orange': '#FBBF24',
-          'dark-orange': '#D97706',
+          orange: '#FF9D00', // Brighter orange from the image
+          'light-orange': '#FFC107',
+          'dark-orange': '#F57C00',
+          purple: '#8E24AA', // Deep purple from the image
+          'light-purple': '#AB47BC',
+          'dark-purple': '#6A1B9A',
+          navy: '#1A2842', // Dark navy blue from the image
           beige: '#F5F5F4',
           gray: '#6B7280',
           'dark-gray': '#374151',

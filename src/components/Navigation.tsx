@@ -34,7 +34,7 @@ const Navigation = () => {
             <GraduationCap className="h-5 w-5 text-white" />
           </div>
           <div className="flex flex-col">
-            <span className="font-bold text-lg text-tutor-dark-gray leading-tight">TutorGenius</span>
+            <span className="font-bold text-lg text-tutor-navy leading-tight">TutorGenius</span>
             <span className="text-xs text-tutor-gray leading-tight">Ethiopian Curriculum</span>
           </div>
         </Link>
@@ -68,7 +68,7 @@ const Navigation = () => {
           </DropdownMenu>
           
           <div className="flex items-center ml-4 space-x-2">
-            <Link to="/login" className="text-tutor-orange hover:text-tutor-dark-orange font-medium transition-colors">
+            <Link to="/login" className="text-tutor-purple hover:text-tutor-light-purple font-medium transition-colors">
               Login
             </Link>
             <Link to="/screening" className='primary-button'>
@@ -80,7 +80,7 @@ const Navigation = () => {
         {/* Mobile Menu Button */}
         <div className="md:hidden flex items-center gap-2">
           {/* Login Link - Mobile */}
-          <Link to="/login" className="text-tutor-orange font-medium mr-2">
+          <Link to="/login" className="text-tutor-purple font-medium mr-2">
             Login
           </Link>
           
