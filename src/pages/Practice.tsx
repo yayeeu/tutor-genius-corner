@@ -17,6 +17,7 @@ const Practice = () => {
   const [currentQuestion, setCurrentQuestion] = useState<QuestionData | null>(null);
   const [feedback, setFeedback] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<Array<{ sender: string, message: string }>>([]);
+  const [availableQuestions, setAvailableQuestions] = useState<QuestionData[]>([]);
 
   // Get subject from URL params or query string
   const subjectName = subject || new URLSearchParams(location.search).get('subject') || "Mathematics";
@@ -35,15 +36,16 @@ const Practice = () => {
     setCurrentQuestion(null);
     setFeedback("");
     setChatHistory([]);
+    setAvailableQuestions([]);
   }, [subjectName]);
 
-  const handleTopicSelect = (topicName: string) => {
-    setSelectedTopic(topicName);
-    
+  const loadQuestionsForTopic = (topicName: string) => {
     // Get questions for this topic
     const questionsData = sampleQuestions;
     const subjectQuestions = questionsData[subjectName] || {};
     const topicQuestions = subjectQuestions[topicName] || [];
+    
+    setAvailableQuestions(topicQuestions);
     
     // Select a random question if we have any
     if (topicQuestions.length > 0) {
@@ -52,9 +54,28 @@ const Practice = () => {
     } else {
       setCurrentQuestion(null);
     }
-    
+  };
+
+  const handleTopicSelect = (topicName: string) => {
+    setSelectedTopic(topicName);
+    loadQuestionsForTopic(topicName);
     setFeedback("");
     setChatHistory([]);
+  };
+
+  const handleNextQuestion = () => {
+    if (availableQuestions.length > 0) {
+      // Get a different question than the current one if possible
+      let newQuestions = availableQuestions;
+      if (currentQuestion && availableQuestions.length > 1) {
+        newQuestions = availableQuestions.filter(q => q.id !== currentQuestion.id);
+      }
+      
+      const randomIndex = Math.floor(Math.random() * newQuestions.length);
+      setCurrentQuestion(newQuestions[randomIndex]);
+      setFeedback("");
+      setChatHistory([]);
+    }
   };
 
   const handleSendMessage = (message: string) => {
@@ -124,7 +145,10 @@ const Practice = () => {
                   </Card>
                 )}
 
-                <FeedbackCard feedback={feedback} />
+                <FeedbackCard 
+                  feedback={feedback} 
+                  onNextQuestion={feedback ? handleNextQuestion : undefined}
+                />
 
                 <DiscussionChat 
                   chatHistory={chatHistory}
