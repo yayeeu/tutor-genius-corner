@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, GraduationCap, User, LogIn, Info } from 'lucide-react';
+import { Menu, X, GraduationCap, User, LogIn, Info, LogOut } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -90,17 +90,35 @@ const Navigation = () => {
             </Link>
           </div>
           
-          {/* Student profile - new addition */}
-          <div className="hidden md:flex items-center">
-            <Link to="/dashboard" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="/lovable-uploads/e8e2205f-1e97-49b4-9f64-a561042e0a3b.png" alt="Student" />
-                <AvatarFallback className="bg-tutor-orange text-white">ST</AvatarFallback>
-              </Avatar>
-              <div className="text-tutor-dark-gray">
-                <p className="font-medium text-sm">Alex Johnson</p>
-              </div>
-            </Link>
+          {/* Student profile with dropdown menu */}
+          <div className="hidden md:block">
+            <DropdownMenu>
+              <DropdownMenuTrigger className="focus:outline-none">
+                <div className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src="/lovable-uploads/e8e2205f-1e97-49b4-9f64-a561042e0a3b.png" alt="Student" />
+                    <AvatarFallback className="bg-tutor-orange text-white">ST</AvatarFallback>
+                  </Avatar>
+                  <div className="text-tutor-dark-gray">
+                    <p className="font-medium text-sm">Alex Johnson</p>
+                  </div>
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48 bg-white">
+                <DropdownMenuItem asChild>
+                  <Link to="/dashboard" className="flex items-center gap-2 cursor-pointer">
+                    <User className="h-4 w-4" />
+                    <span>My Account</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/login" className="flex items-center gap-2 cursor-pointer text-red-500 hover:text-red-600">
+                    <LogOut className="h-4 w-4" />
+                    <span>Log Out</span>
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
           
           {/* Mobile Menu Button */}
@@ -119,17 +137,35 @@ const Navigation = () => {
         {isMenuOpen && (
           <div className="md:hidden absolute top-[calc(4rem+1px)] inset-x-0 bg-white shadow-lg animate-fade-in">
             <div className="flex flex-col p-4 space-y-3">
-              {/* Mobile student profile */}
-              <div className="flex items-center p-2 mb-2 bg-tutor-beige/30 rounded-md">
-                <Avatar className="h-8 w-8 mr-2">
-                  <AvatarImage src="/lovable-uploads/e8e2205f-1e97-49b4-9f64-a561042e0a3b.png" alt="Student" />
-                  <AvatarFallback className="bg-tutor-orange text-white">ST</AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="font-medium text-sm text-tutor-dark-gray">Alex Johnson</p>
-                  <p className="text-xs text-tutor-gray">Grade 10</p>
-                </div>
-              </div>
+              {/* Mobile student profile with dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger className="w-full focus:outline-none">
+                  <div className="flex items-center p-2 mb-2 bg-tutor-beige/30 rounded-md">
+                    <Avatar className="h-8 w-8 mr-2">
+                      <AvatarImage src="/lovable-uploads/e8e2205f-1e97-49b4-9f64-a561042e0a3b.png" alt="Student" />
+                      <AvatarFallback className="bg-tutor-orange text-white">ST</AvatarFallback>
+                    </Avatar>
+                    <div className="text-left">
+                      <p className="font-medium text-sm text-tutor-dark-gray">Alex Johnson</p>
+                      <p className="text-xs text-tutor-gray">Grade 10</p>
+                    </div>
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-48 bg-white">
+                  <DropdownMenuItem asChild>
+                    <Link to="/dashboard" className="flex items-center gap-2 cursor-pointer">
+                      <User className="h-4 w-4" />
+                      <span>My Account</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/login" className="flex items-center gap-2 cursor-pointer text-red-500 hover:text-red-600">
+                      <LogOut className="h-4 w-4" />
+                      <span>Log Out</span>
+                    </Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               
               <Link 
                 to="/" 
@@ -172,14 +208,6 @@ const Navigation = () => {
                 >
                   <LogIn className="w-4 h-4" />
                   <span>Login</span>
-                </Link>
-                <Link 
-                  to="/dashboard" 
-                  className="flex items-center gap-2 text-tutor-gray hover:text-tutor-purple"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <User className="w-4 h-4" />
-                  <span>Account</span>
                 </Link>
               </div>
             </div>
