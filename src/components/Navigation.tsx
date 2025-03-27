@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Languages } from 'lucide-react';
+import { Menu, X, Languages, GraduationCap } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,9 +31,12 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-2">
           <div className="w-8 h-8 bg-tutor-orange rounded-lg flex items-center justify-center">
-            <span className="font-bold text-white">AI</span>
+            <GraduationCap className="h-5 w-5 text-white" />
           </div>
-          <span className="font-bold text-xl text-tutor-dark-gray">TutorGenius</span>
+          <div className="flex flex-col">
+            <span className="font-bold text-lg text-tutor-dark-gray leading-tight">TutorGenius</span>
+            <span className="text-xs text-tutor-gray leading-tight">Ethiopian Curriculum</span>
+          </div>
         </Link>
         
         {/* Desktop Navigation */}

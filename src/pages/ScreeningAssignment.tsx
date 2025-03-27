@@ -13,9 +13,9 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import QuizQuestion from '@/components/QuizQuestion';
 import { useToast } from '@/hooks/use-toast';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, BookOpen } from 'lucide-react';
 
-// Sample questions for demo
+// Ethiopian curriculum sample questions
 const questions = [
   {
     id: 1,
@@ -25,25 +25,25 @@ const questions = [
   },
   {
     id: 2,
-    question: "Which of the following is NOT a type of chemical bond?",
-    options: ["Ionic bond", "Covalent bond", "Magnetic bond", "Hydrogen bond"],
-    correctAnswer: "Magnetic bond"
+    question: "Which of the following natural resources is Ethiopia most known for?",
+    options: ["Gold", "Coffee", "Natural gas", "Diamonds"],
+    correctAnswer: "Coffee"
   },
   {
     id: 3,
-    question: "In which year was the Declaration of Independence signed?",
-    options: ["1774", "1775", "1776", "1777"],
-    correctAnswer: "1776"
+    question: "When did Ethiopia adopt its current constitution?",
+    options: ["1987", "1991", "1994", "1995"],
+    correctAnswer: "1994"
   },
   {
     id: 4,
-    question: "What is the correct way to write this sentence? ___ going to the store tomorrow.",
-    options: ["There", "Their", "They're", "They are"],
-    correctAnswer: "They're"
+    question: "Which of these rivers originates in Ethiopia?",
+    options: ["Nile", "Congo", "Zambezi", "Niger"],
+    correctAnswer: "Nile"
   },
   {
     id: 5,
-    question: "What is the primary function of mitochondria in a cell?",
+    question: "What is the function of mitochondria in a cell?",
     options: [
       "Protein synthesis", 
       "Energy production", 
@@ -108,10 +108,10 @@ const ScreeningAssignment = () => {
           <Card className="w-full">
             <CardHeader>
               <CardTitle className="text-2xl font-bold">
-                Knowledge Assessment
+                Ethiopian Curriculum Assessment
               </CardTitle>
               <CardDescription>
-                Please answer the following questions to help us understand your current knowledge level.
+                Please answer the following questions to help us customize your learning plan based on the Ethiopian curriculum for your grade level.
               </CardDescription>
               <div className="mt-4 space-y-2">
                 <div className="flex justify-between text-sm">
@@ -165,11 +165,16 @@ const ScreeningAssignment = () => {
               </div>
               
               <div className="bg-tutor-beige p-4 rounded-lg">
-                <h3 className="font-medium mb-2">Your personalized learning plan is ready!</h3>
-                <p className="text-tutor-gray text-sm">
-                  Based on your assessment, we've identified areas where you excel and areas that need more attention. 
-                  Head to your dashboard to see your personalized learning journey.
-                </p>
+                <div className="flex items-start gap-3">
+                  <BookOpen className="h-5 w-5 text-tutor-orange mt-1" />
+                  <div>
+                    <h3 className="font-medium mb-2">Your Ethiopian curriculum learning plan is ready!</h3>
+                    <p className="text-tutor-gray text-sm">
+                      Based on your assessment, we've created a personalized learning journey aligned with the Ethiopian education system. 
+                      Your plan focuses on key topics from your grade level courses and will help you prepare for exams while ensuring you understand the subject matter thoroughly.
+                    </p>
+                  </div>
+                </div>
               </div>
             </CardContent>
             <CardFooter>
