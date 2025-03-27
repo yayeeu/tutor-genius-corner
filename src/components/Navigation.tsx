@@ -52,17 +52,17 @@ const Navigation = () => {
             )}
             {user && (
               <>
-                <Link to="/chat-tutor" className={isActive('/chat-tutor') ? 'nav-link-active' : 'nav-link'}>
-                  <MessageCircle className="h-4 w-4 mr-1" />
-                  AI Tutor
+                <Link to="/chat-tutor" className={`${isActive('/chat-tutor') ? 'nav-link-active' : 'nav-link'} flex items-center`}>
+                  <MessageCircle className="h-4 w-4 mr-2" />
+                  <span>AI Tutor</span>
                 </Link>
-                <Link to="/dashboard" className={isActive('/dashboard') ? 'nav-link-active' : 'nav-link'}>
-                  <LayoutDashboard className="h-4 w-4 mr-1" />
-                  Dashboard
+                <Link to="/dashboard" className={`${isActive('/dashboard') ? 'nav-link-active' : 'nav-link'} flex items-center`}>
+                  <LayoutDashboard className="h-4 w-4 mr-2" />
+                  <span>Dashboard</span>
                 </Link>
-                <Link to="/help" className={isActive('/help') ? 'nav-link-active' : 'nav-link'}>
-                  <HelpCircle className="h-4 w-4 mr-1" />
-                  Help
+                <Link to="/help" className={`${isActive('/help') ? 'nav-link-active' : 'nav-link'} flex items-center`}>
+                  <HelpCircle className="h-4 w-4 mr-2" />
+                  <span>Help</span>
                 </Link>
               </>
             )}
@@ -91,7 +91,7 @@ const Navigation = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Link to="/login" className="flex items-center space-x-2 text-tutor-dark-gray hover:text-tutor-orange transition-colors">
+              <Link to="/login" className="flex items-center gap-2 text-tutor-dark-gray hover:text-tutor-orange transition-colors">
                 <LogIn className="h-4 w-4" />
                 <span>Sign In</span>
               </Link>
@@ -153,27 +153,27 @@ const Navigation = () => {
                 <>
                   <Link 
                     to="/chat-tutor" 
-                    className={isActive('/chat-tutor') ? 'nav-link-active' : 'nav-link'}
+                    className={`${isActive('/chat-tutor') ? 'nav-link-active' : 'nav-link'} flex items-center`}
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <MessageCircle className="h-4 w-4 mr-1" />
-                    AI Tutor
+                    <MessageCircle className="h-4 w-4 mr-2" />
+                    <span>AI Tutor</span>
                   </Link>
                   <Link 
                     to="/dashboard" 
-                    className={isActive('/dashboard') ? 'nav-link-active' : 'nav-link'}
+                    className={`${isActive('/dashboard') ? 'nav-link-active' : 'nav-link'} flex items-center`}
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <LayoutDashboard className="h-4 w-4 mr-1" />
-                    Dashboard
+                    <LayoutDashboard className="h-4 w-4 mr-2" />
+                    <span>Dashboard</span>
                   </Link>
                   <Link 
                     to="/help" 
-                    className={isActive('/help') ? 'nav-link-active' : 'nav-link'}
+                    className={`${isActive('/help') ? 'nav-link-active' : 'nav-link'} flex items-center`}
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <HelpCircle className="h-4 w-4 mr-1" />
-                    Help
+                    <HelpCircle className="h-4 w-4 mr-2" />
+                    <span>Help</span>
                   </Link>
                 </>
               )}
