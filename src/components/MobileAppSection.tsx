@@ -8,6 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters' }),
@@ -31,17 +32,56 @@ const MobileAppSection = () => {
 
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setIsSubmitting(false);
-    setIsSubmitted(true);
     
-    toast({
-      title: "Success!",
-      description: "You'll be notified when our mobile app launches.",
-    });
-    
-    console.log('Form submitted:', data);
+    try {
+      // Step 1: Insert the customer data into Supabase
+      const { error } = await supabase
+        .from('customers')
+        .insert([
+          {
+            name: data.name,
+            email: data.email
+          }
+        ]);
+      
+      if (error) throw error;
+      
+      // Step 2: Call the edge function to send a notification email
+      const notifyResponse = await supabase.functions.invoke('notify-signup', {
+        body: {
+          name: data.name,
+          email: data.email
+        }
+      });
+      
+      if (!notifyResponse.data?.success) {
+        console.warn("Email notification might not have been sent:", notifyResponse.data);
+      }
+      
+      setIsSubmitted(true);
+      toast({
+        title: "Success!",
+        description: "You'll be notified when our mobile app launches.",
+      });
+      
+    } catch (error: any) {
+      console.error('Error submitting form:', error);
+      
+      let errorMessage = "Failed to submit. Please try again.";
+      
+      // Handle unique constraint violation
+      if (error.code === '23505') {
+        errorMessage = "This email is already registered.";
+      }
+      
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

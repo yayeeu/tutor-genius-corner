@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, GraduationCap, User, LogIn, LogOut, FileText, Mail } from 'lucide-react';
@@ -43,6 +42,9 @@ const Navigation = () => {
             <Link to="/" className={isActive('/') ? 'nav-link-active' : 'nav-link'}>
               Home
             </Link>
+            <Link to="/about" className={isActive('/about') ? 'nav-link-active' : 'nav-link'}>
+              About
+            </Link>
             {user && (
               <>
                 <Link to="/chat-tutor" className={isActive('/chat-tutor') ? 'nav-link-active' : 'nav-link'}>
@@ -53,9 +55,6 @@ const Navigation = () => {
                 </Link>
               </>
             )}
-            <Link to="/about" className={isActive('/about') ? 'nav-link-active' : 'nav-link'}>
-              About
-            </Link>
             <Link to="/contact" className={isActive('/contact') ? 'nav-link-active' : 'nav-link'}>
               Contact
             </Link>
@@ -107,7 +106,6 @@ const Navigation = () => {
         {isMenuOpen && (
           <div className="md:hidden absolute top-16 inset-x-0 bg-white shadow-lg animate-fade-in">
             <div className="flex flex-col p-4 space-y-3">
-              {/* Mobile user profile */}
               {user ? (
                 <div className="flex items-center p-2 mb-2 bg-tutor-beige/30 rounded-md">
                   <UserAvatar className="mr-2" showName={true} />
@@ -131,6 +129,14 @@ const Navigation = () => {
                 Home
               </Link>
               
+              <Link 
+                to="/about" 
+                className={isActive('/about') ? 'nav-link-active' : 'nav-link'}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                About
+              </Link>
+              
               {user && (
                 <>
                   <Link 
@@ -151,14 +157,6 @@ const Navigation = () => {
               )}
               
               <Link 
-                to="/about" 
-                className={isActive('/about') ? 'nav-link-active' : 'nav-link'}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                About
-              </Link>
-              
-              <Link 
                 to="/contact" 
                 className={isActive('/contact') ? 'nav-link-active' : 'nav-link'}
                 onClick={() => setIsMenuOpen(false)}
@@ -168,7 +166,6 @@ const Navigation = () => {
               
               <Separator className="my-2" />
               
-              {/* Secondary mobile menu items */}
               <div className="flex flex-col space-y-3 text-sm">
                 <Link 
                   to="/terms" 
