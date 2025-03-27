@@ -5,7 +5,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navigation from "./components/Navigation";
-import Index from "./pages/Index";
 import Home2 from "./pages/Home2";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -25,8 +24,7 @@ const App = () => (
         <Navigation />
         <div className="pt-[calc(4rem+1px)]"> {/* Adjusted padding for double navigation bar */}
           <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/home2" element={<Home2 />} />
+            <Route path="/" element={<Home2 />} />
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/chat-tutor" element={<ChatTutor />} />
