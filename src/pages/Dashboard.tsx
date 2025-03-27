@@ -270,7 +270,7 @@ const Dashboard = () => {
                     <AvatarFallback className="bg-tutor-orange text-white">AI</AvatarFallback>
                   </Avatar>
                   <div>
-                    <h3 className="font-semibold text-lg">Need Help with Homework?</h3>
+                    <h3 className="font-semibold text-lg">Do you want to work where you can improve?</h3>
                     <p className="text-tutor-gray">Your AI tutor is ready to assist you anytime.</p>
                   </div>
                 </div>
