@@ -90,7 +90,7 @@ const Navigation = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48 bg-white">
                 <DropdownMenuItem asChild>
-                  <Link to="/dashboard" className="flex items-center gap-2 cursor-pointer">
+                  <Link to="/profile" className="flex items-center gap-2 cursor-pointer">
                     <User className="h-4 w-4" />
                     <span>My Account</span>
                   </Link>
@@ -137,7 +137,7 @@ const Navigation = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="w-48 bg-white">
                   <DropdownMenuItem asChild>
-                    <Link to="/dashboard" className="flex items-center gap-2 cursor-pointer">
+                    <Link to="/profile" className="flex items-center gap-2 cursor-pointer">
                       <User className="h-4 w-4" />
                       <span>My Account</span>
                     </Link>

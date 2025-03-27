@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import ChatTutor from "./pages/ChatTutor";
 import ScreeningAssignment from "./pages/ScreeningAssignment";
 import About from "./pages/About";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/chat-tutor" element={<ChatTutor />} />
             <Route path="/screening" element={<ScreeningAssignment />} />
             <Route path="/about" element={<About />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
