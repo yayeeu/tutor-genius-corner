@@ -62,7 +62,17 @@ const ChatInterface = () => {
       // Check local storage for assignment completion
       const hasCompletedAssignment = localStorage.getItem(`assignment_completed_${user.id}`);
       
-      if (!hasCompletedAssignment) {
+      // Special handling for user "Yared Ayele"
+      if (user.user_metadata?.full_name?.toLowerCase() === "yared ayele" && !hasCompletedAssignment) {
+        // Automatically mark the assignment as completed for Yared
+        localStorage.setItem(`assignment_completed_${user.id}`, 'true');
+        setHasTakenAssignment(true);
+        
+        // Add a welcome message instead of starting the assessment
+        setTimeout(() => {
+          addAIMessage("Welcome back, Yared! How can I help you with your studies today?");
+        }, 1000);
+      } else if (!hasCompletedAssignment) {
         // First login - show welcome message and start assessment
         setTimeout(() => {
           addAIMessage("Welcome! Let's get you started with a quick assignment to see your current level. Here are some random questions based on the curriculum.");
