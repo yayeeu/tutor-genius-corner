@@ -44,6 +44,9 @@ const Navigation = () => {
           <Link to="/" className={isActive('/') ? 'nav-link-active' : 'nav-link'}>
             Home
           </Link>
+          <Link to="/about" className={isActive('/about') ? 'nav-link-active' : 'nav-link'}>
+            About
+          </Link>
           <Link to="/dashboard" className={isActive('/dashboard') ? 'nav-link-active' : 'nav-link'}>
             Dashboard
           </Link>
@@ -119,6 +122,13 @@ const Navigation = () => {
               onClick={() => setIsMenuOpen(false)}
             >
               Home
+            </Link>
+            <Link 
+              to="/about" 
+              className={isActive('/about') ? 'nav-link-active' : 'nav-link'}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              About
             </Link>
             <Link 
               to="/dashboard" 

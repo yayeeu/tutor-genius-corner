@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import ChatTutor from "./pages/ChatTutor";
 import ScreeningAssignment from "./pages/ScreeningAssignment";
+import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/chat-tutor" element={<ChatTutor />} />
             <Route path="/screening" element={<ScreeningAssignment />} />
+            <Route path="/about" element={<About />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
