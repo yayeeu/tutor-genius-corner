@@ -1,5 +1,6 @@
+
 import { useState, useRef, useEffect } from 'react';
-import { SendHorizontal, Sparkles, BookOpen, ChevronRight } from 'lucide-react';
+import { SendHorizontal, Sparkles, BookOpen, ChevronRight, Clock } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,12 +15,19 @@ import { Card, CardContent } from '@/components/ui/card';
 import QuizQuestion from '@/components/QuizQuestion';
 import FeedbackCard from '@/components/practice/FeedbackCard';
 import { sampleQuestions, QuestionData } from '@/data/practiceData';
+import { fetchRecentTopics, fetchRandomQuestion } from '@/services/apiService';
+import { toast } from "@/components/ui/use-toast";
 
 interface Message {
   id: number;
   content: string;
   sender: 'user' | 'ai';
   timestamp: Date;
+}
+
+interface RecentTopic {
+  topicName: string;
+  createdAt: string;
 }
 
 const initialMessages: Message[] = [
@@ -31,15 +39,6 @@ const initialMessages: Message[] = [
   },
 ];
 
-const recentTopics = [
-  "Quadratic Equations",
-  "Scientific Method",
-  "Properties of Matter",
-  "Cell Biology",
-  "Algebra Basics",
-  "Chemical Reactions",
-];
-
 const ChatInterface = () => {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [inputValue, setInputValue] = useState('');
@@ -48,8 +47,38 @@ const ChatInterface = () => {
   const [feedback, setFeedback] = useState<string>("");
   const [availableQuestions, setAvailableQuestions] = useState<QuestionData[]>([]);
   const [selectedSubject, setSelectedSubject] = useState("Mathematics"); // Default subject
+  const [recentTopics, setRecentTopics] = useState<RecentTopic[]>([]);
+  const [isLoadingTopics, setIsLoadingTopics] = useState(false);
+  const [isLoadingQuestion, setIsLoadingQuestion] = useState(false);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  
+  // Fetch recent topics when component mounts
+  useEffect(() => {
+    const getRecentTopics = async () => {
+      setIsLoadingTopics(true);
+      try {
+        const topics = await fetchRecentTopics();
+        // Sort topics by createdAt in descending order (most recent first)
+        const sortedTopics = topics.sort((a, b) => {
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        });
+        // Take the 5 most recent topics
+        setRecentTopics(sortedTopics.slice(0, 5));
+      } catch (error) {
+        console.error("Failed to fetch recent topics:", error);
+        toast({
+          title: "Error",
+          description: "Failed to load recent topics. Please try again later.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoadingTopics(false);
+      }
+    };
+    
+    getRecentTopics();
+  }, []);
   
   useEffect(() => {
     scrollToBottom();
@@ -107,67 +136,104 @@ const ChatInterface = () => {
     }
   };
 
-  const handleTopicSelect = (topicName: string) => {
+  const handleTopicSelect = async (topicName: string) => {
     // Reset previous question state
     setFeedback("");
+    setIsLoadingQuestion(true);
     
-    // Get questions for this topic
-    const questionsData = sampleQuestions;
-    const subjectQuestions = questionsData[selectedSubject] || {};
-    const topicQuestions = subjectQuestions[topicName] || [];
-    
-    setAvailableQuestions(topicQuestions);
-    
-    // Select a random question if we have any
-    if (topicQuestions.length > 0) {
-      const randomIndex = Math.floor(Math.random() * topicQuestions.length);
-      setCurrentQuestion(topicQuestions[randomIndex]);
-      
+    try {
       // Add a message about the selected topic
       const aiMessage: Message = {
         id: messages.length + 1,
-        content: `Let's practice "${topicName}". I've prepared a question for you:`,
+        content: `Let's practice "${topicName}". I'm preparing a question for you...`,
         sender: 'ai',
         timestamp: new Date(),
       };
       
       setMessages((prev) => [...prev, aiMessage]);
-    } else {
-      setCurrentQuestion(null);
       
-      // Inform the user that there are no questions for this topic
-      const aiMessage: Message = {
-        id: messages.length + 1,
-        content: `I don't have any practice questions for "${topicName}" yet. Let me know if you'd like to discuss this topic instead.`,
+      // Fetch a random question for this topic
+      const question = await fetchRandomQuestion(topicName);
+      
+      if (question) {
+        setCurrentQuestion(question);
+        
+        // Update the available questions array with the fetched question
+        setAvailableQuestions([question]);
+      } else {
+        // Handle case when no question is returned
+        const noQuestionMessage: Message = {
+          id: messages.length + 2,
+          content: `I don't have any practice questions for "${topicName}" yet. Let me know if you'd like to discuss this topic instead.`,
+          sender: 'ai',
+          timestamp: new Date(),
+        };
+        
+        setMessages((prev) => [...prev, noQuestionMessage]);
+      }
+    } catch (error) {
+      console.error(`Error handling topic selection for ${topicName}:`, error);
+      toast({
+        title: "Error",
+        description: "Failed to load question. Please try again later.",
+        variant: "destructive",
+      });
+      
+      // Inform the user about the error
+      const errorMessage: Message = {
+        id: messages.length + 2,
+        content: `I'm having trouble retrieving questions for "${topicName}". Let's try another topic or try again later.`,
         sender: 'ai',
         timestamp: new Date(),
       };
       
-      setMessages((prev) => [...prev, aiMessage]);
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsLoadingQuestion(false);
     }
   };
 
-  const handleNextQuestion = () => {
-    if (availableQuestions.length > 0) {
-      // Get a different question than the current one if possible
-      let newQuestions = availableQuestions;
-      if (currentQuestion && availableQuestions.length > 1) {
-        newQuestions = availableQuestions.filter(q => q.id !== currentQuestion.id);
-      }
-      
-      const randomIndex = Math.floor(Math.random() * newQuestions.length);
-      setCurrentQuestion(newQuestions[randomIndex]);
+  const handleNextQuestion = async () => {
+    if (currentQuestion) {
+      setIsLoadingQuestion(true);
       setFeedback("");
       
-      // Add a message about the new question
-      const aiMessage: Message = {
-        id: messages.length + 1,
-        content: "Here's another question for you to practice:",
-        sender: 'ai',
-        timestamp: new Date(),
-      };
-      
-      setMessages((prev) => [...prev, aiMessage]);
+      try {
+        const topicName = currentQuestion.question.split(' ')[0]; // Simple extraction of topic from question
+        const question = await fetchRandomQuestion(topicName);
+        
+        if (question) {
+          setCurrentQuestion(question);
+          
+          // Add a message about the new question
+          const aiMessage: Message = {
+            id: messages.length + 1,
+            content: "Here's another question for you to practice:",
+            sender: 'ai',
+            timestamp: new Date(),
+          };
+          
+          setMessages((prev) => [...prev, aiMessage]);
+        } else {
+          const noMoreQuestionsMessage: Message = {
+            id: messages.length + 1,
+            content: "I don't have any more questions on this topic. Would you like to try a different topic?",
+            sender: 'ai',
+            timestamp: new Date(),
+          };
+          
+          setMessages((prev) => [...prev, noMoreQuestionsMessage]);
+        }
+      } catch (error) {
+        console.error("Error fetching next question:", error);
+        toast({
+          title: "Error",
+          description: "Failed to load the next question. Please try again later.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoadingQuestion(false);
+      }
     }
   };
 
@@ -191,22 +257,77 @@ const ChatInterface = () => {
           <div className="p-4 space-y-6">
             <div className="space-y-3">
               <h3 className="text-sm font-medium text-tutor-gray flex items-center">
-                <BookOpen className="w-4 h-4 mr-2" />
+                <Clock className="w-4 h-4 mr-2" />
                 Recent Topics
               </h3>
+              
+              {isLoadingTopics ? (
+                <div className="py-4 text-center text-tutor-gray">
+                  <div className="animate-pulse flex flex-col space-y-2">
+                    <div className="h-6 bg-tutor-light-gray rounded w-3/4 mx-auto"></div>
+                    <div className="h-6 bg-tutor-light-gray rounded w-full mx-auto"></div>
+                    <div className="h-6 bg-tutor-light-gray rounded w-5/6 mx-auto"></div>
+                  </div>
+                </div>
+              ) : (
+                <ul className="space-y-2">
+                  {recentTopics.length > 0 ? (
+                    recentTopics.map((topic, index) => (
+                      <li key={index}>
+                        <Button 
+                          variant="ghost" 
+                          className="w-full justify-start text-tutor-gray hover:text-tutor-dark-orange hover:bg-white"
+                          onClick={() => handleTopicSelect(topic.topicName)}
+                        >
+                          <span>{topic.topicName}</span>
+                          <ChevronRight className="w-4 h-4 ml-auto" />
+                        </Button>
+                      </li>
+                    ))
+                  ) : (
+                    <p className="text-sm text-tutor-gray italic px-2">No recent topics found</p>
+                  )}
+                </ul>
+              )}
+            </div>
+            
+            <div className="space-y-3">
+              <h3 className="text-sm font-medium text-tutor-gray flex items-center">
+                <BookOpen className="w-4 h-4 mr-2" />
+                Suggested Topics
+              </h3>
               <ul className="space-y-2">
-                {recentTopics.map((topic, index) => (
-                  <li key={index}>
-                    <Button 
-                      variant="ghost" 
-                      className="w-full justify-start text-tutor-gray hover:text-tutor-dark-orange hover:bg-white"
-                      onClick={() => handleTopicSelect(topic)}
-                    >
-                      <span>{topic}</span>
-                      <ChevronRight className="w-4 h-4 ml-auto" />
-                    </Button>
-                  </li>
-                ))}
+                {/* Static suggested topics */}
+                <li>
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-start text-tutor-gray hover:text-tutor-dark-orange hover:bg-white"
+                    onClick={() => handleTopicSelect("Algebra Basics")}
+                  >
+                    <span>Algebra Basics</span>
+                    <ChevronRight className="w-4 h-4 ml-auto" />
+                  </Button>
+                </li>
+                <li>
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-start text-tutor-gray hover:text-tutor-dark-orange hover:bg-white"
+                    onClick={() => handleTopicSelect("Scientific Method")}
+                  >
+                    <span>Scientific Method</span>
+                    <ChevronRight className="w-4 h-4 ml-auto" />
+                  </Button>
+                </li>
+                <li>
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-start text-tutor-gray hover:text-tutor-dark-orange hover:bg-white"
+                    onClick={() => handleTopicSelect("Grammar Rules")}
+                  >
+                    <span>Grammar Rules</span>
+                    <ChevronRight className="w-4 h-4 ml-auto" />
+                  </Button>
+                </li>
               </ul>
             </div>
           </div>
@@ -259,6 +380,23 @@ const ChatInterface = () => {
                   feedback={feedback} 
                   onNextQuestion={feedback ? handleNextQuestion : undefined}
                 />
+              </div>
+            )}
+            
+            {isLoadingQuestion && (
+              <div className="flex justify-center my-4">
+                <Card className="w-full max-w-md p-4">
+                  <div className="animate-pulse flex flex-col space-y-4">
+                    <div className="h-6 bg-tutor-light-gray rounded w-3/4"></div>
+                    <div className="h-32 bg-tutor-light-gray rounded w-full"></div>
+                    <div className="flex space-x-2">
+                      <div className="h-8 bg-tutor-light-gray rounded w-1/4"></div>
+                      <div className="h-8 bg-tutor-light-gray rounded w-1/4"></div>
+                      <div className="h-8 bg-tutor-light-gray rounded w-1/4"></div>
+                      <div className="h-8 bg-tutor-light-gray rounded w-1/4"></div>
+                    </div>
+                  </div>
+                </Card>
               </div>
             )}
             
