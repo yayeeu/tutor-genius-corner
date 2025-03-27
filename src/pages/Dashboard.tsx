@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
@@ -26,9 +25,9 @@ import {
   Line
 } from 'recharts';
 import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { MessageSquare, BookOpen, Award, ArrowRight } from 'lucide-react';
 import SubjectCard from '@/components/SubjectCard';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 // Sample data for the dashboard
 const subjectData = [
@@ -131,21 +130,9 @@ const Dashboard = () => {
       <div className="max-w-7xl mx-auto px-6">
         {/* Header Section */}
         <div className="py-8">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-            <div>
-              <h1 className="text-3xl font-bold mb-2">Student Dashboard</h1>
-              <p className="text-tutor-gray">Welcome back! Here's an overview of your learning progress.</p>
-            </div>
-            <div className="flex items-center mt-4 md:mt-0 space-x-2">
-              <Avatar className="h-10 w-10">
-                <AvatarImage src="/lovable-uploads/e8e2205f-1e97-49b4-9f64-a561042e0a3b.png" alt="Student" />
-                <AvatarFallback className="bg-tutor-orange text-white">ST</AvatarFallback>
-              </Avatar>
-              <div>
-                <p className="font-medium text-tutor-dark-gray">Alex Johnson</p>
-                <p className="text-sm text-tutor-gray">Grade 10</p>
-              </div>
-            </div>
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Student Dashboard</h1>
+            <p className="text-tutor-gray">Welcome back! Here's an overview of your learning progress.</p>
           </div>
         </div>
         
