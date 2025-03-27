@@ -11,6 +11,10 @@ import {
   DropdownMenuTrigger 
 } from '@/components/ui/dropdown-menu';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Card, CardContent } from '@/components/ui/card';
+import QuizQuestion from '@/components/QuizQuestion';
+import FeedbackCard from '@/components/practice/FeedbackCard';
+import { sampleQuestions, QuestionData } from '@/data/practiceData';
 
 interface Message {
   id: number;
@@ -41,6 +45,11 @@ const ChatInterface = () => {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState<QuestionData | null>(null);
+  const [feedback, setFeedback] = useState<string>("");
+  const [availableQuestions, setAvailableQuestions] = useState<QuestionData[]>([]);
+  const [selectedSubject, setSelectedSubject] = useState("Mathematics"); // Default subject
+  
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
@@ -98,6 +107,78 @@ const ChatInterface = () => {
       handleSendMessage();
     }
   };
+
+  const handleTopicSelect = (topicName: string) => {
+    // Reset previous question state
+    setFeedback("");
+    
+    // Get questions for this topic
+    const questionsData = sampleQuestions;
+    const subjectQuestions = questionsData[selectedSubject] || {};
+    const topicQuestions = subjectQuestions[topicName] || [];
+    
+    setAvailableQuestions(topicQuestions);
+    
+    // Select a random question if we have any
+    if (topicQuestions.length > 0) {
+      const randomIndex = Math.floor(Math.random() * topicQuestions.length);
+      setCurrentQuestion(topicQuestions[randomIndex]);
+      
+      // Add a message about the selected topic
+      const aiMessage: Message = {
+        id: messages.length + 1,
+        content: `Let's practice "${topicName}". I've prepared a question for you:`,
+        sender: 'ai',
+        timestamp: new Date(),
+      };
+      
+      setMessages((prev) => [...prev, aiMessage]);
+    } else {
+      setCurrentQuestion(null);
+      
+      // Inform the user that there are no questions for this topic
+      const aiMessage: Message = {
+        id: messages.length + 1,
+        content: `I don't have any practice questions for "${topicName}" yet. Let me know if you'd like to discuss this topic instead.`,
+        sender: 'ai',
+        timestamp: new Date(),
+      };
+      
+      setMessages((prev) => [...prev, aiMessage]);
+    }
+  };
+
+  const handleNextQuestion = () => {
+    if (availableQuestions.length > 0) {
+      // Get a different question than the current one if possible
+      let newQuestions = availableQuestions;
+      if (currentQuestion && availableQuestions.length > 1) {
+        newQuestions = availableQuestions.filter(q => q.id !== currentQuestion.id);
+      }
+      
+      const randomIndex = Math.floor(Math.random() * newQuestions.length);
+      setCurrentQuestion(newQuestions[randomIndex]);
+      setFeedback("");
+      
+      // Add a message about the new question
+      const aiMessage: Message = {
+        id: messages.length + 1,
+        content: "Here's another question for you to practice:",
+        sender: 'ai',
+        timestamp: new Date(),
+      };
+      
+      setMessages((prev) => [...prev, aiMessage]);
+    }
+  };
+
+  const handleAnswer = (isCorrect: boolean) => {
+    setFeedback(
+      isCorrect 
+        ? "Great job! You've mastered this concept." 
+        : "That's not quite right. Try reviewing the concept again."
+    );
+  };
   
   return (
     <div className="flex h-[calc(100vh-4rem)] animate-fade-in">
@@ -120,6 +201,7 @@ const ChatInterface = () => {
                     <Button 
                       variant="ghost" 
                       className="w-full justify-start text-tutor-gray hover:text-tutor-dark-orange hover:bg-white"
+                      onClick={() => handleTopicSelect(topic)}
                     >
                       <span>{topic}</span>
                       <ChevronRight className="w-4 h-4 ml-auto" />
@@ -190,6 +272,23 @@ const ChatInterface = () => {
                 </div>
               </div>
             ))}
+            
+            {currentQuestion && (
+              <div className="my-4">
+                <QuizQuestion 
+                  id={currentQuestion.id}
+                  question={currentQuestion.question}
+                  options={currentQuestion.options}
+                  correctAnswer={currentQuestion.correctAnswer}
+                  onAnswer={handleAnswer}
+                />
+                
+                <FeedbackCard 
+                  feedback={feedback} 
+                  onNextQuestion={feedback ? handleNextQuestion : undefined}
+                />
+              </div>
+            )}
             
             {isTyping && (
               <div className="flex justify-start">
@@ -268,3 +367,4 @@ const ChatInterface = () => {
 };
 
 export default ChatInterface;
+
