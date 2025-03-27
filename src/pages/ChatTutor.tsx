@@ -69,7 +69,7 @@ const ChatTutor = () => {
         <Tabs defaultValue="chat" value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="bg-white border border-tutor-light-gray mb-4">
             <TabsTrigger value="chat">Chat with Tutor</TabsTrigger>
-            <TabsTrigger value="subjects">Subjects</TabsTrigger>
+            <TabsTrigger value="subjects">Your Subjects</TabsTrigger>
           </TabsList>
           
           <TabsContent value="chat" className="animate-fade-in">
