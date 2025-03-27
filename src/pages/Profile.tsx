@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -11,6 +11,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { User, KeyRound, Bell, Palette } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 // Form schemas
 const profileFormSchema = z.object({
@@ -40,13 +42,15 @@ type NotificationFormValues = z.infer<typeof notificationFormSchema>;
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("profile");
+  const [isLoading, setIsLoading] = useState(false);
+  const { user } = useAuth();
 
   const profileForm = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: {
-      name: "Alex Johnson",
-      email: "alex.johnson@example.com",
-      grade: "10",
+      name: "",
+      email: "",
+      grade: "",
     },
   });
 
@@ -68,20 +72,108 @@ const Profile = () => {
     },
   });
 
-  const onProfileSubmit = (data: ProfileFormValues) => {
-    console.log("Profile data:", data);
-    toast.success("Profile updated successfully");
+  useEffect(() => {
+    const loadUserData = async () => {
+      if (!user) return;
+      
+      setIsLoading(true);
+      
+      try {
+        // Update form values with user data from auth
+        const userData = user.user_metadata;
+        const userEmail = user.email || "";
+        
+        profileForm.reset({
+          name: userData?.full_name || "",
+          email: userEmail,
+          grade: userData?.grade || "10",
+        });
+      } catch (error) {
+        console.error("Error loading user data:", error);
+        toast.error("Failed to load your profile data");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadUserData();
+  }, [user, profileForm]);
+
+  const onProfileSubmit = async (data: ProfileFormValues) => {
+    if (!user) return;
+    
+    setIsLoading(true);
+    
+    try {
+      // Update user metadata in Supabase
+      const { error } = await supabase.auth.updateUser({
+        data: {
+          full_name: data.name,
+          grade: data.grade,
+        },
+      });
+      
+      if (error) throw error;
+      
+      toast.success("Profile updated successfully");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      toast.error("Failed to update profile");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const onPasswordSubmit = (data: PasswordFormValues) => {
-    console.log("Password data:", data);
-    toast.success("Password changed successfully");
-    passwordForm.reset();
+  const onPasswordSubmit = async (data: PasswordFormValues) => {
+    if (!user) return;
+    
+    setIsLoading(true);
+    
+    try {
+      // Update password in Supabase
+      const { error } = await supabase.auth.updateUser({
+        password: data.newPassword,
+      });
+      
+      if (error) throw error;
+      
+      toast.success("Password changed successfully");
+      passwordForm.reset();
+    } catch (error) {
+      console.error("Error changing password:", error);
+      toast.error("Failed to change password");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const onNotificationSubmit = (data: NotificationFormValues) => {
     console.log("Notification data:", data);
     toast.success("Notification settings updated");
+  };
+
+  // Extract user initials for avatar fallback
+  const getInitials = () => {
+    if (!user) return "?";
+    
+    const fullName = user.user_metadata?.full_name || "";
+    
+    if (fullName) {
+      const parts = fullName.split(' ');
+      if (parts.length > 1) {
+        return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+      } else if (fullName.length > 0) {
+        return fullName[0].toUpperCase();
+      }
+    }
+    
+    return user.email ? user.email[0].toUpperCase() : "?";
+  };
+
+  // Get user grade display
+  const getUserGrade = () => {
+    if (!user) return "Student";
+    return `Grade ${user.user_metadata?.grade || 10} Student`;
   };
 
   return (
@@ -90,9 +182,9 @@ const Profile = () => {
         <div className="flex flex-col items-center">
           <Avatar className="h-24 w-24 mb-4">
             <AvatarImage src="/lovable-uploads/e8e2205f-1e97-49b4-9f64-a561042e0a3b.png" alt="Student" />
-            <AvatarFallback className="bg-tutor-orange text-white text-xl">AJ</AvatarFallback>
+            <AvatarFallback className="bg-tutor-orange text-white text-xl">{getInitials()}</AvatarFallback>
           </Avatar>
-          <Button variant="outline" size="sm">Change Photo</Button>
+          <Button variant="outline" size="sm" disabled={isLoading}>Change Photo</Button>
         </div>
         <div className="text-center md:text-left">
           <h1 className="text-3xl font-bold mb-2">Student Profile</h1>
@@ -101,7 +193,7 @@ const Profile = () => {
           </p>
           <div className="inline-flex items-center gap-2 bg-tutor-beige/30 px-3 py-1 rounded-full">
             <span className="w-2 h-2 rounded-full bg-green-500"></span>
-            <span className="text-sm font-medium">Grade 10 Student</span>
+            <span className="text-sm font-medium">{getUserGrade()}</span>
           </div>
         </div>
       </div>
@@ -153,7 +245,7 @@ const Profile = () => {
                         <FormItem>
                           <FormLabel>Full Name</FormLabel>
                           <FormControl>
-                            <Input placeholder="Your name" {...field} />
+                            <Input placeholder="Your name" {...field} disabled={isLoading} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -166,7 +258,7 @@ const Profile = () => {
                         <FormItem>
                           <FormLabel>Email</FormLabel>
                           <FormControl>
-                            <Input placeholder="Your email" {...field} />
+                            <Input placeholder="Your email" {...field} disabled={true} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -179,14 +271,16 @@ const Profile = () => {
                         <FormItem>
                           <FormLabel>Grade</FormLabel>
                           <FormControl>
-                            <Input placeholder="Your grade" {...field} />
+                            <Input placeholder="Your grade" {...field} disabled={isLoading} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
                   </div>
-                  <Button type="submit">Save Changes</Button>
+                  <Button type="submit" disabled={isLoading}>
+                    {isLoading ? "Saving..." : "Save Changes"}
+                  </Button>
                 </form>
               </Form>
             </CardContent>
@@ -215,7 +309,7 @@ const Profile = () => {
                         <FormItem>
                           <FormLabel>Current Password</FormLabel>
                           <FormControl>
-                            <Input type="password" placeholder="••••••••" {...field} />
+                            <Input type="password" placeholder="••••••••" {...field} disabled={isLoading} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -228,7 +322,7 @@ const Profile = () => {
                         <FormItem>
                           <FormLabel>New Password</FormLabel>
                           <FormControl>
-                            <Input type="password" placeholder="••••••••" {...field} />
+                            <Input type="password" placeholder="••••••••" {...field} disabled={isLoading} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -241,14 +335,16 @@ const Profile = () => {
                         <FormItem>
                           <FormLabel>Confirm New Password</FormLabel>
                           <FormControl>
-                            <Input type="password" placeholder="••••••••" {...field} />
+                            <Input type="password" placeholder="••••••••" {...field} disabled={isLoading} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
                   </div>
-                  <Button type="submit">Change Password</Button>
+                  <Button type="submit" disabled={isLoading}>
+                    {isLoading ? "Changing..." : "Change Password"}
+                  </Button>
                 </form>
               </Form>
             </CardContent>
