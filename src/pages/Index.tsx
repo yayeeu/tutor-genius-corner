@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { 
   Brain,
@@ -320,42 +319,6 @@ const Home2 = () => {
           </div>
         </div>
       </section>
-      
-      {/* Footer */}
-      <footer className="bg-white py-12 border-t border-tutor-light-gray">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center mb-6 md:mb-0">
-              <div className="w-8 h-8 bg-tutor-orange rounded-lg flex items-center justify-center mr-2">
-                <span className="font-bold text-white">AI</span>
-              </div>
-              <span className="font-bold text-xl text-tutor-dark-gray">EduNova</span>
-            </div>
-            
-            <div className="flex space-x-6">
-              <Link to="/" className="text-tutor-gray hover:text-tutor-orange transition-colors">
-                Home
-              </Link>
-              <Link to="/about" className="text-tutor-gray hover:text-tutor-orange transition-colors">
-                About
-              </Link>
-              <Link to="/login" className="text-tutor-gray hover:text-tutor-orange transition-colors">
-                Login
-              </Link>
-              <Link to="/screening" className="text-tutor-gray hover:text-tutor-orange transition-colors">
-                Assessment
-              </Link>
-              <Link to="/chat-tutor" className="text-tutor-gray hover:text-tutor-orange transition-colors">
-                AI Tutor
-              </Link>
-            </div>
-          </div>
-          
-          <div className="mt-8 pt-8 border-t border-tutor-light-gray text-center text-tutor-gray text-sm">
-            &copy; {new Date().getFullYear()} EduNova. All rights reserved.
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };
