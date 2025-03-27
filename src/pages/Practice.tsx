@@ -118,12 +118,28 @@ const sampleQuestions = {
   }
 };
 
+// Define a type for the sampleQuestions structure to help TypeScript
+type QuestionData = {
+  id: number;
+  question: string;
+  options: string[];
+  correctAnswer: string;
+};
+
+type SubjectQuestions = {
+  [topic: string]: QuestionData[];
+};
+
+type AllQuestions = {
+  [subject: string]: SubjectQuestions;
+};
+
 const Practice = () => {
   const location = useLocation();
   const { subject } = useParams<{ subject: string }>();
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [showAllTopics, setShowAllTopics] = useState(false);
-  const [currentQuestion, setCurrentQuestion] = useState<any>(null);
+  const [currentQuestion, setCurrentQuestion] = useState<QuestionData | null>(null);
   const [feedback, setFeedback] = useState<string>("");
   const [chatMessage, setChatMessage] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<Array<{ sender: string, message: string }>>([]);
@@ -150,9 +166,10 @@ const Practice = () => {
   const handleTopicSelect = (topicName: string) => {
     setSelectedTopic(topicName);
     
-    // Get questions for this topic
-    const subjectQuestions = sampleQuestions[subjectName as keyof typeof sampleQuestions] || {};
-    const topicQuestions = subjectQuestions[topicName as keyof typeof subjectQuestions] || [];
+    // Get questions for this topic using proper type casting
+    const questionsData = sampleQuestions as AllQuestions;
+    const subjectQuestions = questionsData[subjectName] || {};
+    const topicQuestions = subjectQuestions[topicName] || [];
     
     // Select a random question if we have any
     if (topicQuestions.length > 0) {
