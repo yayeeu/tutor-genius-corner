@@ -1,10 +1,12 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ExternalLink } from 'lucide-react';
+import { HelpCircle, FileText } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { user } = useAuth();
   
   return (
     <footer className="py-6 mt-auto bg-white border-t border-tutor-light-gray">
@@ -23,13 +25,16 @@ const Footer = () => {
             <Link to="/privacy" className="text-tutor-gray hover:text-tutor-orange transition-colors">
               Privacy
             </Link>
-            <Link 
-              to="/contact" 
-              className="text-tutor-gray hover:text-tutor-orange transition-colors flex items-center gap-1"
-              aria-label="Contact us"
-            >
-              Contact
-            </Link>
+            {user && (
+              <Link 
+                to="/help" 
+                className="text-tutor-gray hover:text-tutor-orange transition-colors flex items-center gap-1"
+                aria-label="Help center"
+              >
+                <HelpCircle className="h-4 w-4" />
+                Help
+              </Link>
+            )}
           </div>
         </div>
       </div>

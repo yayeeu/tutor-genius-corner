@@ -40,12 +40,16 @@ const Navigation = () => {
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-2">
-            <Link to="/" className={isActive('/') ? 'nav-link-active' : 'nav-link'}>
-              Home
-            </Link>
-            <Link to="/about" className={isActive('/about') ? 'nav-link-active' : 'nav-link'}>
-              About
-            </Link>
+            {!user && (
+              <>
+                <Link to="/" className={isActive('/') ? 'nav-link-active' : 'nav-link'}>
+                  Home
+                </Link>
+                <Link to="/about" className={isActive('/about') ? 'nav-link-active' : 'nav-link'}>
+                  About
+                </Link>
+              </>
+            )}
             {user && (
               <>
                 <Link to="/chat-tutor" className={isActive('/chat-tutor') ? 'nav-link-active' : 'nav-link'}>
@@ -119,21 +123,25 @@ const Navigation = () => {
                 </Link>
               )}
               
-              <Link 
-                to="/" 
-                className={isActive('/') ? 'nav-link-active' : 'nav-link'}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Home
-              </Link>
-              
-              <Link 
-                to="/about" 
-                className={isActive('/about') ? 'nav-link-active' : 'nav-link'}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                About
-              </Link>
+              {!user && (
+                <>
+                  <Link 
+                    to="/" 
+                    className={isActive('/') ? 'nav-link-active' : 'nav-link'}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Home
+                  </Link>
+                  
+                  <Link 
+                    to="/about" 
+                    className={isActive('/about') ? 'nav-link-active' : 'nav-link'}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    About
+                  </Link>
+                </>
+              )}
               
               {user && (
                 <>

@@ -20,6 +20,7 @@ import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import TermsOfService from "./pages/TermsOfService";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Help from "./pages/Help";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,11 @@ const App = () => (
               <Route path="/contact" element={<Contact />} />
               <Route path="/terms" element={<TermsOfService />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/help" element={
+                <ProtectedRoute>
+                  <Help />
+                </ProtectedRoute>
+              } />
               <Route path="/profile" element={
                 <ProtectedRoute>
                   <Profile />
