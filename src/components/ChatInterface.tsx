@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import ChatSidebar from './chat/ChatSidebar';
 import MessageArea from './chat/MessageArea';
 import ChatInputArea from './chat/ChatInputArea';
@@ -13,6 +13,7 @@ const ChatInterface = () => {
   const [isLoadingTopics, setIsLoadingTopics] = useState(false);
   const [showAssignment, setShowAssignment] = useState(false);
   const [hasTakenAssignment, setHasTakenAssignment] = useState(false);
+  const [assignmentInitialized, setAssignmentInitialized] = useState(false);
   
   const { user } = useAuth();
   const { toast } = useToast();
@@ -37,9 +38,27 @@ const ChatInterface = () => {
     setCurrentQuestion
   } = useQuizState(addAIMessage);
   
-  // Check if user has taken the assignment before
-  useEffect(() => {
+  // Memoized handler for assignment completion to avoid recreation on every render
+  const handleAssignmentComplete = useCallback(() => {
     if (user) {
+      localStorage.setItem(`assignment_completed_${user.id}`, 'true');
+      setShowAssignment(false);
+      setHasTakenAssignment(true);
+      
+      toast({
+        title: "Assignment Completed!",
+        description: "Thanks for completing the assignment. You can now explore all features.",
+      });
+      
+      addAIMessage("Great job completing the assignment! Now you can explore topics and ask me any questions you have about your studies.");
+    }
+  }, [user, toast, addAIMessage]);
+  
+  // Check if user has taken the assignment before - only run once when user is available
+  useEffect(() => {
+    if (user && !assignmentInitialized) {
+      setAssignmentInitialized(true);
+      
       // Check local storage for assignment completion
       const hasCompletedAssignment = localStorage.getItem(`assignment_completed_${user.id}`);
       
@@ -54,23 +73,7 @@ const ChatInterface = () => {
         setHasTakenAssignment(true);
       }
     }
-  }, [user, addAIMessage, setCurrentQuestion]);
-  
-  // Handle assignment completion
-  const handleAssignmentComplete = () => {
-    if (user) {
-      localStorage.setItem(`assignment_completed_${user.id}`, 'true');
-      setShowAssignment(false);
-      setHasTakenAssignment(true);
-      
-      toast({
-        title: "Assignment Completed!",
-        description: "Thanks for completing the assignment. You can now explore all features.",
-      });
-      
-      addAIMessage("Great job completing the assignment! Now you can explore topics and ask me any questions you have about your studies.");
-    }
-  };
+  }, [user, addAIMessage, setCurrentQuestion, assignmentInitialized]);
   
   const handleSendMessage = (message: string) => {
     // Add user message

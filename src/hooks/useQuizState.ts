@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { QuestionData } from '@/data/practiceData';
 import { fetchRandomQuestion } from '@/services/apiService';
 import { toast } from "@/hooks/use-toast";
@@ -9,7 +9,7 @@ export const useQuizState = (addAIMessage: (content: string) => void) => {
   const [feedback, setFeedback] = useState<string>("");
   const [isLoadingQuestion, setIsLoadingQuestion] = useState(false);
   
-  const handleTopicSelect = async (topicName: string) => {
+  const handleTopicSelect = useCallback(async (topicName: string) => {
     // Reset previous question state
     setFeedback("");
     setIsLoadingQuestion(true);
@@ -40,9 +40,9 @@ export const useQuizState = (addAIMessage: (content: string) => void) => {
     } finally {
       setIsLoadingQuestion(false);
     }
-  };
+  }, [addAIMessage]);
 
-  const handleNextQuestion = async () => {
+  const handleNextQuestion = useCallback(async () => {
     if (currentQuestion) {
       setIsLoadingQuestion(true);
       setFeedback("");
@@ -70,15 +70,15 @@ export const useQuizState = (addAIMessage: (content: string) => void) => {
         setIsLoadingQuestion(false);
       }
     }
-  };
+  }, [currentQuestion, addAIMessage]);
 
-  const handleAnswer = (isCorrect: boolean) => {
+  const handleAnswer = useCallback((isCorrect: boolean) => {
     setFeedback(
       isCorrect 
         ? "Great job! You've mastered this concept." 
         : "That's not quite right. Try reviewing the concept again."
     );
-  };
+  }, []);
   
   return {
     currentQuestion,

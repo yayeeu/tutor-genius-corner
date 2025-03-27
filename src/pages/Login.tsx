@@ -9,7 +9,17 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Only redirect if we have a user and we're not loading
     if (user && !isLoading) {
+      // Use localStorage to check if this is the first login
+      const hasLoggedInBefore = localStorage.getItem(`has_logged_in_before_${user.id}`);
+      
+      if (!hasLoggedInBefore) {
+        // First time login - mark it
+        localStorage.setItem(`has_logged_in_before_${user.id}`, 'true');
+      }
+      
+      // Always redirect to chat-tutor
       navigate('/chat-tutor');
     }
   }, [user, isLoading, navigate]);
