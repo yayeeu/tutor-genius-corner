@@ -1,12 +1,60 @@
 
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import ChatInterface from '@/components/ChatInterface';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { GraduationCap, BookOpen } from 'lucide-react';
+import { GraduationCap, BookOpen, ArrowRight } from 'lucide-react';
+import SubjectCard from '@/components/SubjectCard';
+import { Button } from '@/components/ui/button';
+
+// Sample data for subjects (same as in Dashboard)
+const subjectData = [
+  {
+    title: "Mathematics",
+    description: "Algebra, Geometry, Calculus",
+    progress: 75,
+    recentTopics: ["Quadratic Equations", "Geometric Series", "Factorization"]
+  },
+  {
+    title: "Physics",
+    description: "Mechanics, Waves, Electricity",
+    progress: 68,
+    recentTopics: ["Newton's Laws", "Wave Properties", "Circuit Analysis"]
+  },
+  {
+    title: "Chemistry",
+    description: "Organic, Inorganic, Physical",
+    progress: 52,
+    recentTopics: ["Chemical Bonding", "Reaction Rates", "Periodic Table"]
+  },
+  {
+    title: "Biology",
+    description: "Botany, Zoology, Genetics",
+    progress: 45,
+    recentTopics: ["Cell Structure", "Evolution", "Nervous System"]
+  },
+  {
+    title: "Amharic",
+    description: "Grammar, Literature, Writing",
+    progress: 85,
+    recentTopics: ["Verb Conjugation", "Literary Analysis", "Essay Structure"]
+  },
+  {
+    title: "English",
+    description: "Grammar, Literature, Writing",
+    progress: 79,
+    recentTopics: ["Essay Structure", "Literary Analysis", "Grammar Rules"]
+  }
+];
 
 const ChatTutor = () => {
   const [activeTab, setActiveTab] = useState('chat');
+  const [displayedSubjects, setDisplayedSubjects] = useState(6);
+
+  const handleShowMore = () => {
+    setDisplayedSubjects(prevCount => Math.min(prevCount + 3, subjectData.length));
+  };
 
   return (
     <div className="min-h-screen bg-white p-4 md:p-6">
@@ -21,78 +69,41 @@ const ChatTutor = () => {
         <Tabs defaultValue="chat" value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="bg-white border border-tutor-light-gray mb-4">
             <TabsTrigger value="chat">Chat with Tutor</TabsTrigger>
-            <TabsTrigger value="curriculum">Curriculum Overview</TabsTrigger>
+            <TabsTrigger value="subjects">Subjects</TabsTrigger>
           </TabsList>
           
           <TabsContent value="chat" className="animate-fade-in">
             <ChatInterface />
           </TabsContent>
           
-          <TabsContent value="curriculum" className="animate-fade-in">
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader className="pb-2">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                      <GraduationCap className="h-5 w-5 text-blue-600" />
-                    </div>
-                    <CardTitle>Ethiopian Education System</CardTitle>
-                  </div>
-                  <CardDescription>
-                    Our tutoring aligns with Ethiopia's 8-4-4 education system:
-                  </CardDescription>
-                </CardHeader>
-                <div className="p-6 pt-0">
-                  <ul className="space-y-2">
-                    <li className="flex items-start gap-2">
-                      <span className="inline-block w-1 h-1 rounded-full bg-tutor-orange mt-2.5 mr-1"></span>
-                      <span><strong>Primary Education (Grades 1-8):</strong> Core subjects including languages, mathematics, sciences, and social studies.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="inline-block w-1 h-1 rounded-full bg-tutor-orange mt-2.5 mr-1"></span>
-                      <span><strong>Secondary Education (Grades 9-12):</strong> More specialized subjects preparing for the Ethiopian School Leaving Certificate Examination.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="inline-block w-1 h-1 rounded-full bg-tutor-orange mt-2.5 mr-1"></span>
-                      <span><strong>Preparatory Education (Grades 11-12):</strong> Advanced studies preparing students for university entrance.</span>
-                    </li>
-                  </ul>
-                </div>
-              </Card>
+          <TabsContent value="subjects" className="animate-fade-in">
+            <div className="space-y-6">
+              <h2 className="text-xl font-semibold">Your Subjects</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {subjectData.slice(0, displayedSubjects).map((subject, index) => (
+                  <Link to={`/chat-tutor?subject=${subject.title.toLowerCase()}`} key={index}>
+                    <SubjectCard 
+                      title={subject.title}
+                      description={subject.description}
+                      progress={subject.progress}
+                      recentTopics={subject.recentTopics}
+                    />
+                  </Link>
+                ))}
+              </div>
               
-              <Card>
-                <CardHeader className="pb-2">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                      <BookOpen className="h-5 w-5 text-green-600" />
-                    </div>
-                    <CardTitle>How Our AI Tutor Helps</CardTitle>
-                  </div>
-                  <CardDescription>
-                    Benefits tailored to Ethiopian curriculum students:
-                  </CardDescription>
-                </CardHeader>
-                <div className="p-6 pt-0">
-                  <ul className="space-y-2">
-                    <li className="flex items-start gap-2">
-                      <span className="inline-block w-1 h-1 rounded-full bg-tutor-orange mt-2.5 mr-1"></span>
-                      <span><strong>Curriculum Alignment:</strong> Content and explanations specifically matched to your grade's Ethiopian curriculum.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="inline-block w-1 h-1 rounded-full bg-tutor-orange mt-2.5 mr-1"></span>
-                      <span><strong>Exam Preparation:</strong> Targeted practice for national examinations, including practice questions in the Ethiopian format.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="inline-block w-1 h-1 rounded-full bg-tutor-orange mt-2.5 mr-1"></span>
-                      <span><strong>Adaptive Learning:</strong> Personalized content that adjusts to your strengths and areas needing improvement.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="inline-block w-1 h-1 rounded-full bg-tutor-orange mt-2.5 mr-1"></span>
-                      <span><strong>Multilingual Support:</strong> Help in both English and Amharic to ensure complete understanding.</span>
-                    </li>
-                  </ul>
+              {displayedSubjects < subjectData.length && (
+                <div className="flex justify-center mt-6">
+                  <Button 
+                    variant="outline" 
+                    onClick={handleShowMore}
+                    className="border-tutor-orange/30 text-tutor-dark-orange"
+                  >
+                    Show More
+                    <ArrowRight className="ml-1 h-4 w-4" />
+                  </Button>
                 </div>
-              </Card>
+              )}
             </div>
           </TabsContent>
         </Tabs>
