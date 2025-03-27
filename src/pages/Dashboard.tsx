@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { 
   Card, 
   CardContent, 
@@ -123,8 +124,18 @@ const strengthsData = [
 ];
 
 const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState('overview');
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const tabParam = queryParams.get('tab');
+  const [activeTab, setActiveTab] = useState(tabParam || 'overview');
   
+  useEffect(() => {
+    // Update activeTab if URL param changes
+    if (tabParam) {
+      setActiveTab(tabParam);
+    }
+  }, [tabParam]);
+
   return (
     <div className="min-h-screen bg-tutor-beige/30 pb-16 animate-fade-in">
       <div className="max-w-7xl mx-auto px-6">
