@@ -16,7 +16,7 @@ import { useToast } from '@/hooks/use-toast';
 import { CheckCircle2, BookOpen } from 'lucide-react';
 
 // Ethiopian curriculum sample questions
-const questions = [
+export const questions = [
   {
     id: 1,
     question: "What is the value of x in the equation 3x + 7 = 22?",

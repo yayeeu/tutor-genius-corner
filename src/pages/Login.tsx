@@ -10,7 +10,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user && !isLoading) {
-      navigate('/dashboard');
+      navigate('/chat-tutor');
     }
   }, [user, isLoading, navigate]);
 

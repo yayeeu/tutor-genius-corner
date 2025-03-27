@@ -86,6 +86,7 @@ export const useQuizState = (addAIMessage: (content: string) => void) => {
     isLoadingQuestion,
     handleTopicSelect,
     handleNextQuestion,
-    handleAnswer
+    handleAnswer,
+    setCurrentQuestion // Add this to allow direct setting of questions
   };
 };
