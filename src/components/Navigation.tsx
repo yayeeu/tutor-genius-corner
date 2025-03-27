@@ -34,7 +34,7 @@ const Navigation = () => {
             <GraduationCap className="h-5 w-5 text-white" />
           </div>
           <div className="flex flex-col">
-            <span className="font-bold text-lg text-tutor-navy leading-tight">TutorGenius</span>
+            <span className="font-bold text-lg text-tutor-navy leading-tight">EduNova</span>
             <span className="text-xs text-tutor-gray leading-tight">Ethiopian Curriculum</span>
           </div>
         </Link>
@@ -70,12 +70,9 @@ const Navigation = () => {
             </DropdownMenuContent>
           </DropdownMenu>
           
-          <div className="flex items-center ml-4 space-x-2">
+          <div className="flex items-center ml-4">
             <Link to="/login" className="text-tutor-purple hover:text-tutor-light-purple font-medium transition-colors">
               Login
-            </Link>
-            <Link to="/screening" className='primary-button'>
-              Get Started
             </Link>
           </div>
         </div>
@@ -143,13 +140,6 @@ const Navigation = () => {
               onClick={() => setIsMenuOpen(false)}
             >
               AI Tutor
-            </Link>
-            <Link 
-              to="/screening" 
-              className='primary-button text-center'
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Get Started
             </Link>
           </div>
         </div>

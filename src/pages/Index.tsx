@@ -101,7 +101,7 @@ const Index = () => {
               <div className="w-8 h-8 bg-tutor-orange rounded-lg flex items-center justify-center mr-2">
                 <span className="font-bold text-white">AI</span>
               </div>
-              <span className="font-bold text-xl text-tutor-dark-gray">TutorGenius</span>
+              <span className="font-bold text-xl text-tutor-dark-gray">EduNova</span>
             </div>
             
             <div className="flex space-x-6">
@@ -124,7 +124,7 @@ const Index = () => {
           </div>
           
           <div className="mt-8 pt-8 border-t border-tutor-light-gray text-center text-tutor-gray text-sm">
-            &copy; {new Date().getFullYear()} TutorGenius. All rights reserved.
+            &copy; {new Date().getFullYear()} EduNova. All rights reserved.
           </div>
         </div>
       </footer>
