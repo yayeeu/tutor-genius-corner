@@ -1,7 +1,4 @@
-
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
 import { 
   BookOpen, 
   Brain,
@@ -10,6 +7,8 @@ import {
   UserCheck,
   ChevronRight
 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import MobileAppSection from '@/components/MobileAppSection';
 
 const Index = () => {
   return (
@@ -159,6 +158,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+      
+      {/* Mobile App Section */}
+      <MobileAppSection />
       
       {/* CTA Section */}
       <section className="py-20 bg-tutor-beige">
