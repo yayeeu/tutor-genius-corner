@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, GraduationCap, User, LogIn, LogOut, FileText, Mail } from 'lucide-react';
+import { Menu, X, GraduationCap, User, LogIn, LogOut, FileText, HelpCircle, MessageCircle, LayoutDashboard } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -53,10 +53,16 @@ const Navigation = () => {
             {user && (
               <>
                 <Link to="/chat-tutor" className={isActive('/chat-tutor') ? 'nav-link-active' : 'nav-link'}>
+                  <MessageCircle className="h-4 w-4 mr-1" />
                   AI Tutor
                 </Link>
                 <Link to="/dashboard" className={isActive('/dashboard') ? 'nav-link-active' : 'nav-link'}>
+                  <LayoutDashboard className="h-4 w-4 mr-1" />
                   Dashboard
+                </Link>
+                <Link to="/help" className={isActive('/help') ? 'nav-link-active' : 'nav-link'}>
+                  <HelpCircle className="h-4 w-4 mr-1" />
+                  Help
                 </Link>
               </>
             )}
@@ -150,6 +156,7 @@ const Navigation = () => {
                     className={isActive('/chat-tutor') ? 'nav-link-active' : 'nav-link'}
                     onClick={() => setIsMenuOpen(false)}
                   >
+                    <MessageCircle className="h-4 w-4 mr-1" />
                     AI Tutor
                   </Link>
                   <Link 
@@ -157,7 +164,16 @@ const Navigation = () => {
                     className={isActive('/dashboard') ? 'nav-link-active' : 'nav-link'}
                     onClick={() => setIsMenuOpen(false)}
                   >
+                    <LayoutDashboard className="h-4 w-4 mr-1" />
                     Dashboard
+                  </Link>
+                  <Link 
+                    to="/help" 
+                    className={isActive('/help') ? 'nav-link-active' : 'nav-link'}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <HelpCircle className="h-4 w-4 mr-1" />
+                    Help
                   </Link>
                 </>
               )}
