@@ -25,11 +25,9 @@ import {
   Line
 } from 'recharts';
 import { Button } from '@/components/ui/button';
-import { MessageSquare, BookOpen, Award, ArrowRight } from 'lucide-react';
-import SubjectCard from '@/components/SubjectCard';
+import { MessageSquare, BookOpen, Award } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-// Sample data for the dashboard
 const subjectData = [
   {
     title: "Mathematics",
@@ -129,7 +127,6 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState(tabParam || 'overview');
   
   useEffect(() => {
-    // Update activeTab if URL param changes
     if (tabParam) {
       setActiveTab(tabParam === 'subjects' ? 'overview' : tabParam);
     }
@@ -138,7 +135,6 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-tutor-beige/30 pb-16 animate-fade-in">
       <div className="max-w-7xl mx-auto px-6">
-        {/* Header Section */}
         <div className="py-8">
           <div>
             <h1 className="text-3xl font-bold mb-2">Student Dashboard</h1>
@@ -146,16 +142,13 @@ const Dashboard = () => {
           </div>
         </div>
         
-        {/* Main Dashboard Content */}
         <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="bg-white border border-tutor-light-gray">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
           </TabsList>
           
-          {/* Overview Tab */}
           <TabsContent value="overview" className="space-y-6">
-            {/* Quick Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <Card>
                 <CardContent className="flex items-center p-6">
@@ -194,7 +187,6 @@ const Dashboard = () => {
               </Card>
             </div>
             
-            {/* Weekly Progress */}
             <Card className="col-span-2">
               <CardHeader>
                 <CardTitle>Weekly Learning Progress</CardTitle>
@@ -229,26 +221,6 @@ const Dashboard = () => {
               </CardContent>
             </Card>
             
-            {/* Your Subjects Section */}
-            <div>
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold">Your Subjects</h2>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {subjectData.slice(0, 3).map((subject, index) => (
-                  <SubjectCard 
-                    key={index}
-                    title={subject.title}
-                    description={subject.description}
-                    progress={subject.progress}
-                    recentTopics={subject.recentTopics}
-                  />
-                ))}
-              </div>
-            </div>
-            
-            {/* Quick Link to AI Tutor */}
             <Card className="bg-gradient-to-r from-tutor-orange/20 to-tutor-orange/5 border-none">
               <CardContent className="flex flex-col md:flex-row items-center justify-between p-6">
                 <div className="flex items-center mb-4 md:mb-0">
@@ -274,10 +246,8 @@ const Dashboard = () => {
             </Card>
           </TabsContent>
           
-          {/* Analytics Tab */}
           <TabsContent value="analytics" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Strengths Chart */}
               <Card>
                 <CardHeader>
                   <CardTitle>Your Strengths</CardTitle>
@@ -309,7 +279,6 @@ const Dashboard = () => {
                 </CardContent>
               </Card>
               
-              {/* Learning Time */}
               <Card>
                 <CardHeader>
                   <CardTitle>Learning Activity</CardTitle>
@@ -360,7 +329,6 @@ const Dashboard = () => {
                 </CardContent>
               </Card>
               
-              {/* Recommended Focus Areas */}
               <Card className="lg:col-span-2">
                 <CardHeader>
                   <CardTitle>Recommended Focus Areas</CardTitle>
