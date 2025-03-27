@@ -6,8 +6,11 @@ import {
   LineChart, 
   MessageSquare, 
   UserCheck,
+  LightbulbIcon,
+  Sparkles
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 
 const About = () => {
   return (
@@ -16,7 +19,7 @@ const About = () => {
       <section className="bg-gradient-to-b from-tutor-orange/10 to-transparent pt-20 pb-10">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <h1 className="text-4xl md:text-5xl font-bold">
-            About <span className="gradient-text">TutorGenius</span>
+            About <span className="gradient-text">EduNova</span>
           </h1>
           <p className="text-lg text-tutor-gray mt-4 max-w-3xl mx-auto">
             Our mission is to make education accessible to every student in Ethiopia through personalized AI tutoring.
@@ -24,7 +27,48 @@ const About = () => {
         </div>
       </section>
       
-      {/* Features Section - Moved from Index page */}
+      {/* Learning Made Fun and Easy - Moved from Home page */}
+      <section className="py-12 md:py-16 bg-gradient-to-r from-tutor-beige to-tutor-light-orange/10">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-10">
+            Learning Made <span className="text-transparent bg-clip-text bg-gradient-to-r from-tutor-orange to-tutor-purple">Fun and Easy</span>
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            {[
+              {
+                icon: <BookOpen className="h-12 w-12 text-tutor-orange" />,
+                title: "All Subjects",
+                description: "Math, Science, English, History and more - we've got you covered!"
+              },
+              {
+                icon: <Brain className="h-12 w-12 text-tutor-purple" />,
+                title: "Smart Learning",
+                description: "Our AI understands how you learn and adjusts to help you succeed."
+              },
+              {
+                icon: <LightbulbIcon className="h-12 w-12 text-yellow-500" />,
+                title: "Instant Help",
+                description: "Stuck on a problem? Get help right away with our AI tutor."
+              }
+            ].map((feature, index) => (
+              <Card key={index} className="border-2 border-tutor-light-gray hover:border-tutor-orange/50 transition-all hover:shadow-md hover:scale-105">
+                <CardContent className="pt-6">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="mb-4 bg-tutor-beige p-3 rounded-2xl">
+                      {feature.icon}
+                    </div>
+                    <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
+                    <p className="text-tutor-gray">{feature.description}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      {/* Features Section - Original About page content */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 max-w-3xl mx-auto">
@@ -121,6 +165,12 @@ const About = () => {
       {/* CTA Section */}
       <section className="py-20 bg-tutor-beige">
         <div className="max-w-7xl mx-auto px-6 text-center">
+          <div className="inline-block px-3 py-1 bg-white rounded-full shadow-sm mb-4">
+            <span className="text-sm font-medium text-tutor-purple flex items-center">
+              <Sparkles className="h-4 w-4 mr-1 text-yellow-400" />
+              Join thousands of students learning with EduNova
+            </span>
+          </div>
           <h2 className="text-3xl font-bold mb-6">Join Our Community of Learners</h2>
           <p className="text-tutor-gray max-w-2xl mx-auto mb-8">
             Experience the future of education with our AI-powered tutoring platform designed for Ethiopian students.

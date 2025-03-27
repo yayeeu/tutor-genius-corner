@@ -1,11 +1,9 @@
-
 import { Link } from 'react-router-dom';
 import { 
   Brain,
   ChevronRight,
   Sparkles,
   BookOpen,
-  LightbulbIcon,
   Bell
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -40,7 +38,6 @@ const Home2 = () => {
     setIsSubmitting(true);
     
     try {
-      // Step 1: Insert the customer data into Supabase
       const { error } = await supabase
         .from('customers')
         .insert([
@@ -52,7 +49,6 @@ const Home2 = () => {
       
       if (error) throw error;
       
-      // Step 2: Call the edge function to send a notification email
       const notifyResponse = await supabase.functions.invoke('notify-signup', {
         body: {
           name: data.name,
@@ -75,7 +71,6 @@ const Home2 = () => {
       
       let errorMessage = "Failed to submit. Please try again.";
       
-      // Handle unique constraint violation
       if (error.code === '23505') {
         errorMessage = "This email is already registered.";
       }
@@ -100,7 +95,6 @@ const Home2 = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-tutor-light-orange/10 via-white to-tutor-light-purple/10">
-      {/* Hero Section with Expanded Content */}
       <section className="pt-8 pb-0 md:py-12">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
@@ -152,7 +146,6 @@ const Home2 = () => {
                 </Button>
               </div>
               
-              {/* Exam Readiness - Now Integrated Into Hero */}
               <div className="mt-8 p-6 bg-gradient-to-r from-tutor-light-purple/20 to-tutor-beige rounded-3xl">
                 <div className="flex flex-col md:flex-row items-center gap-6">
                   <div className="w-full md:w-2/3">
@@ -211,7 +204,6 @@ const Home2 = () => {
         </div>
       </section>
 
-      {/* Mobile App Coming Soon Section - Visual Enhancements */}
       <section className="py-10 bg-gradient-to-r from-tutor-beige to-tutor-light-orange/20 rounded-3xl mx-6 my-8 shadow-lg">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center gap-8">
@@ -297,65 +289,6 @@ const Home2 = () => {
                   COMING SOON
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      {/* Features Section - Enhanced */}
-      <section className="py-12 md:py-16">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-10">
-            Learning Made <span className="text-transparent bg-clip-text bg-gradient-to-r from-tutor-orange to-tutor-purple">Fun and Easy</span>
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            {[
-              {
-                icon: <BookOpen className="h-12 w-12 text-tutor-orange" />,
-                title: "All Subjects",
-                description: "Math, Science, English, History and more - we've got you covered!"
-              },
-              {
-                icon: <Brain className="h-12 w-12 text-tutor-purple" />,
-                title: "Smart Learning",
-                description: "Our AI understands how you learn and adjusts to help you succeed."
-              },
-              {
-                icon: <LightbulbIcon className="h-12 w-12 text-yellow-500" />,
-                title: "Instant Help",
-                description: "Stuck on a problem? Get help right away with our AI tutor."
-              }
-            ].map((feature, index) => (
-              <Card key={index} className="border-2 border-tutor-light-gray hover:border-tutor-orange/50 transition-all hover:shadow-md hover:scale-105">
-                <CardContent className="pt-6">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="mb-4 bg-tutor-beige p-3 rounded-2xl">
-                      {feature.icon}
-                    </div>
-                    <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                    <p className="text-tutor-gray">{feature.description}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* Extra WOW factor - Animated Call to Action */}
-          <div className="mt-16 text-center">
-            <div className="inline-block animate-pulse-subtle mb-5 px-4 py-1 bg-white/80 backdrop-blur-sm rounded-full shadow-sm">
-              <span className="text-sm font-medium text-tutor-purple">Join thousands of students learning with EduNova</span>
-            </div>
-            <div className="flex justify-center">
-              <Button 
-                className="bg-gradient-to-r from-tutor-orange to-tutor-purple hover:from-tutor-dark-orange hover:to-tutor-dark-purple text-white font-medium px-8 py-3 rounded-xl transition-all shadow-md hover:shadow-lg animate-fade-in"
-                asChild
-              >
-                <Link to="/login">
-                  Sign Up Now and Start Learning
-                  <ChevronRight className="ml-1 h-4 w-4" />
-                </Link>
-              </Button>
             </div>
           </div>
         </div>
