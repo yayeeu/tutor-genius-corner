@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, GraduationCap, User, LogIn, LogOut, FileText, Mail } from 'lucide-react';
@@ -55,9 +56,6 @@ const Navigation = () => {
                 </Link>
               </>
             )}
-            <Link to="/contact" className={isActive('/contact') ? 'nav-link-active' : 'nav-link'}>
-              Contact
-            </Link>
           </div>
           
           {/* Student profile with dropdown menu */}
@@ -155,14 +153,6 @@ const Navigation = () => {
                   </Link>
                 </>
               )}
-              
-              <Link 
-                to="/contact" 
-                className={isActive('/contact') ? 'nav-link-active' : 'nav-link'}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Contact
-              </Link>
               
               <Separator className="my-2" />
               
