@@ -17,13 +17,15 @@ export interface SubjectCardProps {
   description: string;
   progress: number;
   recentTopics: string[];
+  activeTopic?: string;
 }
 
 const SubjectCard = ({
   title,
   description,
   progress,
-  recentTopics
+  recentTopics,
+  activeTopic
 }: SubjectCardProps) => {
   return (
     <Card className="w-full h-full transition-all duration-300 hover:shadow-md">
@@ -47,8 +49,15 @@ const SubjectCard = ({
           <ul className="space-y-1">
             {recentTopics.map((topic, index) => (
               <li key={index} className="text-sm text-tutor-gray flex items-start">
-                <span className="inline-block w-1 h-1 rounded-full bg-tutor-orange mt-1.5 mr-2"></span>
-                {topic}
+                <Link 
+                  to={`/practice?subject=${title}&topic=${topic}`}
+                  className={`flex items-start hover:text-tutor-orange transition-colors ${
+                    topic === activeTopic ? 'text-tutor-orange font-medium' : ''
+                  }`}
+                >
+                  <span className="inline-block w-1 h-1 rounded-full bg-tutor-orange mt-1.5 mr-2"></span>
+                  {topic}
+                </Link>
               </li>
             ))}
           </ul>

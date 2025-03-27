@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import TopicsList from '@/components/practice/TopicsList';
@@ -9,18 +9,22 @@ import FeedbackCard from '@/components/practice/FeedbackCard';
 import DiscussionChat from '@/components/practice/DiscussionChat';
 import WelcomeScreen from '@/components/practice/WelcomeScreen';
 import { topicData, sampleQuestions, QuestionData } from '@/data/practiceData';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
+import { Home } from 'lucide-react';
 
 const Practice = () => {
   const location = useLocation();
-  const { subject } = useParams<{ subject: string }>();
+  const navigate = useNavigate();
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [currentQuestion, setCurrentQuestion] = useState<QuestionData | null>(null);
   const [feedback, setFeedback] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<Array<{ sender: string, message: string }>>([]);
   const [availableQuestions, setAvailableQuestions] = useState<QuestionData[]>([]);
 
-  // Get subject from URL params or query string
-  const subjectName = subject || new URLSearchParams(location.search).get('subject') || "Mathematics";
+  // Get subject and topic from URL query params
+  const queryParams = new URLSearchParams(location.search);
+  const subjectName = queryParams.get('subject') || "Mathematics";
+  const topicParam = queryParams.get('topic');
 
   // Get topics for the current subject
   const topics = topicData[subjectName as keyof typeof topicData] || [];
@@ -32,12 +36,17 @@ const Practice = () => {
 
   useEffect(() => {
     // Reset selected topic when subject changes
-    setSelectedTopic(null);
-    setCurrentQuestion(null);
-    setFeedback("");
-    setChatHistory([]);
-    setAvailableQuestions([]);
-  }, [subjectName]);
+    if (topicParam) {
+      // If a topic is provided in the URL, select it
+      handleTopicSelect(topicParam);
+    } else {
+      setSelectedTopic(null);
+      setCurrentQuestion(null);
+      setFeedback("");
+      setChatHistory([]);
+      setAvailableQuestions([]);
+    }
+  }, [subjectName, topicParam]);
 
   const loadQuestionsForTopic = (topicName: string) => {
     // Get questions for this topic
@@ -61,6 +70,9 @@ const Practice = () => {
     loadQuestionsForTopic(topicName);
     setFeedback("");
     setChatHistory([]);
+    
+    // Update URL with the selected topic
+    navigate(`/practice?subject=${subjectName}&topic=${topicName}`, { replace: true });
   };
 
   const handleNextQuestion = () => {
@@ -104,6 +116,42 @@ const Practice = () => {
   return (
     <div className="min-h-screen bg-white p-4 md:p-6">
       <div className="max-w-7xl mx-auto">
+        {/* Breadcrumb Navigation */}
+        <div className="mb-4">
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link to="/">
+                    <Home className="h-4 w-4" />
+                  </Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link to="/dashboard">Dashboard</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild className="font-medium">
+                  <Link to={`/practice?subject=${subjectName}`}>{subjectName}</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              
+              {selectedTopic && (
+                <>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>{selectedTopic}</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </>
+              )}
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
+
         <div className="mb-6">
           <h1 className="text-2xl md:text-3xl font-bold mb-2">{subjectName} Practice</h1>
           <div className="flex items-center gap-3 mb-4">
