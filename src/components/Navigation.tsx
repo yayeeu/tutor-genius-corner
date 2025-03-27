@@ -29,11 +29,11 @@ const Navigation = () => {
       <div className="bg-white/80 backdrop-blur-md shadow-sm">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-tutor-orange rounded-lg flex items-center justify-center">
-              <GraduationCap className="h-5 w-5 text-white" />
+            <div className="w-10 h-10 bg-tutor-orange rounded-lg flex items-center justify-center">
+              <GraduationCap className="h-6 w-6 text-white" />
             </div>
             <div className="flex flex-col">
-              <span className="font-bold text-lg text-tutor-navy leading-tight">EduNova</span>
+              <span className="font-bold text-xl text-tutor-navy leading-tight">EduNova</span>
               <span className="text-xs text-tutor-gray leading-tight">Ethiopian Curriculum</span>
             </div>
           </Link>
