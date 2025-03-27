@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Languages, GraduationCap, User, LogIn, Info } from 'lucide-react';
+import { Menu, X, GraduationCap, User, LogIn, Info } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -45,24 +45,6 @@ const Navigation = () => {
             <Info className="w-3 h-3" />
             <span>About</span>
           </Link>
-          
-          <Separator orientation="vertical" className="h-4 bg-white/20" />
-          
-          {/* Language Selector */}
-          <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-1 text-white/80 hover:text-white transition-colors">
-              <Languages className="w-3 h-3" />
-              <span>{language}</span>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="bg-white">
-              <DropdownMenuItem onClick={() => handleLanguageChange('English')}>
-                English
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleLanguageChange('Amharic')}>
-                Amharic
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
           
           <Separator orientation="vertical" className="h-4 bg-white/20" />
           
@@ -175,27 +157,7 @@ const Navigation = () => {
                   <span>Account</span>
                 </Link>
                 
-                {/* Language dropdown in mobile menu */}
-                <DropdownMenu>
-                  <DropdownMenuTrigger className="flex items-center justify-start gap-2 text-tutor-gray hover:text-tutor-purple w-full px-0">
-                    <Languages className="w-4 h-4" />
-                    <span>{language}</span>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start" className="bg-white">
-                    <DropdownMenuItem onClick={() => {
-                      handleLanguageChange('English');
-                      setIsMenuOpen(false);
-                    }}>
-                      English
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => {
-                      handleLanguageChange('Amharic');
-                      setIsMenuOpen(false);
-                    }}>
-                      Amharic
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                {/* Language dropdown removed from mobile menu too for consistency */}
               </div>
             </div>
           </div>
@@ -206,3 +168,4 @@ const Navigation = () => {
 };
 
 export default Navigation;
+
