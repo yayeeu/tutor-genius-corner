@@ -12,7 +12,6 @@ import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
@@ -61,16 +60,16 @@ const Navigation = () => {
             </div>
           </Link>
           
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - Changed order of Dashboard and AI Tutor */}
           <div className="hidden md:flex items-center space-x-2">
             <Link to="/" className={isActive('/') ? 'nav-link-active' : 'nav-link'}>
               Home
             </Link>
-            <Link to="/dashboard" className={isActive('/dashboard') ? 'nav-link-active' : 'nav-link'}>
-              Dashboard
-            </Link>
             <Link to="/chat-tutor" className={isActive('/chat-tutor') ? 'nav-link-active' : 'nav-link'}>
               AI Tutor
+            </Link>
+            <Link to="/dashboard" className={isActive('/dashboard') ? 'nav-link-active' : 'nav-link'}>
+              Dashboard
             </Link>
           </div>
           
@@ -117,7 +116,7 @@ const Navigation = () => {
           </div>
         </div>
         
-        {/* Mobile Menu */}
+        {/* Mobile Menu - Changed order of Dashboard and AI Tutor */}
         {isMenuOpen && (
           <div className="md:hidden absolute top-[calc(4rem+1px)] inset-x-0 bg-white shadow-lg animate-fade-in">
             <div className="flex flex-col p-4 space-y-3">
@@ -159,18 +158,18 @@ const Navigation = () => {
                 Home
               </Link>
               <Link 
-                to="/dashboard" 
-                className={isActive('/dashboard') ? 'nav-link-active' : 'nav-link'}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Dashboard
-              </Link>
-              <Link 
                 to="/chat-tutor" 
                 className={isActive('/chat-tutor') ? 'nav-link-active' : 'nav-link'}
                 onClick={() => setIsMenuOpen(false)}
               >
                 AI Tutor
+              </Link>
+              <Link 
+                to="/dashboard" 
+                className={isActive('/dashboard') ? 'nav-link-active' : 'nav-link'}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Dashboard
               </Link>
               
               <Separator className="my-2" />
