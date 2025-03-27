@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
@@ -21,23 +20,18 @@ const Practice = () => {
   const [chatHistory, setChatHistory] = useState<Array<{ sender: string, message: string }>>([]);
   const [availableQuestions, setAvailableQuestions] = useState<QuestionData[]>([]);
 
-  // Get subject and topic from URL query params
   const queryParams = new URLSearchParams(location.search);
   const subjectName = queryParams.get('subject') || "Mathematics";
   const topicParam = queryParams.get('topic');
 
-  // Get topics for the current subject
   const topics = topicData[subjectName as keyof typeof topicData] || [];
   
-  // Calculate overall competency for the subject
   const overallCompetency = Math.round(
     topics.reduce((sum, topic) => sum + topic.competency, 0) / topics.length
   );
 
   useEffect(() => {
-    // Reset selected topic when subject changes
     if (topicParam) {
-      // If a topic is provided in the URL, select it
       handleTopicSelect(topicParam);
     } else {
       setSelectedTopic(null);
@@ -49,14 +43,12 @@ const Practice = () => {
   }, [subjectName, topicParam]);
 
   const loadQuestionsForTopic = (topicName: string) => {
-    // Get questions for this topic
     const questionsData = sampleQuestions;
     const subjectQuestions = questionsData[subjectName] || {};
     const topicQuestions = subjectQuestions[topicName] || [];
     
     setAvailableQuestions(topicQuestions);
     
-    // Select a random question if we have any
     if (topicQuestions.length > 0) {
       const randomIndex = Math.floor(Math.random() * topicQuestions.length);
       setCurrentQuestion(topicQuestions[randomIndex]);
@@ -71,13 +63,11 @@ const Practice = () => {
     setFeedback("");
     setChatHistory([]);
     
-    // Update URL with the selected topic
     navigate(`/practice?subject=${subjectName}&topic=${topicName}`, { replace: true });
   };
 
   const handleNextQuestion = () => {
     if (availableQuestions.length > 0) {
-      // Get a different question than the current one if possible
       let newQuestions = availableQuestions;
       if (currentQuestion && availableQuestions.length > 1) {
         newQuestions = availableQuestions.filter(q => q.id !== currentQuestion.id);
@@ -91,11 +81,9 @@ const Practice = () => {
   };
 
   const handleSendMessage = (message: string) => {
-    // Add user message to chat history
     const newMessage = { sender: 'student', message };
     setChatHistory(prev => [...prev, newMessage]);
     
-    // Simulate AI response (in a real app, this would call an API)
     setTimeout(() => {
       const aiResponse = { 
         sender: 'ai', 
@@ -116,13 +104,12 @@ const Practice = () => {
   return (
     <div className="min-h-screen bg-white p-4 md:p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Breadcrumb Navigation */}
         <div className="mb-4">
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link to="/">
+                  <Link to="/chat-tutor">
                     <Home className="h-4 w-4" />
                   </Link>
                 </BreadcrumbLink>
@@ -164,7 +151,6 @@ const Practice = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Left sidebar with topics */}
           <div className="md:col-span-1">
             <TopicsList 
               topics={topics} 
@@ -173,7 +159,6 @@ const Practice = () => {
             />
           </div>
 
-          {/* Right content area with questions */}
           <div className="md:col-span-2">
             {selectedTopic ? (
               <div className="space-y-6">
