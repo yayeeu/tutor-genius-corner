@@ -118,6 +118,49 @@ const Home2 = () => {
         </div>
       </section>
 
+      {/* Exam Readiness Section - Replacing "Instant Help" */}
+      <section className="py-10 bg-gradient-to-r from-tutor-light-purple/20 to-tutor-beige rounded-3xl mx-6 my-8">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row items-center gap-8">
+            <div className="w-full md:w-1/2">
+              <div className="max-w-lg">
+                <h2 className="text-3xl font-bold mb-4">
+                  Get ready for the next Exam
+                </h2>
+                <p className="text-tutor-gray mb-6">
+                  Know your readiness for your next national exam and work toward your target score.
+                </p>
+                <Button 
+                  className="primary-button"
+                  asChild
+                >
+                  <Link to="/screening">
+                    Take Assessment
+                    <ChevronRight className="ml-1 h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+            
+            <div className="w-full md:w-1/2 flex justify-center">
+              <div className="relative animate-float">
+                <img 
+                  src="/lovable-uploads/e8e2205f-1e97-49b4-9f64-a561042e0a3b.png" 
+                  alt="Exam Preparation" 
+                  className="rounded-3xl shadow-xl max-w-[280px]"
+                />
+                <div className="absolute -top-3 -left-3 bg-tutor-purple text-white p-2 rounded-xl shadow-lg">
+                  <div className="flex items-center space-x-2">
+                    <BookOpen className="h-5 w-5" />
+                    <span className="text-sm font-medium">Exam Prep</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Mobile App Coming Soon Section - moved up */}
       <section className="py-10 bg-gradient-to-r from-tutor-beige to-tutor-light-orange/20 rounded-3xl mx-6 my-8">
         <div className="max-w-7xl mx-auto px-6">
