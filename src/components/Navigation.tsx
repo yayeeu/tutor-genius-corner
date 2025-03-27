@@ -44,22 +44,6 @@ const Navigation = () => {
               <Info className="w-3 h-3" />
               <span>About</span>
             </Link>
-            
-            <Separator orientation="vertical" className="h-4 bg-white/20" />
-            
-            {/* Login Link */}
-            <Link to="/login" className="flex items-center gap-1 text-white/80 hover:text-white transition-colors">
-              <LogIn className="w-3 h-3" />
-              <span>Login</span>
-            </Link>
-            
-            <Separator orientation="vertical" className="h-4 bg-white/20" />
-            
-            {/* Profile Link */}
-            <Link to="/dashboard" className="flex items-center gap-1 text-white/80 hover:text-white transition-colors">
-              <User className="w-3 h-3" />
-              <span>Account</span>
-            </Link>
           </div>
         </div>
       </div>
@@ -200,14 +184,6 @@ const Navigation = () => {
                 >
                   <Info className="w-4 h-4" />
                   <span>About</span>
-                </Link>
-                <Link 
-                  to="/login" 
-                  className="flex items-center gap-2 text-tutor-gray hover:text-tutor-purple"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <LogIn className="w-4 h-4" />
-                  <span>Login</span>
                 </Link>
               </div>
             </div>
