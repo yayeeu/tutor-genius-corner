@@ -1,3 +1,4 @@
+
 import { Link } from 'react-router-dom';
 import { 
   Brain,
@@ -20,6 +21,7 @@ import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters' }),
@@ -32,6 +34,7 @@ const Home2 = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { user } = useAuth();
 
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
@@ -97,8 +100,8 @@ const Home2 = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-tutor-light-orange/10 via-white to-tutor-light-purple/10">
-      {/* Hero and Coming Soon Combined Section */}
-      <section className="py-8 md:py-12">
+      {/* Hero Section with Expanded Content */}
+      <section className="pt-8 pb-0 md:py-12">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
             <div className="w-full md:w-3/5 space-y-6 animate-fade-in">
@@ -118,15 +121,27 @@ const Home2 = () => {
               </p>
               
               <div className="flex flex-wrap gap-4">
-                <Button 
-                  className="primary-button"
-                  asChild
-                >
-                  <Link to="/login">
-                    Start Learning
-                    <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
-                </Button>
+                {user ? (
+                  <Button 
+                    className="primary-button"
+                    asChild
+                  >
+                    <Link to="/dashboard">
+                      Start Learning
+                      <ChevronRight className="ml-1 h-4 w-4" />
+                    </Link>
+                  </Button>
+                ) : (
+                  <Button 
+                    className="primary-button"
+                    asChild
+                  >
+                    <Link to="/login">
+                      Sign Up
+                      <ChevronRight className="ml-1 h-4 w-4" />
+                    </Link>
+                  </Button>
+                )}
                 <Button 
                   className="secondary-button"
                   asChild
@@ -135,6 +150,45 @@ const Home2 = () => {
                     Try AI Tutor
                   </Link>
                 </Button>
+              </div>
+              
+              {/* Exam Readiness - Now Integrated Into Hero */}
+              <div className="mt-8 p-6 bg-gradient-to-r from-tutor-light-purple/20 to-tutor-beige rounded-3xl">
+                <div className="flex flex-col md:flex-row items-center gap-6">
+                  <div className="w-full md:w-2/3">
+                    <h2 className="text-2xl font-bold mb-3">
+                      Get ready for the next Exam
+                    </h2>
+                    <p className="text-tutor-gray mb-4">
+                      Know your readiness for your next national exam and work toward your target score.
+                    </p>
+                    <Button 
+                      className="primary-button"
+                      asChild
+                    >
+                      <Link to="/screening">
+                        Take Assessment
+                        <ChevronRight className="ml-1 h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </div>
+                  
+                  <div className="w-full md:w-1/3 flex justify-center">
+                    <div className="relative animate-float max-w-[180px]">
+                      <img 
+                        src="/lovable-uploads/e8e2205f-1e97-49b4-9f64-a561042e0a3b.png" 
+                        alt="Exam Preparation" 
+                        className="rounded-2xl shadow-md"
+                      />
+                      <div className="absolute -top-2 -left-2 bg-tutor-purple text-white p-2 rounded-xl shadow-lg">
+                        <div className="flex items-center space-x-2">
+                          <BookOpen className="h-4 w-4" />
+                          <span className="text-xs font-medium">Exam Prep</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             
@@ -157,51 +211,8 @@ const Home2 = () => {
         </div>
       </section>
 
-      {/* Exam Readiness Section - Replacing "Instant Help" */}
-      <section className="py-10 bg-gradient-to-r from-tutor-light-purple/20 to-tutor-beige rounded-3xl mx-6 my-8">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center gap-8">
-            <div className="w-full md:w-1/2">
-              <div className="max-w-lg">
-                <h2 className="text-3xl font-bold mb-4">
-                  Get ready for the next Exam
-                </h2>
-                <p className="text-tutor-gray mb-6">
-                  Know your readiness for your next national exam and work toward your target score.
-                </p>
-                <Button 
-                  className="primary-button"
-                  asChild
-                >
-                  <Link to="/screening">
-                    Take Assessment
-                    <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
-                </Button>
-              </div>
-            </div>
-            
-            <div className="w-full md:w-1/2 flex justify-center">
-              <div className="relative animate-float">
-                <img 
-                  src="/lovable-uploads/e8e2205f-1e97-49b4-9f64-a561042e0a3b.png" 
-                  alt="Exam Preparation" 
-                  className="rounded-3xl shadow-xl max-w-[280px]"
-                />
-                <div className="absolute -top-3 -left-3 bg-tutor-purple text-white p-2 rounded-xl shadow-lg">
-                  <div className="flex items-center space-x-2">
-                    <BookOpen className="h-5 w-5" />
-                    <span className="text-sm font-medium">Exam Prep</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Mobile App Coming Soon Section - moved up */}
-      <section className="py-10 bg-gradient-to-r from-tutor-beige to-tutor-light-orange/20 rounded-3xl mx-6 my-8">
+      {/* Mobile App Coming Soon Section - Visual Enhancements */}
+      <section className="py-10 bg-gradient-to-r from-tutor-beige to-tutor-light-orange/20 rounded-3xl mx-6 my-8 shadow-lg">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center gap-8">
             <div className="w-full md:w-1/2 order-2 md:order-1">
@@ -291,32 +302,32 @@ const Home2 = () => {
         </div>
       </section>
       
-      {/* Features Section */}
-      <section className="py-12">
+      {/* Features Section - Enhanced */}
+      <section className="py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-10">
             Learning Made <span className="text-transparent bg-clip-text bg-gradient-to-r from-tutor-orange to-tutor-purple">Fun and Easy</span>
           </h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             {[
               {
-                icon: <BookOpen className="h-10 w-10 text-tutor-orange" />,
+                icon: <BookOpen className="h-12 w-12 text-tutor-orange" />,
                 title: "All Subjects",
                 description: "Math, Science, English, History and more - we've got you covered!"
               },
               {
-                icon: <Brain className="h-10 w-10 text-tutor-purple" />,
+                icon: <Brain className="h-12 w-12 text-tutor-purple" />,
                 title: "Smart Learning",
                 description: "Our AI understands how you learn and adjusts to help you succeed."
               },
               {
-                icon: <LightbulbIcon className="h-10 w-10 text-yellow-500" />,
+                icon: <LightbulbIcon className="h-12 w-12 text-yellow-500" />,
                 title: "Instant Help",
                 description: "Stuck on a problem? Get help right away with our AI tutor."
               }
             ].map((feature, index) => (
-              <Card key={index} className="border-2 border-tutor-light-gray hover:border-tutor-orange/50 transition-all hover:shadow-md">
+              <Card key={index} className="border-2 border-tutor-light-gray hover:border-tutor-orange/50 transition-all hover:shadow-md hover:scale-105">
                 <CardContent className="pt-6">
                   <div className="flex flex-col items-center text-center">
                     <div className="mb-4 bg-tutor-beige p-3 rounded-2xl">
@@ -329,33 +340,23 @@ const Home2 = () => {
               </Card>
             ))}
           </div>
-        </div>
-      </section>
-      
-      {/* CTA Section */}
-      <section className="py-12 bg-tutor-purple/10 rounded-3xl mx-6 my-8">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold mb-6">Ready to Start Your Learning Adventure?</h2>
-          <p className="text-tutor-gray max-w-2xl mx-auto mb-8">
-            Join thousands of students who are having fun learning with EduNova. Get started today!
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button 
-              className="primary-button"
-              asChild
-            >
-              <Link to="/login">
-                Sign Up Now
-              </Link>
-            </Button>
-            <Button 
-              className="secondary-button"
-              asChild
-            >
-              <Link to="/chat-tutor">
-                Try AI Tutor
-              </Link>
-            </Button>
+
+          {/* Extra WOW factor - Animated Call to Action */}
+          <div className="mt-16 text-center">
+            <div className="inline-block animate-pulse-subtle mb-5 px-4 py-1 bg-white/80 backdrop-blur-sm rounded-full shadow-sm">
+              <span className="text-sm font-medium text-tutor-purple">Join thousands of students learning with EduNova</span>
+            </div>
+            <div className="flex justify-center">
+              <Button 
+                className="bg-gradient-to-r from-tutor-orange to-tutor-purple hover:from-tutor-dark-orange hover:to-tutor-dark-purple text-white font-medium px-8 py-3 rounded-xl transition-all shadow-md hover:shadow-lg animate-fade-in"
+                asChild
+              >
+                <Link to="/login">
+                  Sign Up Now and Start Learning
+                  <ChevronRight className="ml-1 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
