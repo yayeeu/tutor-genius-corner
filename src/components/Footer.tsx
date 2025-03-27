@@ -23,13 +23,13 @@ const Footer = () => {
             <Link to="/privacy" className="text-tutor-gray hover:text-tutor-orange transition-colors">
               Privacy
             </Link>
-            <a 
-              href="mailto:support@edunova.com" 
+            <Link 
+              to="/contact" 
               className="text-tutor-gray hover:text-tutor-orange transition-colors flex items-center gap-1"
               aria-label="Contact us"
             >
               Contact
-            </a>
+            </Link>
           </div>
         </div>
       </div>

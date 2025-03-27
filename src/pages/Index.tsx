@@ -102,7 +102,7 @@ const Home2 = () => {
               <div className="inline-block px-3 py-1 bg-white rounded-full shadow-sm mb-2">
                 <span className="text-sm font-medium text-tutor-orange flex items-center">
                   <Sparkles className="h-4 w-4 mr-1 text-yellow-400" />
-                  Fun Learning for Kids
+                  Powered by AI, adaptive to your needs
                 </span>
               </div>
               
