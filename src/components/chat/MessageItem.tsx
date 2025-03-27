@@ -17,7 +17,7 @@ const MessageItem = ({ content, sender, id }: MessageItemProps) => {
     >
       {sender === 'ai' && (
         <Avatar className="h-8 w-8 mr-2">
-          <AvatarImage src="/lovable-uploads/e8e2205f-1e97-49b4-9f64-a561042e0a3b.png" alt="AI Tutor" />
+          <AvatarImage src="/lovable-uploads/e8e2205f-1e97-49b4-9f64-a561042e0a3b.png" alt="Learn" />
           <AvatarFallback className="bg-tutor-orange text-white">
             AI
           </AvatarFallback>

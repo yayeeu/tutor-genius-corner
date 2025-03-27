@@ -141,7 +141,7 @@ const Home2 = () => {
                   asChild
                 >
                   <Link to="/chat-tutor">
-                    Try AI Tutor
+                    Try Learn
                   </Link>
                 </Button>
               </div>

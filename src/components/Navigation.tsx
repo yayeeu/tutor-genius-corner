@@ -54,7 +54,7 @@ const Navigation = () => {
               <>
                 <Link to="/chat-tutor" className={`${isActive('/chat-tutor') ? 'nav-link-active' : 'nav-link'} flex items-center`}>
                   <MessageCircle className="h-4 w-4 mr-2" />
-                  <span>AI Tutor</span>
+                  <span>Learn</span>
                 </Link>
                 <Link to="/dashboard" className={`${isActive('/dashboard') ? 'nav-link-active' : 'nav-link'} flex items-center`}>
                   <LayoutDashboard className="h-4 w-4 mr-2" />
@@ -157,7 +157,7 @@ const Navigation = () => {
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <MessageCircle className="h-4 w-4 mr-2" />
-                    <span>AI Tutor</span>
+                    <span>Learn</span>
                   </Link>
                   <Link 
                     to="/dashboard" 
