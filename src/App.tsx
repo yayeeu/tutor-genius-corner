@@ -23,7 +23,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Navigation />
-        <div className="pt-16"> {/* Add padding top for fixed navbar */}
+        <div className="pt-[calc(4rem+1px)]"> {/* Adjusted padding for double navigation bar */}
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/home2" element={<Home2 />} />
