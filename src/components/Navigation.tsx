@@ -16,12 +16,12 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [language, setLanguage] = useState('English');
   const location = useLocation();
   
   const isActive = (path: string) => location.pathname === path;
@@ -29,38 +29,38 @@ const Navigation = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
-  const handleLanguageChange = (lang: string) => {
-    setLanguage(lang);
-    // In a real app, this would trigger language context changes
-    console.log(`Language changed to: ${lang}`);
-  };
   
   return (
     <nav className="fixed top-0 left-0 right-0 z-50">
       {/* Secondary Navigation - Small top bar */}
       <div className="bg-tutor-navy text-white py-1 px-6">
-        <div className="max-w-7xl mx-auto flex justify-end items-center space-x-4 text-xs">
-          <Link to="/about" className="flex items-center gap-1 text-white/80 hover:text-white transition-colors">
-            <Info className="w-3 h-3" />
-            <span>About</span>
-          </Link>
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          {/* Left section - empty for now */}
+          <div></div>
           
-          <Separator orientation="vertical" className="h-4 bg-white/20" />
-          
-          {/* Login Link */}
-          <Link to="/login" className="flex items-center gap-1 text-white/80 hover:text-white transition-colors">
-            <LogIn className="w-3 h-3" />
-            <span>Login</span>
-          </Link>
-          
-          <Separator orientation="vertical" className="h-4 bg-white/20" />
-          
-          {/* Profile Link */}
-          <Link to="/dashboard" className="flex items-center gap-1 text-white/80 hover:text-white transition-colors">
-            <User className="w-3 h-3" />
-            <span>Account</span>
-          </Link>
+          {/* Right section with links */}
+          <div className="flex items-center space-x-4 text-xs">
+            <Link to="/about" className="flex items-center gap-1 text-white/80 hover:text-white transition-colors">
+              <Info className="w-3 h-3" />
+              <span>About</span>
+            </Link>
+            
+            <Separator orientation="vertical" className="h-4 bg-white/20" />
+            
+            {/* Login Link */}
+            <Link to="/login" className="flex items-center gap-1 text-white/80 hover:text-white transition-colors">
+              <LogIn className="w-3 h-3" />
+              <span>Login</span>
+            </Link>
+            
+            <Separator orientation="vertical" className="h-4 bg-white/20" />
+            
+            {/* Profile Link */}
+            <Link to="/dashboard" className="flex items-center gap-1 text-white/80 hover:text-white transition-colors">
+              <User className="w-3 h-3" />
+              <span>Account</span>
+            </Link>
+          </div>
         </div>
       </div>
       
@@ -90,6 +90,19 @@ const Navigation = () => {
             </Link>
           </div>
           
+          {/* Student profile - new addition */}
+          <div className="hidden md:flex items-center">
+            <Link to="/dashboard" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+              <Avatar className="h-8 w-8">
+                <AvatarImage src="/lovable-uploads/e8e2205f-1e97-49b4-9f64-a561042e0a3b.png" alt="Student" />
+                <AvatarFallback className="bg-tutor-orange text-white">ST</AvatarFallback>
+              </Avatar>
+              <div className="text-tutor-dark-gray">
+                <p className="font-medium text-sm">Alex Johnson</p>
+              </div>
+            </Link>
+          </div>
+          
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center">
             <button 
@@ -106,6 +119,18 @@ const Navigation = () => {
         {isMenuOpen && (
           <div className="md:hidden absolute top-[calc(4rem+1px)] inset-x-0 bg-white shadow-lg animate-fade-in">
             <div className="flex flex-col p-4 space-y-3">
+              {/* Mobile student profile */}
+              <div className="flex items-center p-2 mb-2 bg-tutor-beige/30 rounded-md">
+                <Avatar className="h-8 w-8 mr-2">
+                  <AvatarImage src="/lovable-uploads/e8e2205f-1e97-49b4-9f64-a561042e0a3b.png" alt="Student" />
+                  <AvatarFallback className="bg-tutor-orange text-white">ST</AvatarFallback>
+                </Avatar>
+                <div>
+                  <p className="font-medium text-sm text-tutor-dark-gray">Alex Johnson</p>
+                  <p className="text-xs text-tutor-gray">Grade 10</p>
+                </div>
+              </div>
+              
               <Link 
                 to="/" 
                 className={isActive('/') ? 'nav-link-active' : 'nav-link'}
@@ -156,8 +181,6 @@ const Navigation = () => {
                   <User className="w-4 h-4" />
                   <span>Account</span>
                 </Link>
-                
-                {/* Language dropdown removed from mobile menu too for consistency */}
               </div>
             </div>
           </div>
@@ -168,4 +191,3 @@ const Navigation = () => {
 };
 
 export default Navigation;
-
