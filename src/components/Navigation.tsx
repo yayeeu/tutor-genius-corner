@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, GraduationCap, User, LogIn, Info, LogOut, FileText } from 'lucide-react';
+import { Menu, X, GraduationCap, User, LogIn, LogOut, FileText, Mail } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,30 +25,6 @@ const Navigation = () => {
   
   return (
     <nav className="fixed top-0 left-0 right-0 z-50">
-      {/* Secondary Navigation - Small top bar */}
-      <div className="bg-tutor-navy text-white py-1 px-6">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          {/* Left section - empty for now */}
-          <div></div>
-          
-          {/* Right section with links */}
-          <div className="flex items-center space-x-4 text-xs">
-            <Link to="/about" className="flex items-center gap-1 text-white/80 hover:text-white transition-colors">
-              <Info className="w-3 h-3" />
-              <span>About</span>
-            </Link>
-            <Link to="/terms" className="flex items-center gap-1 text-white/80 hover:text-white transition-colors">
-              <FileText className="w-3 h-3" />
-              <span>Terms</span>
-            </Link>
-            <Link to="/privacy" className="flex items-center gap-1 text-white/80 hover:text-white transition-colors">
-              <FileText className="w-3 h-3" />
-              <span>Privacy</span>
-            </Link>
-          </div>
-        </div>
-      </div>
-      
       {/* Main Navigation */}
       <div className="bg-white/80 backdrop-blur-md shadow-sm">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -62,7 +38,7 @@ const Navigation = () => {
             </div>
           </Link>
           
-          {/* Desktop Navigation - Changed order of Dashboard and AI Tutor */}
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-2">
             <Link to="/" className={isActive('/') ? 'nav-link-active' : 'nav-link'}>
               Home
@@ -77,6 +53,12 @@ const Navigation = () => {
                 </Link>
               </>
             )}
+            <Link to="/about" className={isActive('/about') ? 'nav-link-active' : 'nav-link'}>
+              About
+            </Link>
+            <Link to="/contact" className={isActive('/contact') ? 'nav-link-active' : 'nav-link'}>
+              Contact
+            </Link>
           </div>
           
           {/* Student profile with dropdown menu */}
@@ -121,9 +103,9 @@ const Navigation = () => {
           </div>
         </div>
         
-        {/* Mobile Menu - Changed order of Dashboard and AI Tutor */}
+        {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden absolute top-[calc(4rem+1px)] inset-x-0 bg-white shadow-lg animate-fade-in">
+          <div className="md:hidden absolute top-16 inset-x-0 bg-white shadow-lg animate-fade-in">
             <div className="flex flex-col p-4 space-y-3">
               {/* Mobile user profile */}
               {user ? (
@@ -168,19 +150,26 @@ const Navigation = () => {
                 </>
               )}
               
+              <Link 
+                to="/about" 
+                className={isActive('/about') ? 'nav-link-active' : 'nav-link'}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                About
+              </Link>
+              
+              <Link 
+                to="/contact" 
+                className={isActive('/contact') ? 'nav-link-active' : 'nav-link'}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Contact
+              </Link>
+              
               <Separator className="my-2" />
               
               {/* Secondary mobile menu items */}
               <div className="flex flex-col space-y-3 text-sm">
-                <Link 
-                  to="/about" 
-                  className="flex items-center gap-2 text-tutor-gray hover:text-tutor-purple"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <Info className="w-4 h-4" />
-                  <span>About</span>
-                </Link>
-                
                 <Link 
                   to="/terms" 
                   className="flex items-center gap-2 text-tutor-gray hover:text-tutor-purple"

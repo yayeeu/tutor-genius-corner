@@ -15,6 +15,7 @@ import ChatTutor from "./pages/ChatTutor";
 import Practice from "./pages/Practice";
 import ScreeningAssignment from "./pages/ScreeningAssignment";
 import About from "./pages/About";
+import Contact from "./pages/Contact";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import TermsOfService from "./pages/TermsOfService";
@@ -30,7 +31,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <Navigation />
-          <div className="pt-[calc(4rem+1px)]"> {/* Adjusted padding for double navigation bar */}
+          <div className="pt-16 min-h-screen flex flex-col">
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/login" element={<Login />} />
@@ -47,6 +48,7 @@ const App = () => (
               <Route path="/practice" element={<Practice />} />
               <Route path="/screening" element={<ScreeningAssignment />} />
               <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
               <Route path="/terms" element={<TermsOfService />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
               <Route path="/profile" element={
@@ -56,8 +58,8 @@ const App = () => (
               } />
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <Footer />
           </div>
-          <Footer />
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
