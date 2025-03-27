@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import ChatTutor from "./pages/ChatTutor";
+import Practice from "./pages/Practice";
 import ScreeningAssignment from "./pages/ScreeningAssignment";
 import About from "./pages/About";
 import Profile from "./pages/Profile";
@@ -29,6 +30,8 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/chat-tutor" element={<ChatTutor />} />
+            <Route path="/practice/:subject" element={<Practice />} />
+            <Route path="/practice" element={<Practice />} />
             <Route path="/screening" element={<ScreeningAssignment />} />
             <Route path="/about" element={<About />} />
             <Route path="/profile" element={<Profile />} />

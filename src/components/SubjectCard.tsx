@@ -68,7 +68,7 @@ const SubjectCard = ({
           className="bg-tutor-orange hover:bg-tutor-dark-orange"
           asChild
         >
-          <Link to="/chat-tutor">
+          <Link to={`/practice/${title.toLowerCase()}`}>
             <BookCheck className="h-4 w-4 mr-2" />
             <span>Practice</span>
           </Link>
