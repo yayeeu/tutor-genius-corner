@@ -39,22 +39,70 @@ const subjectData = [
     recentTopics: ["Quadratic Equations", "Geometric Series", "Factorization"]
   },
   {
-    title: "Science",
-    description: "Physics, Chemistry, Biology",
-    progress: 60,
-    recentTopics: ["Newton's Laws", "Chemical Bonding", "Cell Structure"]
+    title: "Physics",
+    description: "Mechanics, Waves, Electricity",
+    progress: 68,
+    recentTopics: ["Newton's Laws", "Wave Properties", "Circuit Analysis"]
   },
   {
-    title: "Language Arts",
+    title: "Chemistry",
+    description: "Organic, Inorganic, Physical",
+    progress: 52,
+    recentTopics: ["Chemical Bonding", "Reaction Rates", "Periodic Table"]
+  },
+  {
+    title: "Biology",
+    description: "Botany, Zoology, Genetics",
+    progress: 45,
+    recentTopics: ["Cell Structure", "Evolution", "Nervous System"]
+  },
+  {
+    title: "Amharic",
     description: "Grammar, Literature, Writing",
     progress: 85,
+    recentTopics: ["Verb Conjugation", "Literary Analysis", "Essay Structure"]
+  },
+  {
+    title: "English",
+    description: "Grammar, Literature, Writing",
+    progress: 79,
     recentTopics: ["Essay Structure", "Literary Analysis", "Grammar Rules"]
   },
   {
     title: "History",
-    description: "World History, US History",
-    progress: 45,
-    recentTopics: ["World War II", "Ancient Civilizations", "Civil Rights"]
+    description: "Ethiopian History, World History",
+    progress: 62,
+    recentTopics: ["Ancient Civilizations", "Ethiopian Empire", "Modern Era"]
+  },
+  {
+    title: "Geography",
+    description: "Physical, Human, Environmental",
+    progress: 58,
+    recentTopics: ["Topography", "Climate Zones", "Population Distribution"]
+  },
+  {
+    title: "Civics",
+    description: "Citizenship, Ethics, Politics",
+    progress: 70,
+    recentTopics: ["Ethiopian Constitution", "Ethics", "Civic Responsibility"]
+  },
+  {
+    title: "ICT",
+    description: "Computing, Programming, Networks",
+    progress: 83,
+    recentTopics: ["Basic Programming", "Internet", "Hardware Components"]
+  },
+  {
+    title: "Physical Education",
+    description: "Sports, Exercise, Health",
+    progress: 90,
+    recentTopics: ["Team Sports", "Fitness", "Health and Wellness"]
+  },
+  {
+    title: "Art",
+    description: "Drawing, Painting, Design",
+    progress: 65,
+    recentTopics: ["Color Theory", "Composition", "Traditional Techniques"]
   }
 ];
 
@@ -200,8 +248,8 @@ const Dashboard = () => {
                 </Button>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {subjectData.slice(0, 2).map((subject, index) => (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {subjectData.slice(0, 3).map((subject, index) => (
                   <SubjectCard 
                     key={index}
                     title={subject.title}
@@ -242,7 +290,7 @@ const Dashboard = () => {
           {/* Subjects Tab */}
           <TabsContent value="subjects" className="space-y-6">
             <h2 className="text-xl font-semibold">All Subjects</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {subjectData.map((subject, index) => (
                 <SubjectCard 
                   key={index}

@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { BookOpen, MessageSquare } from "lucide-react";
+import { BookOpen, BookCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export interface SubjectCardProps {
@@ -69,8 +69,8 @@ const SubjectCard = ({
           asChild
         >
           <Link to="/chat-tutor">
-            <MessageSquare className="h-4 w-4 mr-2" />
-            <span>Ask AI</span>
+            <BookCheck className="h-4 w-4 mr-2" />
+            <span>Practice</span>
           </Link>
         </Button>
       </CardFooter>
