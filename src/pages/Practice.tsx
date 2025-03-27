@@ -118,7 +118,7 @@ const Practice = () => {
               <BreadcrumbSeparator />
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link to="/learn?tab=subjects">Dashboard</Link>
+                  <Link to="/learn">Dashboard</Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
@@ -200,3 +200,4 @@ const Practice = () => {
 };
 
 export default Practice;
+

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -132,7 +131,7 @@ const Dashboard = () => {
   useEffect(() => {
     // Update activeTab if URL param changes
     if (tabParam) {
-      setActiveTab(tabParam);
+      setActiveTab(tabParam === 'subjects' ? 'overview' : tabParam);
     }
   }, [tabParam]);
 
@@ -151,7 +150,6 @@ const Dashboard = () => {
         <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="bg-white border border-tutor-light-gray">
             <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="subjects">Subjects</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
           </TabsList>
           
@@ -231,19 +229,10 @@ const Dashboard = () => {
               </CardContent>
             </Card>
             
-            {/* Recent Subjects */}
+            {/* Your Subjects Section */}
             <div>
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold">Your Subjects</h2>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="text-tutor-dark-orange border-tutor-orange/30"
-                  onClick={() => setActiveTab('subjects')}
-                >
-                  View All
-                  <ArrowRight className="ml-1 h-4 w-4" />
-                </Button>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -283,22 +272,6 @@ const Dashboard = () => {
                 </Button>
               </CardContent>
             </Card>
-          </TabsContent>
-          
-          {/* Subjects Tab */}
-          <TabsContent value="subjects" className="space-y-6">
-            <h2 className="text-xl font-semibold">All Subjects</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {subjectData.map((subject, index) => (
-                <SubjectCard 
-                  key={index}
-                  title={subject.title}
-                  description={subject.description}
-                  progress={subject.progress}
-                  recentTopics={subject.recentTopics}
-                />
-              ))}
-            </div>
           </TabsContent>
           
           {/* Analytics Tab */}
