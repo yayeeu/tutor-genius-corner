@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
@@ -8,9 +7,11 @@ import QuizQuestion from '@/components/QuizQuestion';
 import FeedbackCard from '@/components/practice/FeedbackCard';
 import DiscussionChat from '@/components/practice/DiscussionChat';
 import WelcomeScreen from '@/components/practice/WelcomeScreen';
-import { topicData, sampleQuestions, QuestionData } from '@/data/practiceData';
+import { sampleQuestions, QuestionData } from '@/data/practiceData';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import { Home } from 'lucide-react';
+import { useUnits } from '@/hooks/useUnits';
+import { supabase } from '@/integrations/supabase/client';
 
 const Practice = () => {
   const location = useLocation();
@@ -20,28 +21,66 @@ const Practice = () => {
   const [feedback, setFeedback] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<Array<{ sender: string, message: string }>>([]);
   const [availableQuestions, setAvailableQuestions] = useState<QuestionData[]>([]);
+  const [overallCompetency, setOverallCompetency] = useState<number>(0);
 
   const queryParams = new URLSearchParams(location.search);
   const subjectName = queryParams.get('subject') || "Mathematics";
   const topicParam = queryParams.get('topic');
-
-  const topics = topicData[subjectName as keyof typeof topicData] || [];
   
-  const overallCompetency = Math.round(
-    topics.reduce((sum, topic) => sum + topic.competency, 0) / topics.length
-  );
+  const [courseId, setCourseId] = useState<string | null>(null);
+  const [isLoadingCourse, setIsLoadingCourse] = useState(true);
 
+  const { units, isLoading: isLoadingUnits } = useUnits(courseId);
+  
   useEffect(() => {
-    if (topicParam) {
-      handleTopicSelect(topicParam);
+    const fetchCourseId = async () => {
+      setIsLoadingCourse(true);
+      try {
+        const { data, error } = await supabase
+          .from('courses')
+          .select('id')
+          .eq('name', subjectName)
+          .single();
+        
+        if (error) {
+          console.error('Error fetching course:', error);
+          setCourseId(null);
+        } else if (data) {
+          setCourseId(data.id);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        setCourseId(null);
+      } finally {
+        setIsLoadingCourse(false);
+      }
+    };
+
+    fetchCourseId();
+  }, [subjectName]);
+  
+  useEffect(() => {
+    if (units.length > 0) {
+      const avg = Math.round(
+        units.reduce((sum, unit) => sum + unit.competency, 0) / units.length
+      );
+      setOverallCompetency(avg);
     } else {
+      setOverallCompetency(0);
+    }
+  }, [units]);
+  
+  useEffect(() => {
+    if (topicParam && !isLoadingUnits) {
+      handleTopicSelect(topicParam);
+    } else if (!topicParam) {
       setSelectedTopic(null);
       setCurrentQuestion(null);
       setFeedback("");
       setChatHistory([]);
       setAvailableQuestions([]);
     }
-  }, [subjectName, topicParam]);
+  }, [subjectName, topicParam, isLoadingUnits]);
 
   const loadQuestionsForTopic = (topicName: string) => {
     const questionsData = sampleQuestions;
@@ -102,6 +141,8 @@ const Practice = () => {
     );
   };
 
+  const isLoading = isLoadingCourse || isLoadingUnits;
+
   return (
     <div className="min-h-screen bg-white p-4 md:p-6">
       <div className="max-w-7xl mx-auto">
@@ -154,7 +195,8 @@ const Practice = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="md:col-span-1">
             <TopicsList 
-              topics={topics} 
+              topics={units} 
+              isLoading={isLoading}
               selectedTopic={selectedTopic} 
               onTopicSelect={handleTopicSelect} 
             />
