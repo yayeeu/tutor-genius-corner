@@ -3,56 +3,89 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ChatInterface from '@/components/ChatInterface';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, BookOpen } from 'lucide-react';
 import SubjectCard from '@/components/SubjectCard';
 import { Button } from '@/components/ui/button';
-
-// Sample data for subjects (same as in Dashboard)
-const subjectData = [
-  {
-    title: "Mathematics",
-    description: "Algebra, Geometry, Calculus",
-    progress: 75,
-    recentTopics: ["Quadratic Equations", "Geometric Series", "Factorization"]
-  },
-  {
-    title: "Physics",
-    description: "Mechanics, Waves, Electricity",
-    progress: 68,
-    recentTopics: ["Newton's Laws", "Wave Properties", "Circuit Analysis"]
-  },
-  {
-    title: "Chemistry",
-    description: "Organic, Inorganic, Physical",
-    progress: 52,
-    recentTopics: ["Chemical Bonding", "Reaction Rates", "Periodic Table"]
-  },
-  {
-    title: "Biology",
-    description: "Botany, Zoology, Genetics",
-    progress: 45,
-    recentTopics: ["Cell Structure", "Evolution", "Nervous System"]
-  },
-  {
-    title: "Amharic",
-    description: "Grammar, Literature, Writing",
-    progress: 85,
-    recentTopics: ["Verb Conjugation", "Literary Analysis", "Essay Structure"]
-  },
-  {
-    title: "English",
-    description: "Grammar, Literature, Writing",
-    progress: 79,
-    recentTopics: ["Essay Structure", "Literary Analysis", "Grammar Rules"]
-  }
-];
+import { useCourses } from '@/hooks/useCourses';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Card, CardContent } from '@/components/ui/card';
 
 const Learn = () => {
   const [activeTab, setActiveTab] = useState('chat-tutor');
   const [displayedSubjects, setDisplayedSubjects] = useState(6);
+  const { courses, isLoading } = useCourses();
 
   const handleShowMore = () => {
-    setDisplayedSubjects(prevCount => Math.min(prevCount + 3, subjectData.length));
+    setDisplayedSubjects(prevCount => Math.min(prevCount + 3, courses.length));
+  };
+
+  const renderSubjectsContent = () => {
+    if (isLoading) {
+      return (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[1, 2, 3].map((_, idx) => (
+            <Card key={idx} className="w-full h-64">
+              <CardContent className="p-6">
+                <div className="space-y-4">
+                  <Skeleton className="h-6 w-3/4" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-2 w-full" />
+                  <div className="space-y-2 pt-4">
+                    <Skeleton className="h-4 w-2/3" />
+                    <Skeleton className="h-4 w-1/2" />
+                    <Skeleton className="h-4 w-3/4" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      );
+    }
+
+    if (courses.length === 0) {
+      return (
+        <Card className="w-full">
+          <CardContent className="flex flex-col items-center justify-center py-12 text-center">
+            <BookOpen className="h-16 w-16 text-tutor-gray mb-4 opacity-50" />
+            <h3 className="text-xl font-medium mb-2">No Subjects Available</h3>
+            <p className="text-tutor-gray max-w-md">
+              There are no subjects available for you at the moment. Check back later or contact your instructor for more information.
+            </p>
+          </CardContent>
+        </Card>
+      );
+    }
+
+    return (
+      <>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {courses.slice(0, displayedSubjects).map((subject, index) => (
+            <Link to={`/practice?subject=${subject.title}`} key={index}>
+              <SubjectCard 
+                title={subject.title}
+                description={subject.description}
+                progress={subject.progress}
+                recentTopics={subject.recentTopics}
+              />
+            </Link>
+          ))}
+        </div>
+        
+        {displayedSubjects < courses.length && (
+          <div className="flex justify-center mt-6">
+            <Button 
+              variant="outline" 
+              onClick={handleShowMore}
+              className="border-tutor-orange/30 text-tutor-dark-orange"
+            >
+              Show More
+              <ArrowRight className="ml-1 h-4 w-4" />
+            </Button>
+          </div>
+        )}
+      </>
+    );
   };
 
   return (
@@ -87,31 +120,8 @@ const Learn = () => {
                   <ArrowRight className="h-3 w-3" />
                 </Link>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {subjectData.slice(0, displayedSubjects).map((subject, index) => (
-                  <Link to={`/practice?subject=${subject.title}`} key={index}>
-                    <SubjectCard 
-                      title={subject.title}
-                      description={subject.description}
-                      progress={subject.progress}
-                      recentTopics={subject.recentTopics}
-                    />
-                  </Link>
-                ))}
-              </div>
               
-              {displayedSubjects < subjectData.length && (
-                <div className="flex justify-center mt-6">
-                  <Button 
-                    variant="outline" 
-                    onClick={handleShowMore}
-                    className="border-tutor-orange/30 text-tutor-dark-orange"
-                  >
-                    Show More
-                    <ArrowRight className="ml-1 h-4 w-4" />
-                  </Button>
-                </div>
-              )}
+              {renderSubjectsContent()}
             </div>
           </TabsContent>
         </Tabs>
