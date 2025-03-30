@@ -18,6 +18,7 @@ import {
 } from 'recharts';
 import { getWeeklyProgressData } from '@/services/tracking';
 import { Skeleton } from '@/components/ui/skeleton';
+import { HelpCircle } from 'lucide-react';
 
 export const WeeklyProgressChart = () => {
   const [weeklyProgressData, setWeeklyProgressData] = useState<any[]>([]);
@@ -57,8 +58,16 @@ export const WeeklyProgressChart = () => {
   return (
     <Card className="col-span-2">
       <CardHeader>
-        <CardTitle>Weekly Learning Progress</CardTitle>
-        <CardDescription>Your daily activity over the past week</CardDescription>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle>Weekly Learning Progress</CardTitle>
+            <CardDescription>Based on questions answered and topics covered</CardDescription>
+          </div>
+          <div className="flex items-center text-xs text-tutor-gray space-x-1">
+            <HelpCircle className="h-4 w-4" />
+            <span>Progress score = questions answered × 10 + topics viewed × 5</span>
+          </div>
+        </div>
       </CardHeader>
       <CardContent>
         <div className="h-[300px]">

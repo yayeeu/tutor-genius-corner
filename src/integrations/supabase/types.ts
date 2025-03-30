@@ -143,6 +143,7 @@ export type Database = {
           date: string
           id: string
           minutes_spent: number
+          questions_answered: number
           topics_viewed: number
           user_id: string
         }
@@ -151,6 +152,7 @@ export type Database = {
           date?: string
           id?: string
           minutes_spent?: number
+          questions_answered?: number
           topics_viewed?: number
           user_id: string
         }
@@ -159,6 +161,7 @@ export type Database = {
           date?: string
           id?: string
           minutes_spent?: number
+          questions_answered?: number
           topics_viewed?: number
           user_id?: string
         }

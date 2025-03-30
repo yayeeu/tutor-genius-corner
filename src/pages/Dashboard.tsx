@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { DashboardOverview } from '@/components/dashboard/DashboardOverview';
@@ -33,7 +34,7 @@ const Dashboard = () => {
         const minutesSpent = Math.round((sessionEndTime.getTime() - sessionStartTime.getTime()) / 60000);
         
         if (minutesSpent > 0) {
-          updateLearningActivity(user.id, 0, minutesSpent);
+          updateLearningActivity(user.id, 0, minutesSpent, 0);
         }
       };
     }

@@ -42,8 +42,8 @@ export const getWeeklyProgressData = async () => {
     data?.forEach(activity => {
       const activityDate = new Date(activity.date);
       const dayName = weekDays[activityDate.getDay()];
-      // Calculate progress as a function of time spent and topics viewed
-      const progress = Math.min(100, activity.minutes_spent + activity.topics_viewed * 10);
+      // Calculate progress based on questions answered instead of time spent
+      const progress = Math.min(100, activity.questions_answered * 10 + activity.topics_viewed * 5);
       progressMap.set(dayName, { day: dayName, progress });
     });
     

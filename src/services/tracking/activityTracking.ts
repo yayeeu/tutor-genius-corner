@@ -2,7 +2,7 @@
 import { supabase } from '@/integrations/supabase/client';
 
 // Update or create learning activity for today
-export const updateLearningActivity = async (userId: string, topicsViewed: number = 0, minutesSpent: number = 0) => {
+export const updateLearningActivity = async (userId: string, topicsViewed: number = 0, minutesSpent: number = 0, questionsAnswered: number = 0) => {
   try {
     const today = new Date().toISOString().split('T')[0];
 
@@ -19,7 +19,8 @@ export const updateLearningActivity = async (userId: string, topicsViewed: numbe
         .from('learning_activity')
         .update({
           topics_viewed: existingActivity[0].topics_viewed + topicsViewed,
-          minutes_spent: existingActivity[0].minutes_spent + minutesSpent
+          minutes_spent: existingActivity[0].minutes_spent + minutesSpent,
+          questions_answered: existingActivity[0].questions_answered + questionsAnswered
         })
         .eq('id', existingActivity[0].id);
 
@@ -32,7 +33,8 @@ export const updateLearningActivity = async (userId: string, topicsViewed: numbe
           user_id: userId,
           date: today,
           topics_viewed: topicsViewed,
-          minutes_spent: minutesSpent
+          minutes_spent: minutesSpent,
+          questions_answered: questionsAnswered
         });
 
       if (error) throw error;

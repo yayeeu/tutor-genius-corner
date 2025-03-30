@@ -11,11 +11,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
-import { Clock } from 'lucide-react';
+import { Clock, BookOpen } from 'lucide-react';
 
 interface ActivityData {
   subjectName: string;
-  hoursSpent: number;
+  questionsAnswered: number;
   percentage: number;
 }
 
@@ -34,34 +34,49 @@ export const LearningActivityBars = () => {
         .eq('user_id', user.id);
         
       if (topicsError) throw topicsError;
+      
+      // Get questions answered data from learning_activity
+      const twoWeeksAgo = new Date();
+      twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+      
+      const { data: activityData, error: activityError } = await supabase
+        .from('learning_activity')
+        .select('*')
+        .eq('user_id', user.id)
+        .gte('date', twoWeeksAgo.toISOString().split('T')[0]);
+      
+      if (activityError) throw activityError;
+      
+      // Total questions answered
+      const totalQuestionsAnswered = activityData?.reduce((sum, activity) => 
+        sum + (activity.questions_answered || 0), 0) || 0;
 
-      // Group by subject and calculate hours spent
+      // Group by subject and calculate questions answered
       const subjects = topicsData?.reduce((acc, topic) => {
         const subject = topic.subject_name;
         if (!acc[subject]) {
           acc[subject] = { 
             count: 0,
-            totalTime: 0 
+            questionsAnswered: Math.floor(totalQuestionsAnswered / (topicsData.length || 1)) // Distribute questions evenly for now
           };
         }
         acc[subject].count += 1;
-        acc[subject].totalTime += 0.5; // Assume 30 min per topic
         return acc;
-      }, {} as Record<string, { count: number, totalTime: number }>);
+      }, {} as Record<string, { count: number, questionsAnswered: number }>);
 
       if (!subjects || Object.keys(subjects).length === 0) {
         // Return empty array instead of fallback data
         return [];
       }
 
-      // Convert to array and sort by time spent
+      // Convert to array and sort by questions answered
       const result = Object.entries(subjects).map(([subjectName, data]) => {
         return {
           subjectName,
-          hoursSpent: parseFloat(data.totalTime.toFixed(1)),
-          percentage: Math.min(100, Math.round((data.totalTime / 6) * 100)) // 6 hours is max (100%)
+          questionsAnswered: data.questionsAnswered,
+          percentage: Math.min(100, Math.round((data.questionsAnswered / 20) * 100)) // 20 questions is max (100%)
         };
-      }).sort((a, b) => b.hoursSpent - a.hoursSpent);
+      }).sort((a, b) => b.questionsAnswered - a.questionsAnswered);
 
       return result.slice(0, 4); // Return top 4 subjects
     },
@@ -73,7 +88,7 @@ export const LearningActivityBars = () => {
       <Card>
         <CardHeader>
           <CardTitle>Learning Activity</CardTitle>
-          <CardDescription>Your most active learning times</CardDescription>
+          <CardDescription>Your most active learning areas</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
@@ -96,7 +111,7 @@ export const LearningActivityBars = () => {
     <Card>
       <CardHeader>
         <CardTitle>Learning Activity</CardTitle>
-        <CardDescription>Your most active learning times</CardDescription>
+        <CardDescription>Your most active learning areas</CardDescription>
       </CardHeader>
       <CardContent>
         {activityData && activityData.length > 0 ? (
@@ -105,7 +120,7 @@ export const LearningActivityBars = () => {
               <div key={index} className="space-y-2">
                 <div className="flex justify-between">
                   <span className="text-sm">{subject.subjectName}</span>
-                  <span className="text-sm font-medium">{subject.hoursSpent} hours</span>
+                  <span className="text-sm font-medium">{subject.questionsAnswered} questions</span>
                 </div>
                 <div className="h-2 bg-gray-100 rounded-full">
                   <div 
@@ -118,9 +133,9 @@ export const LearningActivityBars = () => {
           </div>
         ) : (
           <div className="h-[200px] flex flex-col items-center justify-center text-tutor-gray">
-            <Clock className="h-12 w-12 mb-3 text-tutor-light-gray" />
-            <p className="text-center font-medium">No Activity</p>
-            <p className="text-center text-sm mt-1">Track your learning progress here</p>
+            <BookOpen className="h-12 w-12 mb-3 text-tutor-light-gray" />
+            <p className="text-center font-medium">No Questions Answered</p>
+            <p className="text-center text-sm mt-1">Practice questions to track your progress here</p>
           </div>
         )}
       </CardContent>

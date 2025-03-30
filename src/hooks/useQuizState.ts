@@ -3,11 +3,14 @@ import { useState, useCallback } from 'react';
 import { QuestionData } from '@/data/practiceData';
 import { fetchRandomQuestion } from '@/services/apiService';
 import { toast } from "@/hooks/use-toast";
+import { useAuth } from '@/contexts/AuthContext';
+import { updateLearningActivity } from '@/services/tracking';
 
 export const useQuizState = (addAIMessage: (content: string) => void) => {
   const [currentQuestion, setCurrentQuestion] = useState<QuestionData | null>(null);
   const [feedback, setFeedback] = useState<string>("");
   const [isLoadingQuestion, setIsLoadingQuestion] = useState(false);
+  const { user } = useAuth();
   
   const handleTopicSelect = useCallback(async (topicName: string) => {
     // Reset previous question state
@@ -78,7 +81,12 @@ export const useQuizState = (addAIMessage: (content: string) => void) => {
         ? "Great job! You've mastered this concept." 
         : "That's not quite right. Try reviewing the concept again."
     );
-  }, []);
+    
+    // Track that a question was answered
+    if (user) {
+      updateLearningActivity(user.id, 0, 0, 1);
+    }
+  }, [user]);
   
   return {
     currentQuestion,
