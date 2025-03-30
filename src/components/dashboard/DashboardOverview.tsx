@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { BookOpen, Award, MessageSquare } from 'lucide-react';
 import { WeeklyProgressChart } from './WeeklyProgressChart';
-import { getTotalTopicsCovered, getTotalTutorSessions, getOverallMastery } from '@/services/trackingService';
+import { getTotalTopicsCovered, getTotalTutorSessions, getOverallMastery } from '@/services/tracking';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export const DashboardOverview = () => {

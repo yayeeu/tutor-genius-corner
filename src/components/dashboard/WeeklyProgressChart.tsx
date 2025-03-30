@@ -16,7 +16,7 @@ import {
   Tooltip,
   ResponsiveContainer
 } from 'recharts';
-import { getWeeklyProgressData } from '@/services/trackingService';
+import { getWeeklyProgressData } from '@/services/tracking';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export const WeeklyProgressChart = () => {

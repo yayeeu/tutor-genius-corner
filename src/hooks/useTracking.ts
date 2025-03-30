@@ -9,7 +9,7 @@ import {
   trackTutorSession,
   updateLearningActivity,
   updateTopicMastery
-} from '@/services/trackingService';
+} from '@/services/tracking';
 
 export const useTracking = () => {
   const { user } = useAuth();

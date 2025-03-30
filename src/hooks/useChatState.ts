@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { trackTutorSession } from '@/services/trackingService';
+import { trackTutorSession } from '@/services/tracking';
 import { useAuth } from '@/contexts/AuthContext';
 
 interface Message {

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { DashboardOverview } from '@/components/dashboard/DashboardOverview';
@@ -10,7 +9,7 @@ import {
   TabsTrigger 
 } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
-import { updateLearningActivity } from '@/services/trackingService';
+import { updateLearningActivity } from '@/services/tracking';
 
 const Dashboard = () => {
   const location = useLocation();
@@ -25,7 +24,6 @@ const Dashboard = () => {
     }
   }, [tabParam]);
 
-  // Track user session time
   useEffect(() => {
     if (user) {
       const sessionStartTime = new Date();
