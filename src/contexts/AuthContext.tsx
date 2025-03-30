@@ -86,7 +86,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signUp = async (email: string, password: string, name: string) => {
     try {
       setIsLoading(true);
-      const { error } = await supabase.auth.signUp({ 
+      
+      // First, sign up the user with Supabase Auth
+      const { data: authData, error: authError } = await supabase.auth.signUp({ 
         email, 
         password,
         options: {
@@ -96,14 +98,39 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       });
       
-      if (error) {
-        throw error;
+      if (authError) {
+        throw authError;
       }
-      
-      toast({
-        title: "Account created!",
-        description: "You've successfully created an account.",
-      });
+
+      // Then, create a record in the students table
+      if (authData.user) {
+        const [firstName, ...lastNameParts] = name.split(' ');
+        const lastName = lastNameParts.join(' ');
+        
+        const { error: studentError } = await supabase
+          .from('students')
+          .insert({
+            id: authData.user.id,
+            first_name: firstName,
+            last_name: lastName || null,
+            email: email,
+          });
+        
+        if (studentError) {
+          console.error('Error creating student record:', studentError);
+          // We don't throw here to prevent blocking the signup
+          // Instead, we log the error and show a modified success message
+          toast({
+            title: "Account created!",
+            description: "You've successfully created an account, but some profile data couldn't be saved. Please update your profile later.",
+          });
+        } else {
+          toast({
+            title: "Account created!",
+            description: "You've successfully created an account.",
+          });
+        }
+      }
       
       navigate('/dashboard');
     } catch (error: any) {

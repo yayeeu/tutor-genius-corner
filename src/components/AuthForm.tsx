@@ -39,6 +39,13 @@ const gradeOptions = [
   { value: "college", label: "College" },
 ];
 
+const gradeToNumber = (grade: string): number | null => {
+  if (grade === "k") return 0;
+  if (grade === "college") return 13;
+  const num = parseInt(grade);
+  return isNaN(num) ? null : num;
+};
+
 const AuthForm = () => {
   const [mode, setMode] = useState<AuthMode>("login");
   const [email, setEmail] = useState("");
