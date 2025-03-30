@@ -9,10 +9,14 @@ import {
   CardTitle 
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton'; 
 import { StrengthsChart } from './StrengthsChart';
 import { LearningActivityBars } from './LearningActivityBars';
+import { useWeakestTopics } from '@/hooks/useWeakestTopics';
 
 export const DashboardAnalytics = () => {
+  const { weakestTopics, isLoading } = useWeakestTopics();
+  
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -25,61 +29,55 @@ export const DashboardAnalytics = () => {
             <CardDescription>Based on your recent performance</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-white p-4 rounded-lg border border-tutor-light-gray">
-                <h3 className="font-medium mb-2">Algebra: Factorization</h3>
-                <p className="text-sm text-tutor-gray mb-3">
-                  You've been struggling with polynomial factorization.
-                </p>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="w-full border-tutor-orange/30 text-tutor-dark-orange"
-                  asChild
-                >
-                  <Link to="/learn?tab=chat-tutor">
-                    Practice Now
-                  </Link>
-                </Button>
+            {isLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="bg-white p-4 rounded-lg border border-tutor-light-gray">
+                    <Skeleton className="h-6 w-3/4 mb-2" />
+                    <Skeleton className="h-4 w-full mb-1" />
+                    <Skeleton className="h-4 w-4/5 mb-3" />
+                    <Skeleton className="h-9 w-full" />
+                  </div>
+                ))}
               </div>
-              
-              <div className="bg-white p-4 rounded-lg border border-tutor-light-gray">
-                <h3 className="font-medium mb-2">Chemistry: Balancing Equations</h3>
-                <p className="text-sm text-tutor-gray mb-3">
-                  Your quiz scores in this area need improvement.
-                </p>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="w-full border-tutor-orange/30 text-tutor-dark-orange"
-                  asChild
-                >
-                  <Link to="/learn?tab=chat-tutor">
-                    Practice Now
-                  </Link>
-                </Button>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {weakestTopics.map((topic, index) => (
+                  <div key={index} className="bg-white p-4 rounded-lg border border-tutor-light-gray">
+                    <h3 className="font-medium mb-2">{topic.topicName}</h3>
+                    <p className="text-sm text-tutor-gray mb-3">
+                      {getDescriptionForScore(topic.masteryScore)}
+                    </p>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="w-full border-tutor-orange/30 text-tutor-dark-orange"
+                      asChild
+                    >
+                      <Link to={`/learn?tab=chat-tutor&topic=${encodeURIComponent(topic.topicName)}`}>
+                        Practice Now
+                      </Link>
+                    </Button>
+                  </div>
+                ))}
               </div>
-              
-              <div className="bg-white p-4 rounded-lg border border-tutor-light-gray">
-                <h3 className="font-medium mb-2">Essay Structure</h3>
-                <p className="text-sm text-tutor-gray mb-3">
-                  Work on organizing your essay introductions.
-                </p>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="w-full border-tutor-orange/30 text-tutor-dark-orange"
-                  asChild
-                >
-                  <Link to="/learn?tab=chat-tutor">
-                    Practice Now
-                  </Link>
-                </Button>
-              </div>
-            </div>
+            )}
           </CardContent>
         </Card>
       </div>
     </div>
   );
+};
+
+// Helper function to generate descriptions based on mastery score
+const getDescriptionForScore = (score: number): string => {
+  if (score < 0.3) {
+    return "You need significant improvement in this area.";
+  } else if (score < 0.5) {
+    return "Your quiz scores in this area need improvement.";
+  } else if (score < 0.7) {
+    return "You're making progress but need more practice.";
+  } else {
+    return "You're doing well, but could still improve.";
+  }
 };
