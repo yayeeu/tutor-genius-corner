@@ -43,6 +43,7 @@ const MobileAppSection = () => {
         .from('students')
         .insert([
           {
+            id: crypto.randomUUID(), // Generate a UUID for the student record
             first_name: firstName,
             last_name: lastName || null,
             email: data.email,
