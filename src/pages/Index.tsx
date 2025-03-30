@@ -1,3 +1,4 @@
+
 import { Link } from 'react-router-dom';
 import { 
   Brain,
@@ -38,12 +39,18 @@ const Home2 = () => {
     setIsSubmitting(true);
     
     try {
+      // Split name into first and last name
+      const [firstName, ...lastNameParts] = data.name.split(' ');
+      const lastName = lastNameParts.join(' ');
+      
+      // Insert into students table instead of customers
       const { error } = await supabase
-        .from('customers')
+        .from('students')
         .insert([
           {
-            name: data.name,
-            email: data.email
+            first_name: firstName,
+            last_name: lastName || null,
+            email: data.email,
           }
         ]);
       
