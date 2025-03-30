@@ -5,6 +5,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Clock, BookOpen, ChevronRight } from 'lucide-react';
 import { toast } from "@/hooks/use-toast";
 import { fetchRecentTopics } from '@/services/apiService';
+import { useWeakestTopics } from '@/hooks/useWeakestTopics';
 
 interface RecentTopic {
   topicName: string;
@@ -18,6 +19,7 @@ interface ChatSidebarProps {
 
 const ChatSidebar = ({ onTopicSelect, isLoadingTopics }: ChatSidebarProps) => {
   const [recentTopics, setRecentTopics] = useState<RecentTopic[]>([]);
+  const { weakestTopics, isLoading: isLoadingSuggested } = useWeakestTopics();
   
   // Fetch recent topics when component mounts
   useEffect(() => {
@@ -92,39 +94,35 @@ const ChatSidebar = ({ onTopicSelect, isLoadingTopics }: ChatSidebarProps) => {
               <BookOpen className="w-4 h-4 mr-2" />
               Suggested Topics
             </h3>
-            <ul className="space-y-2">
-              {/* Static suggested topics */}
-              <li>
-                <Button 
-                  variant="ghost" 
-                  className="w-full justify-start text-tutor-gray hover:text-tutor-dark-orange hover:bg-white"
-                  onClick={() => onTopicSelect("Algebra Basics")}
-                >
-                  <span>Algebra Basics</span>
-                  <ChevronRight className="w-4 h-4 ml-auto" />
-                </Button>
-              </li>
-              <li>
-                <Button 
-                  variant="ghost" 
-                  className="w-full justify-start text-tutor-gray hover:text-tutor-dark-orange hover:bg-white"
-                  onClick={() => onTopicSelect("Scientific Method")}
-                >
-                  <span>Scientific Method</span>
-                  <ChevronRight className="w-4 h-4 ml-auto" />
-                </Button>
-              </li>
-              <li>
-                <Button 
-                  variant="ghost" 
-                  className="w-full justify-start text-tutor-gray hover:text-tutor-dark-orange hover:bg-white"
-                  onClick={() => onTopicSelect("Grammar Rules")}
-                >
-                  <span>Grammar Rules</span>
-                  <ChevronRight className="w-4 h-4 ml-auto" />
-                </Button>
-              </li>
-            </ul>
+            
+            {isLoadingSuggested ? (
+              <div className="py-4 text-center text-tutor-gray">
+                <div className="animate-pulse flex flex-col space-y-2">
+                  <div className="h-6 bg-tutor-light-gray rounded w-3/4 mx-auto"></div>
+                  <div className="h-6 bg-tutor-light-gray rounded w-full mx-auto"></div>
+                  <div className="h-6 bg-tutor-light-gray rounded w-5/6 mx-auto"></div>
+                </div>
+              </div>
+            ) : (
+              <ul className="space-y-2">
+                {weakestTopics.length > 0 ? (
+                  weakestTopics.map((topic, index) => (
+                    <li key={topic.unitId}>
+                      <Button 
+                        variant="ghost" 
+                        className="w-full justify-start text-tutor-gray hover:text-tutor-dark-orange hover:bg-white"
+                        onClick={() => onTopicSelect(topic.topicName)}
+                      >
+                        <span>{topic.topicName}</span>
+                        <ChevronRight className="w-4 h-4 ml-auto" />
+                      </Button>
+                    </li>
+                  ))
+                ) : (
+                  <p className="text-sm text-tutor-gray italic px-2">No suggested topics available</p>
+                )}
+              </ul>
+            )}
           </div>
         </div>
       </ScrollArea>
