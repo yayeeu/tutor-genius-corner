@@ -1,4 +1,3 @@
-
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/components/ui/use-toast';
@@ -253,5 +252,51 @@ export const getOverallMastery = async () => {
   } catch (error) {
     console.error('Error getting overall mastery:', error);
     return 0;
+  }
+};
+
+// Update mastery score for a specific topic
+export const updateTopicMastery = async (unitId: string, masteryScore: number) => {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+      console.error('Cannot update topic mastery: User not authenticated');
+      return;
+    }
+
+    // Check if an entry for this unit/user already exists
+    const { data: existingMastery } = await supabase
+      .from('student_topic_mastery')
+      .select('*')
+      .eq('user_id', user.id)
+      .eq('unit_id', unitId);
+
+    if (existingMastery && existingMastery.length > 0) {
+      // Update existing entry
+      const { error } = await supabase
+        .from('student_topic_mastery')
+        .update({
+          mastery_score: masteryScore,
+          last_updated: new Date().toISOString()
+        })
+        .eq('id', existingMastery[0].id);
+
+      if (error) throw error;
+    } else {
+      // Create new entry
+      const { error } = await supabase
+        .from('student_topic_mastery')
+        .insert({
+          user_id: user.id,
+          unit_id: unitId,
+          mastery_score: masteryScore,
+          last_updated: new Date().toISOString()
+        });
+
+      if (error) throw error;
+    }
+  } catch (error) {
+    console.error('Error updating topic mastery:', error);
   }
 };

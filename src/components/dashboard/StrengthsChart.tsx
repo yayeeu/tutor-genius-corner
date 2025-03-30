@@ -16,15 +16,28 @@ import {
   Tooltip,
   ResponsiveContainer
 } from 'recharts';
-
-const strengthsData = [
-  { subject: 'Math', score: 85 },
-  { subject: 'Science', score: 72 },
-  { subject: 'History', score: 60 },
-  { subject: 'Language', score: 90 },
-];
+import { Skeleton } from '@/components/ui/skeleton';
+import { useStrengths } from '@/hooks/useStrengths';
 
 export const StrengthsChart = () => {
+  const { strengthsData, isLoading } = useStrengths();
+
+  if (isLoading) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Your Strengths</CardTitle>
+          <CardDescription>Subjects you're performing well in</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="h-[300px] flex items-center justify-center">
+            <Skeleton className="w-full h-[250px]" />
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card>
       <CardHeader>

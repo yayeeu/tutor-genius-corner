@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
@@ -8,7 +7,8 @@ import {
   getOverallMastery,
   trackTopicView,
   trackTutorSession,
-  updateLearningActivity
+  updateLearningActivity,
+  updateTopicMastery
 } from '@/services/trackingService';
 
 export const useTracking = () => {
@@ -76,6 +76,12 @@ export const useTracking = () => {
     fetchTrackingData();
   };
 
+  const trackMastery = async (unitId: string, masteryScore: number) => {
+    await updateTopicMastery(unitId, masteryScore);
+    // Refresh data after tracking
+    fetchTrackingData();
+  };
+
   return {
     weeklyProgressData,
     totalTopics,
@@ -84,6 +90,7 @@ export const useTracking = () => {
     isLoading,
     trackTopic,
     trackSession,
+    trackMastery,
     refreshData: fetchTrackingData
   };
 };
