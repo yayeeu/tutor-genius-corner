@@ -42,8 +42,8 @@ export const getWeeklyProgressData = async () => {
     data?.forEach(activity => {
       const activityDate = new Date(activity.date);
       const dayName = weekDays[activityDate.getDay()];
-      // Calculate progress based on questions answered instead of time spent
-      const progress = Math.min(100, activity.questions_answered * 10 + activity.topics_viewed * 5);
+      // Calculate progress based on questions answered
+      const progress = Math.min(100, (activity.questions_answered * 10));
       progressMap.set(dayName, { day: dayName, progress });
     });
     
@@ -52,5 +52,33 @@ export const getWeeklyProgressData = async () => {
   } catch (error) {
     console.error('Error getting weekly progress:', error);
     return [];
+  }
+};
+
+// Get total questions answered for all time
+export const getTotalQuestionsAnswered = async () => {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+      console.error('Cannot get total questions: User not authenticated');
+      return 0;
+    }
+
+    const { data, error } = await supabase
+      .from('learning_activity')
+      .select('questions_answered')
+      .eq('user_id', user.id);
+
+    if (error) throw error;
+    
+    const totalQuestions = data?.reduce((sum, activity) => 
+      sum + (activity.questions_answered || 0), 0) || 0;
+    
+    return totalQuestions;
+    
+  } catch (error) {
+    console.error('Error getting total questions answered:', error);
+    return 0;
   }
 };
