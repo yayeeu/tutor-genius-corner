@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Card, 
   CardContent, 
@@ -16,18 +16,44 @@ import {
   Tooltip,
   ResponsiveContainer
 } from 'recharts';
-
-const weeklyProgressData = [
-  { day: 'Mon', progress: 45 },
-  { day: 'Tue', progress: 65 },
-  { day: 'Wed', progress: 58 },
-  { day: 'Thu', progress: 72 },
-  { day: 'Fri', progress: 80 },
-  { day: 'Sat', progress: 45 },
-  { day: 'Sun', progress: 25 },
-];
+import { getWeeklyProgressData } from '@/services/trackingService';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export const WeeklyProgressChart = () => {
+  const [weeklyProgressData, setWeeklyProgressData] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getWeeklyProgressData();
+        setWeeklyProgressData(data);
+      } catch (error) {
+        console.error('Error fetching weekly progress data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <Card className="col-span-2">
+        <CardHeader>
+          <CardTitle>Weekly Learning Progress</CardTitle>
+          <CardDescription>Your daily activity over the past week</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="h-[300px] flex items-center justify-center">
+            <Skeleton className="w-full h-[250px]" />
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card className="col-span-2">
       <CardHeader>

@@ -137,6 +137,33 @@ export type Database = {
         }
         Relationships: []
       }
+      learning_activity: {
+        Row: {
+          created_at: string | null
+          date: string
+          id: string
+          minutes_spent: number
+          topics_viewed: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          date?: string
+          id?: string
+          minutes_spent?: number
+          topics_viewed?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          date?: string
+          id?: string
+          minutes_spent?: number
+          topics_viewed?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       questions_generated: {
         Row: {
           correct_answer: string | null
@@ -298,6 +325,63 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      topics_covered: {
+        Row: {
+          created_at: string | null
+          id: string
+          last_studied_at: string | null
+          mastery_level: number | null
+          subject_name: string
+          topic_name: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          last_studied_at?: string | null
+          mastery_level?: number | null
+          subject_name: string
+          topic_name: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          last_studied_at?: string | null
+          mastery_level?: number | null
+          subject_name?: string
+          topic_name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      tutor_sessions: {
+        Row: {
+          created_at: string | null
+          duration_minutes: number
+          id: string
+          questions_asked: number | null
+          subject: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          duration_minutes?: number
+          id?: string
+          questions_asked?: number | null
+          subject?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          duration_minutes?: number
+          id?: string
+          questions_asked?: number | null
+          subject?: string | null
+          user_id?: string
+        }
+        Relationships: []
       }
       units: {
         Row: {

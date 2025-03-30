@@ -9,18 +9,37 @@ import {
   TabsList, 
   TabsTrigger 
 } from '@/components/ui/tabs';
+import { useAuth } from '@/contexts/AuthContext';
+import { updateLearningActivity } from '@/services/trackingService';
 
 const Dashboard = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const tabParam = queryParams.get('tab');
   const [activeTab, setActiveTab] = useState(tabParam || 'overview');
+  const { user } = useAuth();
   
   useEffect(() => {
     if (tabParam) {
       setActiveTab(tabParam === 'subjects' ? 'overview' : tabParam);
     }
   }, [tabParam]);
+
+  // Track user session time
+  useEffect(() => {
+    if (user) {
+      const sessionStartTime = new Date();
+      
+      return () => {
+        const sessionEndTime = new Date();
+        const minutesSpent = Math.round((sessionEndTime.getTime() - sessionStartTime.getTime()) / 60000);
+        
+        if (minutesSpent > 0) {
+          updateLearningActivity(user.id, 0, minutesSpent);
+        }
+      };
+    }
+  }, [user]);
 
   return (
     <div className="min-h-screen bg-tutor-beige/30 pb-16 animate-fade-in">

@@ -11,6 +11,9 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { BookCheck } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { trackTopicView } from "@/services/trackingService";
+import { useAuth } from "@/contexts/AuthContext";
 
 export interface SubjectCardProps {
   title: string;
@@ -27,6 +30,22 @@ const SubjectCard = ({
   recentTopics,
   activeTopic
 }: SubjectCardProps) => {
+  const { user } = useAuth();
+
+  useEffect(() => {
+    // Track that user viewed this subject
+    if (user) {
+      trackTopicView(title, title, progress);
+    }
+  }, [title, progress, user]);
+
+  const handleTopicClick = (topic: string) => {
+    // Track when user clicks on a specific topic
+    if (user) {
+      trackTopicView(topic, title, Math.round(progress * 0.8)); // Estimate topic mastery as 80% of subject progress
+    }
+  };
+
   return (
     <Card className="w-full h-full transition-all duration-300 hover:shadow-md">
       <CardHeader className="pb-2">
@@ -54,6 +73,7 @@ const SubjectCard = ({
                   className={`flex items-start hover:text-tutor-orange transition-colors ${
                     topic === activeTopic ? 'text-tutor-orange font-medium' : ''
                   }`}
+                  onClick={() => handleTopicClick(topic)}
                 >
                   <span className="inline-block w-1 h-1 rounded-full bg-tutor-orange mt-1.5 mr-2"></span>
                   {topic}
