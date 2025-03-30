@@ -55,21 +55,13 @@ export const useWeakestTopics = () => {
 
         setWeakestTopics(formattedData);
       } else {
-        // Fallback to demo data if no data is available
-        setWeakestTopics([
-          { unitId: '1', topicName: 'Algebra: Factorization', masteryScore: 0.3 },
-          { unitId: '2', topicName: 'Chemistry: Balancing Equations', masteryScore: 0.4 },
-          { unitId: '3', topicName: 'Essay Structure', masteryScore: 0.45 }
-        ]);
+        // Return empty array instead of fallback data
+        setWeakestTopics([]);
       }
     } catch (error) {
       console.error('Error fetching weakest topics:', error);
-      // Fallback to demo data
-      setWeakestTopics([
-        { unitId: '1', topicName: 'Algebra: Factorization', masteryScore: 0.3 },
-        { unitId: '2', topicName: 'Chemistry: Balancing Equations', masteryScore: 0.4 },
-        { unitId: '3', topicName: 'Essay Structure', masteryScore: 0.45 }
-      ]);
+      // Return empty array instead of fallback data
+      setWeakestTopics([]);
     } finally {
       setIsLoading(false);
     }

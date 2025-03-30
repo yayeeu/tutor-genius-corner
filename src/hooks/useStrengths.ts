@@ -52,23 +52,13 @@ export const useStrengths = () => {
 
         setStrengthsData(formattedData.slice(0, 4)); // Limit to top 4 strengths
       } else {
-        // Fallback to demo data if no data is available
-        setStrengthsData([
-          { subject: 'Math', score: 85 },
-          { subject: 'Science', score: 72 },
-          { subject: 'History', score: 60 },
-          { subject: 'Language', score: 90 },
-        ]);
+        // No fallback data - return empty array
+        setStrengthsData([]);
       }
     } catch (error) {
       console.error('Error fetching strengths data:', error);
-      // Fallback to demo data if there's an error
-      setStrengthsData([
-        { subject: 'Math', score: 85 },
-        { subject: 'Science', score: 72 },
-        { subject: 'History', score: 60 },
-        { subject: 'Language', score: 90 },
-      ]);
+      // No fallback data - return empty array
+      setStrengthsData([]);
     } finally {
       setIsLoading(false);
     }

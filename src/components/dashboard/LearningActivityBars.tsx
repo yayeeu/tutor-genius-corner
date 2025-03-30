@@ -11,6 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { Clock } from 'lucide-react';
 
 interface ActivityData {
   subjectName: string;
@@ -49,13 +50,8 @@ export const LearningActivityBars = () => {
       }, {} as Record<string, { count: number, totalTime: number }>);
 
       if (!subjects || Object.keys(subjects).length === 0) {
-        // Fallback data if no subjects found
-        return [
-          { subjectName: 'Mathematics', hoursSpent: 4.5, percentage: 75 },
-          { subjectName: 'Science', hoursSpent: 3.2, percentage: 55 },
-          { subjectName: 'Language Arts', hoursSpent: 2.8, percentage: 45 },
-          { subjectName: 'History', hoursSpent: 1.5, percentage: 25 }
-        ];
+        // Return empty array instead of fallback data
+        return [];
       }
 
       // Convert to array and sort by time spent
@@ -103,22 +99,30 @@ export const LearningActivityBars = () => {
         <CardDescription>Your most active learning times</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="space-y-6">
-          {activityData && activityData.map((subject, index) => (
-            <div key={index} className="space-y-2">
-              <div className="flex justify-between">
-                <span className="text-sm">{subject.subjectName}</span>
-                <span className="text-sm font-medium">{subject.hoursSpent} hours</span>
+        {activityData && activityData.length > 0 ? (
+          <div className="space-y-6">
+            {activityData.map((subject, index) => (
+              <div key={index} className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="text-sm">{subject.subjectName}</span>
+                  <span className="text-sm font-medium">{subject.hoursSpent} hours</span>
+                </div>
+                <div className="h-2 bg-gray-100 rounded-full">
+                  <div 
+                    className="h-2 bg-tutor-orange rounded-full" 
+                    style={{ width: `${subject.percentage}%` }}
+                  ></div>
+                </div>
               </div>
-              <div className="h-2 bg-gray-100 rounded-full">
-                <div 
-                  className="h-2 bg-tutor-orange rounded-full" 
-                  style={{ width: `${subject.percentage}%` }}
-                ></div>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="h-[200px] flex flex-col items-center justify-center text-tutor-gray">
+            <Clock className="h-12 w-12 mb-3 text-tutor-light-gray" />
+            <p className="text-center font-medium">No Activity</p>
+            <p className="text-center text-sm mt-1">Track your learning progress here</p>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

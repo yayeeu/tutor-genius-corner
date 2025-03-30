@@ -18,6 +18,7 @@ import {
 } from 'recharts';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useStrengths } from '@/hooks/useStrengths';
+import { FileBarChart } from 'lucide-react';
 
 export const StrengthsChart = () => {
   const { strengthsData, isLoading } = useStrengths();
@@ -46,26 +47,34 @@ export const StrengthsChart = () => {
       </CardHeader>
       <CardContent>
         <div className="h-[300px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={strengthsData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-              <XAxis dataKey="subject" />
-              <YAxis />
-              <Tooltip 
-                contentStyle={{ 
-                  backgroundColor: 'white', 
-                  border: 'none', 
-                  borderRadius: '8px',
-                  boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
-                }}
-              />
-              <Bar 
-                dataKey="score" 
-                fill="#F59E0B" 
-                radius={[4, 4, 0, 0]} 
-              />
-            </BarChart>
-          </ResponsiveContainer>
+          {strengthsData.length > 0 ? (
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={strengthsData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis dataKey="subject" />
+                <YAxis />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: 'white', 
+                    border: 'none', 
+                    borderRadius: '8px',
+                    boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
+                  }}
+                />
+                <Bar 
+                  dataKey="score" 
+                  fill="#F59E0B" 
+                  radius={[4, 4, 0, 0]} 
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className="h-full flex flex-col items-center justify-center text-tutor-gray">
+              <FileBarChart className="h-12 w-12 mb-3 text-tutor-light-gray" />
+              <p className="text-center font-medium">No Activity</p>
+              <p className="text-center text-sm mt-1">Complete lessons to see your strengths</p>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>
