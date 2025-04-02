@@ -19,7 +19,7 @@ const About = () => {
       <section className="bg-gradient-to-b from-tutor-orange/10 to-transparent pt-20 pb-10">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <h1 className="text-4xl md:text-5xl font-bold">
-            About <span className="gradient-text">EduNova</span>
+            About <span className="gradient-text">Aku</span>
           </h1>
           <p className="text-lg text-tutor-gray mt-4 max-w-3xl mx-auto">
             Our mission is to make education accessible to every student in Ethiopia through personalized AI tutoring.
@@ -168,7 +168,7 @@ const About = () => {
           <div className="inline-block px-3 py-1 bg-white rounded-full shadow-sm mb-4">
             <span className="text-sm font-medium text-tutor-purple flex items-center">
               <Sparkles className="h-4 w-4 mr-1 text-yellow-400" />
-              Join thousands of students learning with EduNova
+              Join thousands of students learning with Aku
             </span>
           </div>
           <h2 className="text-3xl font-bold mb-6">Join Our Community of Learners</h2>
