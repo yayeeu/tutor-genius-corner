@@ -57,7 +57,7 @@ const PrivacyPolicy = () => {
         <section>
           <h2 className="text-xl font-semibold text-tutor-navy mb-3">7. Contact Us</h2>
           <p className="text-tutor-dark-gray mb-3">
-            If you have any questions about this Privacy Policy, please contact us at privacy@edunova.com.
+            If you have any questions about this Privacy Policy, please contact us at privacy@aku.education.
           </p>
         </section>
       </div>

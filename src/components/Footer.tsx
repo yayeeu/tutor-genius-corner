@@ -14,7 +14,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center">
             <p className="text-tutor-gray text-sm">
-              © {currentYear} EduNova. All rights reserved.
+              © {currentYear} Aku Education. All rights reserved.
             </p>
           </div>
           

@@ -115,7 +115,7 @@ const Home2 = () => {
               </div>
               
               <h1 className="text-4xl md:text-5xl font-bold">
-                Welcome to <span className="text-transparent bg-clip-text bg-gradient-to-r from-tutor-orange to-tutor-purple">EduNova</span>
+                Welcome to <span className="text-transparent bg-clip-text bg-gradient-to-r from-tutor-orange to-tutor-purple">Aku</span>
               </h1>
               
               <p className="text-lg text-tutor-gray">
@@ -224,7 +224,7 @@ const Home2 = () => {
                   </span>
                 </div>
                 <h2 className="text-3xl font-bold mb-4">
-                  EduNova Mobile App
+                  Aku Mobile App
                 </h2>
                 <p className="text-tutor-gray mb-6">
                   Learn anywhere, anytime with our upcoming mobile app. Get access to your AI tutor, fun games, and cool quizzes!
@@ -290,7 +290,7 @@ const Home2 = () => {
               <div className="relative max-w-[240px] animate-float">
                 <img 
                   src="/lovable-uploads/eadc44bc-fbb9-439b-b523-a4b715f71510.png" 
-                  alt="EduNova Mobile App Preview" 
+                  alt="Aku Mobile App Preview" 
                   className="w-full h-auto rounded-3xl shadow-xl"
                 />
                 <div className="absolute -top-3 -right-3 bg-tutor-purple text-white text-xs font-bold px-3 py-1 rounded-full">
