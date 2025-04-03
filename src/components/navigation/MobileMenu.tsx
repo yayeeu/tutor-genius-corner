@@ -1,6 +1,6 @@
 
 import { Link } from 'react-router-dom';
-import { LogIn, LogOut, FileText, MessageCircle, LayoutDashboard, HelpCircle } from 'lucide-react';
+import { LogIn, LogOut, FileText, MessageCircle, LayoutDashboard, HelpCircle, BookOpen } from 'lucide-react';
 import { Separator } from "@/components/ui/separator";
 import UserAvatar from '../UserAvatar';
 
@@ -33,34 +33,6 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
           </Link>
         )}
         
-        {!user && (
-          <>
-            <Link 
-              to="/" 
-              className={isActive('/') ? 'nav-link-active' : 'nav-link'}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Home
-            </Link>
-            
-            <Link 
-              to="/products" 
-              className={isActive('/products') ? 'nav-link-active' : 'nav-link'}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Products
-            </Link>
-            
-            <Link 
-              to="/about" 
-              className={isActive('/about') ? 'nav-link-active' : 'nav-link'}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              About
-            </Link>
-          </>
-        )}
-        
         {user && (
           <>
             <Link 
@@ -70,6 +42,14 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
             >
               <MessageCircle className="h-4 w-4 mr-2" />
               <span>Learn</span>
+            </Link>
+            <Link 
+              to="/practice" 
+              className={`${isActive('/practice') ? 'nav-link-active' : 'nav-link'} flex items-center`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <BookOpen className="h-4 w-4 mr-2" />
+              <span>Practice</span>
             </Link>
             <Link 
               to="/dashboard" 
