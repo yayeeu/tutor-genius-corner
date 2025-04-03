@@ -31,7 +31,7 @@ const App = () => (
           <Navigation />
           <div className="pt-16 min-h-screen flex flex-col">
             <Routes>
-              {/* Redirect root to Learn for logged-in users, Login for non-logged in */}
+              {/* Redirect root to login for non-logged-in users, Learn for logged-in users */}
               <Route path="/" element={<Navigate to="/login" replace />} />
               <Route path="/login" element={<Login />} />
               <Route path="/dashboard" element={
@@ -66,6 +66,7 @@ const App = () => (
                   <Profile />
                 </ProtectedRoute>
               } />
+              {/* Future routes for teacher and admin views will go here */}
               <Route path="*" element={<NotFound />} />
             </Routes>
             <Footer />
