@@ -1,0 +1,18 @@
+services:
+  akuapp:
+    container_name: akuapp
+    build:
+      context: .
+    restart: unless-stopped
+    ports:
+      - "8080"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8080
+    networks:
+      - nginx_proxy
+
+networks:
+  nginx_proxy:
+    external: true 
+   
