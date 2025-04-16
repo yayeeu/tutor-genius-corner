@@ -1,0 +1,31 @@
+
+{
+  "nav": {
+    "learn": "Learn",
+    "practice": "Practice",
+    "dashboard": "Dashboard",
+    "achievements": "Achievements",
+    "myStudents": "My Students",
+    "schoolAdmin": "School Admin",
+    "help": "Help",
+    "profile": "Profile",
+    "signIn": "Sign In",
+    "signOut": "Sign Out"
+  },
+  "general": {
+    "welcome": "Welcome back!",
+    "startLearning": "Start Learning",
+    "tryLearn": "Try Learn",
+    "yourLearning": "Your Learning Friend",
+    "notifyWhenAvailable": "Notify Me When Available",
+    "sending": "Sending...",
+    "termsOfService": "Terms of Service",
+    "privacyPolicy": "Privacy Policy"
+  },
+  "footer": {
+    "allRightsReserved": "All rights reserved",
+    "termsOfService": "Terms",
+    "privacyPolicy": "Privacy",
+    "help": "Help"
+  }
+}

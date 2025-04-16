@@ -1,0 +1,31 @@
+
+{
+  "nav": {
+    "learn": "ተማሃር",
+    "practice": "ልምምድ",
+    "dashboard": "ዳሽቦርድ",
+    "achievements": "ዓወታት",
+    "myStudents": "ተማሃሮይ",
+    "schoolAdmin": "ምምሕዳር ቤት ትምህርቲ",
+    "help": "ሓገዝ",
+    "profile": "መግለጺ",
+    "signIn": "እተው",
+    "signOut": "ውጻእ"
+  },
+  "general": {
+    "welcome": "እንቋዕ ብደሓን መጻእኩም!",
+    "startLearning": "ምምሃር ጀምር",
+    "tryLearn": "ምምሃር ፈትን",
+    "yourLearning": "ናትካ መማሃሪ ዓርኪ",
+    "notifyWhenAvailable": "ክርከብ ከሎ ንገረኒ",
+    "sending": "ይልእኽ ኣሎ...",
+    "termsOfService": "ውዕል ኣገልግሎት",
+    "privacyPolicy": "ፖሊሲ ምሽጥራውነት"
+  },
+  "footer": {
+    "allRightsReserved": "መሰል ብሕጊ ዝተሓለወ እዩ",
+    "termsOfService": "ኩነታት",
+    "privacyPolicy": "ምሽጥራውነት",
+    "help": "ሓገዝ"
+  }
+}

@@ -1,0 +1,31 @@
+
+{
+  "nav": {
+    "learn": "ተማር",
+    "practice": "ልምምድ",
+    "dashboard": "ዳሽቦርድ",
+    "achievements": "ውጤቶች",
+    "myStudents": "ተማሪዎቼ",
+    "schoolAdmin": "የት/ቤት አስተዳደር",
+    "help": "እገዛ",
+    "profile": "መገለጫ",
+    "signIn": "ግባ",
+    "signOut": "ውጣ"
+  },
+  "general": {
+    "welcome": "እንኳን ደህና መጣህ!",
+    "startLearning": "መማር ጀምር",
+    "tryLearn": "መማር ሞክር",
+    "yourLearning": "የእርስዎ የመማሪያ ጓደኛ",
+    "notifyWhenAvailable": "ሲገኝ አሳውቀኝ",
+    "sending": "እየላከ...",
+    "termsOfService": "የአገልግሎት ውል",
+    "privacyPolicy": "የግላዊነት ፖሊሲ"
+  },
+  "footer": {
+    "allRightsReserved": "መብቱ በህግ የተጠበቀ ነው",
+    "termsOfService": "መስፈርቶች",
+    "privacyPolicy": "ግላዊነት",
+    "help": "እገዛ"
+  }
+}

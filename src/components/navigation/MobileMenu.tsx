@@ -1,9 +1,9 @@
-
 import { Link } from 'react-router-dom';
 import { LogIn, LogOut, FileText, MessageCircle, LayoutDashboard, HelpCircle, BookOpen, Globe, Trophy, Star } from 'lucide-react';
 import { Separator } from "@/components/ui/separator";
 import UserAvatar from '../UserAvatar';
-import { useState } from 'react';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useTranslation } from 'react-i18next';
 
 interface MobileMenuProps {
   isMenuOpen: boolean;
@@ -16,14 +16,8 @@ interface MobileMenuProps {
 const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: MobileMenuProps) => {
   const isTeacher = user?.user_metadata?.role === 'teacher';
   const isAdmin = user?.user_metadata?.role === 'admin';
-  const [language, setLanguage] = useState('EN');
-
-  const languages = [
-    { code: 'EN', name: 'English' },
-    { code: 'አማ', name: 'Amharic' },
-    { code: 'OM', name: 'Oromo' },
-    { code: 'ትግ', name: 'Tigrinya' }
-  ];
+  const { t } = useTranslation();
+  const { languages, currentLanguage, changeLanguage } = useLanguage();
 
   if (!isMenuOpen) return null;
 
@@ -41,7 +35,7 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
             onClick={() => setIsMenuOpen(false)}
           >
             <LogIn className="h-4 w-4" />
-            <span className="font-medium">Sign In</span>
+            <span className="font-medium">{t('nav.signIn')}</span>
           </Link>
         )}
         
@@ -53,7 +47,7 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
               onClick={() => setIsMenuOpen(false)}
             >
               <MessageCircle className="h-4 w-4 mr-2" />
-              <span>Learn</span>
+              <span>{t('nav.learn')}</span>
             </Link>
             <Link 
               to="/practice" 
@@ -61,7 +55,7 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
               onClick={() => setIsMenuOpen(false)}
             >
               <BookOpen className="h-4 w-4 mr-2" />
-              <span>Practice</span>
+              <span>{t('nav.practice')}</span>
             </Link>
             <Link 
               to="/dashboard" 
@@ -69,7 +63,7 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
               onClick={() => setIsMenuOpen(false)}
             >
               <LayoutDashboard className="h-4 w-4 mr-2" />
-              <span>Dashboard</span>
+              <span>{t('nav.dashboard')}</span>
             </Link>
 
             {!isTeacher && !isAdmin && (
@@ -79,11 +73,10 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
                 onClick={() => setIsMenuOpen(false)}
               >
                 <Trophy className="h-4 w-4 mr-2" />
-                <span>Achievements</span>
+                <span>{t('nav.achievements')}</span>
               </Link>
             )}
 
-            {/* Teacher-specific navigation (for future) */}
             {isTeacher && (
               <Link 
                 to="/my-students" 
@@ -91,11 +84,10 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
                 onClick={() => setIsMenuOpen(false)}
               >
                 <Star className="h-4 w-4 mr-2" />
-                <span>My Students</span>
+                <span>{t('nav.myStudents')}</span>
               </Link>
             )}
             
-            {/* Admin-specific navigation (for future) */}
             {isAdmin && (
               <Link 
                 to="/school-admin" 
@@ -103,7 +95,7 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
                 onClick={() => setIsMenuOpen(false)}
               >
                 <Star className="h-4 w-4 mr-2" />
-                <span>School Admin</span>
+                <span>{t('nav.schoolAdmin')}</span>
               </Link>
             )}
 
@@ -113,29 +105,31 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
               onClick={() => setIsMenuOpen(false)}
             >
               <HelpCircle className="h-4 w-4 mr-2" />
-              <span>Help</span>
+              <span>{t('nav.help')}</span>
             </Link>
           </>
         )}
         
-        {/* Language selector */}
         <div className="p-2">
           <div className="flex items-center mb-2">
             <Globe className="h-4 w-4 mr-2" />
-            <span className="text-sm font-medium">Language</span>
+            <span className="text-sm font-medium">{t('general.language')}</span>
           </div>
-          <div className="grid grid-cols-4 gap-1">
+          <div className="grid grid-cols-2 gap-2">
             {languages.map((lang) => (
               <button
                 key={lang.code}
-                onClick={() => setLanguage(lang.code)}
-                className={`text-center py-1 px-2 text-sm rounded-lg transition-colors ${
-                  language === lang.code 
+                onClick={() => {
+                  changeLanguage(lang.code);
+                  setIsMenuOpen(false);
+                }}
+                className={`text-center py-2 px-3 text-sm rounded-lg transition-colors ${
+                  currentLanguage === lang.code 
                     ? 'bg-aku-yellow font-medium text-aku-blue' 
                     : 'bg-aku-cream/30 text-aku-blue hover:bg-aku-cream/50'
                 }`}
               >
-                {lang.code}
+                <span className="block">{lang.name}</span>
               </button>
             ))}
           </div>
@@ -150,7 +144,7 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
             onClick={() => setIsMenuOpen(false)}
           >
             <FileText className="w-4 h-4" />
-            <span>Terms of Service</span>
+            <span>{t('footer.termsOfService')}</span>
           </Link>
           
           <Link 
@@ -159,7 +153,7 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
             onClick={() => setIsMenuOpen(false)}
           >
             <FileText className="w-4 h-4" />
-            <span>Privacy Policy</span>
+            <span>{t('footer.privacyPolicy')}</span>
           </Link>
           
           {user && (
@@ -171,7 +165,7 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
               className="flex items-center gap-2 text-aku-red hover:text-aku-red/80 p-2 rounded-xl hover:bg-aku-red/5 transition-colors"
             >
               <LogOut className="w-4 h-4" />
-              <span>Sign Out</span>
+              <span>{t('nav.signOut')}</span>
             </button>
           )}
         </div>

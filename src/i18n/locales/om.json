@@ -1,0 +1,31 @@
+
+{
+  "nav": {
+    "learn": "Baradhu",
+    "practice": "Shaakala",
+    "dashboard": "Daashboordii",
+    "achievements": "Galmeewwan",
+    "myStudents": "Barattoota Koo",
+    "schoolAdmin": "Bulchiinsa Mana Barumsaa",
+    "help": "Gargaarsa",
+    "profile": "Profaayilii",
+    "signIn": "Seeni",
+    "signOut": "Ba'i"
+  },
+  "general": {
+    "welcome": "Baga nagaan dhuftan!",
+    "startLearning": "Barumsa Jalqabi",
+    "tryLearn": "Barumsa Yaalii",
+    "yourLearning": "Hiriyaa Barachuu Keessan",
+    "notifyWhenAvailable": "Yemmuu Argamu Na Beeksisi",
+    "sending": "Erguudhaa...",
+    "termsOfService": "Haala Tajaajilaa",
+    "privacyPolicy": "Imaammata Dhuunfaa"
+  },
+  "footer": {
+    "allRightsReserved": "Mirgi hundi seeraan kan eegame",
+    "termsOfService": "Haala",
+    "privacyPolicy": "Dhuunfaa",
+    "help": "Gargaarsa"
+  }
+}
