@@ -20,7 +20,8 @@
     "notifyWhenAvailable": "Notify Me When Available",
     "sending": "Sending...",
     "termsOfService": "Terms of Service",
-    "privacyPolicy": "Privacy Policy"
+    "privacyPolicy": "Privacy Policy",
+    "language": "Language"
   },
   "footer": {
     "allRightsReserved": "All rights reserved",

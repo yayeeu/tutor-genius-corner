@@ -20,7 +20,8 @@
     "notifyWhenAvailable": "ሲገኝ አሳውቀኝ",
     "sending": "እየላከ...",
     "termsOfService": "የአገልግሎት ውል",
-    "privacyPolicy": "የግላዊነት ፖሊሲ"
+    "privacyPolicy": "የግላዊነት ፖሊሲ",
+    "language": "ቋንቋ"
   },
   "footer": {
     "allRightsReserved": "መብቱ በህግ የተጠበቀ ነው",
