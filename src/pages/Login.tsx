@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthForm from '@/components/AuthForm';
 import { useAuth } from '@/contexts/AuthContext';
-import { BookOpen, Lightbulb, Stars } from 'lucide-react';
+import { Lightbulb, Stars } from 'lucide-react';
 
 const Login = () => {
   const { user, isLoading } = useAuth();
@@ -29,13 +29,13 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-tutor-orange/10 via-tutor-purple/5 to-transparent p-6">
       <div className="w-full max-w-5xl mx-auto flex flex-col lg:flex-row gap-12 items-center">
         <div className="w-full lg:w-1/2 text-center lg:text-left">
-          <div className="mb-6 flex justify-center lg:justify-start">
-            <div className="relative">
-              <div className="w-20 h-20 bg-gradient-to-br from-tutor-purple to-tutor-orange rounded-2xl flex items-center justify-center relative overflow-hidden shadow-lg">
-                <BookOpen className="h-10 w-10 text-white absolute z-10" />
-                <div className="absolute top-0 left-0 w-full h-full bg-white/10 z-20"></div>
-              </div>
-              <Stars className="h-6 w-6 text-yellow-300 absolute -top-2 -right-2 animate-pulse" />
+          <div className="mb-6">
+            <div className="w-24 h-24 mx-auto lg:mx-0 bg-transparent flex items-center justify-center relative overflow-hidden">
+              <img 
+                src="/lovable-uploads/4486bd33-6ab3-4b92-a5e1-6e4694772ae3.png" 
+                alt="Aku Logo" 
+                className="w-full h-full object-contain"
+              />
             </div>
           </div>
           

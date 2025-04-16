@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
@@ -19,14 +18,12 @@ const Navigation = () => {
     setIsMenuOpen(!isMenuOpen);
   };
   
-  // If we're on the login page, return null or a minimal navigation
+  // If we're on the login page, return minimal navigation without logo
   if (location.pathname === '/login') {
     return (
       <nav className="fixed top-0 left-0 right-0 z-50">
         <div className="bg-white/80 backdrop-blur-md shadow-sm">
-          <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <Logo />
-          </div>
+          <div className="max-w-7xl mx-auto px-6 h-16" />
         </div>
       </nav>
     );
