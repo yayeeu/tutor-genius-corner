@@ -8,7 +8,7 @@ const Logo = () => {
 
   return (
     <Link to={redirectPath} className="flex items-center space-x-2">
-      <div className="w-[19.6rem] h-[19.6rem] bg-transparent flex items-center justify-center relative overflow-hidden">
+      <div className="w-14 h-14 bg-transparent flex items-center justify-center relative overflow-hidden">
         <img 
           src="/lovable-uploads/4577bbc7-f544-4d73-90d5-fea420d3c7a9.png" 
           alt="Aku Logo" 
@@ -20,3 +20,4 @@ const Logo = () => {
 };
 
 export default Logo;
+
