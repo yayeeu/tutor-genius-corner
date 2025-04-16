@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { trackTutorSession } from '@/services/tracking';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -14,7 +14,7 @@ interface Message {
 const initialMessages: Message[] = [
   {
     id: 1,
-    content: "Hello! I'm your AI tutor. How can I help you with your learning today?",
+    content: "Hello! I'm Aku, your AI tutor 🤓 How can I help you learn today?",
     sender: 'ai',
     timestamp: new Date(),
   },
@@ -23,6 +23,7 @@ const initialMessages: Message[] = [
 export const useChatState = () => {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [isTyping, setIsTyping] = useState(false);
+  const [streamingMessageId, setStreamingMessageId] = useState<number | null>(null);
   const { user } = useAuth();
   const [sessionStartTime, setSessionStartTime] = useState<Date | null>(null);
   const [questionsAsked, setQuestionsAsked] = useState(0);
@@ -44,7 +45,7 @@ export const useChatState = () => {
     };
   }, []);
   
-  const addUserMessage = (content: string) => {
+  const addUserMessage = useCallback((content: string) => {
     const userMessage: Message = {
       id: messages.length + 1,
       content: content,
@@ -75,9 +76,9 @@ export const useChatState = () => {
     }
     
     return userMessage;
-  };
+  }, [messages.length, setQuestionsAsked, setCurrentSubject]);
   
-  const addAIMessage = (content: string) => {
+  const addAIMessage = useCallback((content: string) => {
     const aiMessage: Message = {
       id: messages.length + 1,
       content: content,
@@ -87,13 +88,53 @@ export const useChatState = () => {
     
     setMessages((prev) => [...prev, aiMessage]);
     return aiMessage;
-  };
+  }, [messages.length]);
+
+  // New method for streaming responses
+  const streamAIResponse = useCallback((initialContent: string = "") => {
+    const messageId = messages.length + 1;
+    
+    // Create the initial message with empty or partial content
+    const aiMessage: Message = {
+      id: messageId,
+      content: initialContent,
+      sender: 'ai',
+      timestamp: new Date(),
+    };
+    
+    setMessages((prev) => [...prev, aiMessage]);
+    setStreamingMessageId(messageId);
+    
+    return messageId;
+  }, [messages.length]);
+  
+  // Update the streaming message content
+  const updateStreamingMessage = useCallback((messageId: number, contentDelta: string) => {
+    setMessages((prevMessages) => 
+      prevMessages.map((msg) => {
+        if (msg.id === messageId) {
+          return { ...msg, content: msg.content + contentDelta };
+        }
+        return msg;
+      })
+    );
+  }, []);
+  
+  // Finish streaming
+  const finishStreaming = useCallback(() => {
+    setStreamingMessageId(null);
+    setIsTyping(false);
+  }, []);
   
   return {
     messages,
     isTyping,
     setIsTyping,
     addUserMessage,
-    addAIMessage
+    addAIMessage,
+    streamAIResponse,
+    updateStreamingMessage,
+    finishStreaming,
+    streamingMessageId
   };
 };
