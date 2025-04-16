@@ -1,6 +1,6 @@
 
 import { Link } from 'react-router-dom';
-import { LogIn, LogOut, FileText, MessageCircle, LayoutDashboard, HelpCircle, BookOpen, Globe, Trophy } from 'lucide-react';
+import { LogIn, LogOut, FileText, MessageCircle, LayoutDashboard, HelpCircle, BookOpen, Globe, Trophy, Star } from 'lucide-react';
 import { Separator } from "@/components/ui/separator";
 import UserAvatar from '../UserAvatar';
 import { useState } from 'react';
