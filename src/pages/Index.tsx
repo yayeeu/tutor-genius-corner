@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { 
   Brain,
@@ -39,16 +38,14 @@ const Home2 = () => {
     setIsSubmitting(true);
     
     try {
-      // Split name into first and last name
       const [firstName, ...lastNameParts] = data.name.split(' ');
       const lastName = lastNameParts.join(' ');
       
-      // Insert into students table instead of customers
       const { error } = await supabase
         .from('students')
         .insert([
           {
-            id: crypto.randomUUID(), // Generate a UUID for the student record
+            id: crypto.randomUUID(),
             first_name: firstName,
             last_name: lastName || null,
             email: data.email,
@@ -128,7 +125,7 @@ const Home2 = () => {
                     className="primary-button"
                     asChild
                   >
-                    <Link to="/dashboard">
+                    <Link to="/learn">
                       Start Learning
                       <ChevronRight className="ml-1 h-4 w-4" />
                     </Link>
