@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -14,7 +13,6 @@ import { User, KeyRound, Bell, Palette } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 
-// Form schemas
 const profileFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -79,7 +77,6 @@ const Profile = () => {
       setIsLoading(true);
       
       try {
-        // Update form values with user data from auth
         const userData = user.user_metadata;
         const userEmail = user.email || "";
         
@@ -105,7 +102,6 @@ const Profile = () => {
     setIsLoading(true);
     
     try {
-      // Update user metadata in Supabase
       const { error } = await supabase.auth.updateUser({
         data: {
           full_name: data.name,
@@ -130,7 +126,6 @@ const Profile = () => {
     setIsLoading(true);
     
     try {
-      // Update password in Supabase
       const { error } = await supabase.auth.updateUser({
         password: data.newPassword,
       });
@@ -152,7 +147,6 @@ const Profile = () => {
     toast.success("Notification settings updated");
   };
 
-  // Extract user initials for avatar fallback
   const getInitials = () => {
     if (!user) return "?";
     
@@ -170,7 +164,6 @@ const Profile = () => {
     return user.email ? user.email[0].toUpperCase() : "?";
   };
 
-  // Get user grade display
   const getUserGrade = () => {
     if (!user) return "Student";
     return `Grade ${user.user_metadata?.grade || 10} Student`;
@@ -204,7 +197,7 @@ const Profile = () => {
         onValueChange={setActiveTab}
         className="space-y-8"
       >
-        <TabsList className="w-full md:w-auto grid grid-cols-2 md:grid-cols-4 gap-4">
+        <TabsList className="w-full md:w-auto grid grid-cols-2 md:grid-cols-3 gap-4">
           <TabsTrigger value="profile" className="flex items-center gap-2">
             <User className="h-4 w-4" />
             <span className="hidden md:inline">Profile</span>
@@ -216,10 +209,6 @@ const Profile = () => {
           <TabsTrigger value="notifications" className="flex items-center gap-2">
             <Bell className="h-4 w-4" />
             <span className="hidden md:inline">Notifications</span>
-          </TabsTrigger>
-          <TabsTrigger value="appearance" className="flex items-center gap-2">
-            <Palette className="h-4 w-4" />
-            <span className="hidden md:inline">Appearance</span>
           </TabsTrigger>
         </TabsList>
 
@@ -442,60 +431,6 @@ const Profile = () => {
                   <Button type="submit">Save Preferences</Button>
                 </form>
               </Form>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="appearance">
-          <Card>
-            <CardHeader>
-              <CardTitle>Appearance Settings</CardTitle>
-              <CardDescription>
-                Customize how the application looks and feels.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-lg font-medium mb-4">Theme</h3>
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="flex flex-col items-center space-y-2">
-                      <div className="w-full aspect-video bg-white border-2 border-tutor-purple rounded-lg flex items-center justify-center">
-                        <span className="text-xs font-medium">Light</span>
-                      </div>
-                      <span className="text-sm">Light Mode</span>
-                    </div>
-                    <div className="flex flex-col items-center space-y-2">
-                      <div className="w-full aspect-video bg-gray-900 border border-gray-700 rounded-lg flex items-center justify-center">
-                        <span className="text-xs font-medium text-white">Dark</span>
-                      </div>
-                      <span className="text-sm">Dark Mode</span>
-                    </div>
-                    <div className="flex flex-col items-center space-y-2">
-                      <div className="w-full aspect-video bg-gradient-to-r from-gray-900 to-white border border-gray-300 rounded-lg flex items-center justify-center">
-                        <span className="text-xs font-medium">Auto</span>
-                      </div>
-                      <span className="text-sm">System Default</span>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-lg font-medium mb-4">Text Size</h3>
-                  <div className="flex items-center gap-4">
-                    <span className="text-sm">A</span>
-                    <input
-                      type="range"
-                      min="1"
-                      max="3"
-                      step="1"
-                      defaultValue="2"
-                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-                    />
-                    <span className="text-lg">A</span>
-                  </div>
-                </div>
-                <Button>Save Settings</Button>
-              </div>
             </CardContent>
           </Card>
         </TabsContent>

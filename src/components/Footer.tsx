@@ -1,16 +1,12 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Globe } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
-import { cn } from '@/lib/utils';
-import { useLanguage } from '@/hooks/useLanguage';
 import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { user } = useAuth();
-  const { languages, currentLanguage, changeLanguage } = useLanguage();
   const { t } = useTranslation();
   
   return (
@@ -45,24 +41,6 @@ const Footer = () => {
                 {t('footer.help')}
               </Link>
             )}
-
-            <div className="hidden md:flex items-center space-x-2">
-              <Globe className="h-3 w-3 text-aku-blue/70" />
-              <div className="flex space-x-2">
-                {languages.map((lang) => (
-                  <span 
-                    key={lang.code}
-                    className={cn(
-                      "cursor-pointer hover:text-aku-yellow transition-colors text-xs",
-                      currentLanguage === lang.code ? "text-aku-yellow font-medium" : ""
-                    )}
-                    onClick={() => changeLanguage(lang.code)}
-                  >
-                    {lang.code.toUpperCase()}
-                  </span>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </div>

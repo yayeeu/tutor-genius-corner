@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
@@ -50,6 +49,7 @@ const AuthForm = () => {
   const [mode, setMode] = useState<AuthMode>("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
   const [grade, setGrade] = useState("");
   
@@ -62,6 +62,11 @@ const AuthForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (mode === "signup" && password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
     if (mode === "login") {
       await signIn(email, password);
     } else {
@@ -123,6 +128,21 @@ const AuthForm = () => {
               className="w-full"
             />
           </div>
+          
+          {mode === "signup" && (
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm your password"
+                required
+                className="w-full"
+              />
+            </div>
+          )}
           
           {mode === "signup" && (
             <div className="space-y-2">

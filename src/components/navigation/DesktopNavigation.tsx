@@ -1,6 +1,5 @@
-
-import { Link } from 'react-router-dom';
-import { MessageCircle, LayoutDashboard, HelpCircle, BookOpen, Star, Trophy, Globe } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { MessageCircle, LayoutDashboard, HelpCircle, BookOpen, Star, Trophy, Globe, LogIn } from 'lucide-react';
 import { 
   DropdownMenu,
   DropdownMenuContent,
@@ -16,11 +15,14 @@ interface DesktopNavigationProps {
 }
 
 const DesktopNavigation = ({ user, isActive }: DesktopNavigationProps) => {
-  // Check if user has teacher or admin role (for future implementation)
   const isTeacher = user?.user_metadata?.role === 'teacher';
   const isAdmin = user?.user_metadata?.role === 'admin';
   const { languages, currentLanguage, changeLanguage } = useLanguage();
   const { t } = useTranslation();
+  const location = useLocation();
+
+  // Hide sign-in link on login page
+  const showSignIn = !user && location.pathname !== '/login';
 
   return (
     <div className="hidden md:flex items-center space-x-2">
@@ -90,6 +92,13 @@ const DesktopNavigation = ({ user, isActive }: DesktopNavigationProps) => {
             </DropdownMenuContent>
           </DropdownMenu>
         </>
+      )}
+
+      {showSignIn && (
+        <Link to="/login" className="flex items-center gap-2 text-tutor-dark-gray hover:text-tutor-orange transition-colors">
+          <LogIn className="h-4 w-4" />
+          <span>{t('nav.signIn')}</span>
+        </Link>
       )}
     </div>
   );
