@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthForm from '@/components/AuthForm';
@@ -30,7 +29,7 @@ const Login = () => {
       <div className="w-full max-w-5xl mx-auto flex flex-col lg:flex-row gap-12 items-center">
         <div className="w-full lg:w-1/2 text-center lg:text-left">
           <div className="mb-6">
-            <div className="w-24 h-24 mx-auto lg:mx-0 bg-transparent flex items-center justify-center relative overflow-hidden">
+            <div className="w-[33.6rem] h-[33.6rem] mx-auto lg:mx-0 bg-transparent flex items-center justify-center relative overflow-hidden">
               <img 
                 src="/lovable-uploads/4577bbc7-f544-4d73-90d5-fea420d3c7a9.png" 
                 alt="Aku Logo" 
@@ -82,4 +81,3 @@ const Login = () => {
 };
 
 export default Login;
-
