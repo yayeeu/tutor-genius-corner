@@ -32,7 +32,7 @@ const Login = () => {
           <div className="mb-6">
             <div className="w-24 h-24 mx-auto lg:mx-0 bg-transparent flex items-center justify-center relative overflow-hidden">
               <img 
-                src="/lovable-uploads/4486bd33-6ab3-4b92-a5e1-6e4694772ae3.png" 
+                src="/lovable-uploads/4577bbc7-f544-4d73-90d5-fea420d3c7a9.png" 
                 alt="Aku Logo" 
                 className="w-full h-full object-contain"
               />
@@ -82,3 +82,4 @@ const Login = () => {
 };
 
 export default Login;
+
