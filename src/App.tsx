@@ -29,7 +29,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <Navigation />
-          <div className="pt-16 min-h-screen flex flex-col">
+          <div className="pt-16 min-h-screen flex flex-col bg-gradient-to-br from-aku-cream/50 to-white">
             <Routes>
               {/* Redirect root to login for non-logged-in users, Learn for logged-in users */}
               <Route path="/" element={<Navigate to="/login" replace />} />

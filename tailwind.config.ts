@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -63,24 +62,33 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-        tutor: {
-          orange: '#FF9D00', // Brighter orange from the image
-          'light-orange': '#FFC107',
-          'dark-orange': '#F57C00',
-          purple: '#8E24AA', // Deep purple from the image
-          'light-purple': '#AB47BC',
-          'dark-purple': '#6A1B9A',
-          navy: '#1A2842', // Dark navy blue from the image
-          beige: '#F5F5F4',
-          gray: '#6B7280',
-          'dark-gray': '#374151',
-          'light-gray': '#E5E7EB',
-        }
+                aku: {
+                    yellow: '#F9C80E',
+                    green: '#44AF69',
+                    blue: '#2B2D42',
+                    cream: '#FDF5E6',
+                    red: '#E63946'
+                },
+                tutor: {
+                    orange: '#FF9D00',
+                    'light-orange': '#FFC107',
+                    'dark-orange': '#F57C00',
+                    purple: '#8E24AA',
+                    'light-purple': '#AB47BC',
+                    'dark-purple': '#6A1B9A',
+                    navy: '#1A2842',
+                    beige: '#F5F5F4',
+                    gray: '#6B7280',
+                    'dark-gray': '#374151',
+                    'light-gray': '#E5E7EB',
+                }
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				sm: 'calc(var(--radius) - 4px)',
+                '2xl': '1rem',
+                '3xl': '1.5rem'
 			},
 			keyframes: {
 				'accordion-down': {
@@ -154,7 +162,13 @@ export default {
         'fade-in-right': 'fade-in-right 0.5s ease-out',
         'pulse-subtle': 'pulse-subtle 3s ease-in-out infinite',
         'float': 'float 6s ease-in-out infinite'
-			}
+			},
+            fontFamily: {
+                'nunito': ['Nunito', 'sans-serif'],
+                'poppins': ['Poppins', 'sans-serif'],
+                'inter': ['Inter', 'sans-serif'],
+                'courier': ['Courier New', 'monospace']
+            }
 		}
 	},
 	plugins: [require("tailwindcss-animate")],
