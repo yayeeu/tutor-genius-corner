@@ -1,194 +1,213 @@
-import { useState } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import { 
-  Card, 
-  CardContent, 
-  CardDescription, 
-  CardFooter, 
-  CardHeader, 
-  CardTitle 
-} from "@/components/ui/card";
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
-type AuthMode = "login" | "signup";
-
-const gradeOptions = [
-  { value: "k", label: "Kindergarten" },
-  { value: "1", label: "1st Grade" },
-  { value: "2", label: "2nd Grade" },
-  { value: "3", label: "3rd Grade" },
-  { value: "4", label: "4th Grade" },
-  { value: "5", label: "5th Grade" },
-  { value: "6", label: "6th Grade" },
-  { value: "7", label: "7th Grade" },
-  { value: "8", label: "8th Grade" },
-  { value: "9", label: "9th Grade" },
-  { value: "10", label: "10th Grade" },
-  { value: "11", label: "11th Grade" },
-  { value: "12", label: "12th Grade" },
-  { value: "college", label: "College" },
-];
-
-const gradeToNumber = (grade: string): number | null => {
-  if (grade === "k") return 0;
-  if (grade === "college") return 13;
-  const num = parseInt(grade);
-  return isNaN(num) ? null : num;
-};
+interface SignUpData {
+  full_name: string;
+  email: string;
+  password?: string;
+  confirmPassword?: string;
+}
 
 const AuthForm = () => {
-  const [mode, setMode] = useState<AuthMode>("login");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [name, setName] = useState("");
-  const [grade, setGrade] = useState("");
-  
-  const { signIn, signUp, isLoading } = useAuth();
-  
-  const toggleMode = () => {
-    setMode(mode === "login" ? "signup" : "login");
-  };
-  
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (mode === "signup" && password !== confirmPassword) {
-      toast.error("Passwords do not match");
-      return;
-    }
+  const [isSignUp, setIsSignUp] = useState(false);
+  const navigate = useNavigate();
 
-    if (mode === "login") {
-      await signIn(email, password);
+  const onSubmit = async (data: SignUpData) => {
+    if (isSignUp) {
+      await signUp(data);
     } else {
-      await signUp(email, password, name);
+      await signIn(data.email, data.password || '');
     }
   };
-  
-  return (
-    <Card className="w-full max-w-md mx-auto shadow-lg animate-fade-in">
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold">
-          {mode === "login" ? "Welcome Back" : "Create Account"}
-        </CardTitle>
-        <CardDescription>
-          {mode === "login" 
-            ? "Sign in to continue your learning journey" 
-            : "Join us to start your personalized learning experience"}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {mode === "signup" && (
-            <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
-              <Input
-                id="name"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Enter your full name"
-                required={mode === "signup"}
-                className="w-full"
-              />
-            </div>
-          )}
-          
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              required
-              className="w-full"
-            />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              required
-              className="w-full"
-            />
-          </div>
-          
-          {mode === "signup" && (
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
-              <Input
-                id="confirmPassword"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirm your password"
-                required
-                className="w-full"
-              />
-            </div>
-          )}
-          
-          {mode === "signup" && (
-            <div className="space-y-2">
-              <Label htmlFor="grade">Grade Level</Label>
-              <Select value={grade} onValueChange={setGrade}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select your grade" />
-                </SelectTrigger>
-                <SelectContent>
-                  {gradeOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          )}
-          
-          <Button 
-            type="submit" 
-            className="w-full bg-tutor-orange hover:bg-tutor-dark-orange"
-            disabled={isLoading || (mode === "signup" && !grade)}
-          >
-            {isLoading 
-              ? "Processing..." 
-              : mode === "login" 
-                ? "Sign In" 
-                : "Create Account"
-            }
-          </Button>
-        </form>
-      </CardContent>
-      <CardFooter className="flex justify-center">
-        <Button 
-          variant="link" 
-          onClick={toggleMode}
-          className="text-tutor-orange hover:text-tutor-dark-orange"
-        >
-          {mode === "login" 
-            ? "Don't have an account? Sign up" 
-            : "Already have an account? Sign in"
+
+  const signIn = async (email: string, password: string) => {
+    try {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+
+      toast.success('Signed in successfully!');
+      navigate('/learn');
+    } catch (error) {
+      console.error('Signin error:', error);
+      toast.error('An unexpected error occurred');
+    }
+  };
+
+  const signUp = async (data: SignUpData) => {
+    try {
+      const { password, confirmPassword, ...userData } = data;
+      
+      if (password !== confirmPassword) {
+        toast.error('Passwords do not match');
+        return;
+      }
+
+      const { error } = await supabase.auth.signUp({
+        email: userData.email,
+        password,
+        options: {
+          data: {
+            full_name: userData.full_name,
+            role: 'student'
           }
-        </Button>
-      </CardFooter>
-    </Card>
+        }
+      });
+
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+
+      toast.success('Account created successfully! Please check your email to verify.');
+      navigate('/login');
+    } catch (error) {
+      console.error('Signup error:', error);
+      toast.error('An unexpected error occurred');
+    }
+  };
+
+  // Update the sign-up schema to include confirm password
+  const signUpSchema = z.object({
+    full_name: z.string().min(2, 'Full name is required'),
+    email: z.string().email('Invalid email address'),
+    password: z.string().min(6, 'Password must be at least 6 characters'),
+    confirmPassword: z.string().min(6, 'Confirm password is required')
+  }).refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword']
+  });
+
+  const signInSchema = z.object({
+    email: z.string().email('Invalid email address'),
+    password: z.string().min(6, 'Password must be at least 6 characters')
+  });
+
+  const { 
+    register, 
+    handleSubmit, 
+    formState: { errors } 
+  } = useForm<SignUpData>({
+    resolver: zodResolver(isSignUp ? signUpSchema : signInSchema)
+  });
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      {isSignUp && (
+        <div>
+          <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
+            Full Name
+          </label>
+          <input
+            id="fullName"
+            type="text"
+            {...register('full_name')}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          />
+          {errors.full_name && (
+            <p className="mt-2 text-sm text-red-600">
+              {errors.full_name.message}
+            </p>
+          )}
+        </div>
+      )}
+
+      <div>
+        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          Email
+        </label>
+        <input
+          id="email"
+          type="email"
+          {...register('email')}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+        />
+        {errors.email && (
+          <p className="mt-2 text-sm text-red-600">
+            {errors.email.message}
+          </p>
+        )}
+      </div>
+
+      <div>
+        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+          Password
+        </label>
+        <input
+          id="password"
+          type="password"
+          {...register('password')}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+        />
+        {errors.password && (
+          <p className="mt-2 text-sm text-red-600">
+            {errors.password.message}
+          </p>
+        )}
+      </div>
+      
+      {isSignUp && (
+        <div>
+          <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+            Confirm Password
+          </label>
+          <input
+            id="confirmPassword"
+            type="password"
+            {...register('confirmPassword')}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          />
+          {errors.confirmPassword && (
+            <p className="mt-2 text-sm text-red-600">
+              {errors.confirmPassword.message}
+            </p>
+          )}
+        </div>
+      )}
+
+      <div>
+        <button
+          type="submit"
+          className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        >
+          {isSignUp ? 'Sign Up' : 'Sign In'}
+        </button>
+      </div>
+
+      <div className="text-sm text-center">
+        {isSignUp ? (
+          <>
+            Already have an account?{' '}
+            <button
+              type="button"
+              onClick={() => setIsSignUp(false)}
+              className="font-medium text-indigo-600 hover:text-indigo-500"
+            >
+              Sign In
+            </button>
+          </>
+        ) : (
+          <>
+            Don't have an account?{' '}
+            <button
+              type="button"
+              onClick={() => setIsSignUp(true)}
+              className="font-medium text-indigo-600 hover:text-indigo-500"
+            >
+              Sign Up
+            </button>
+          </>
+        )}
+      </div>
+    </form>
   );
 };
 

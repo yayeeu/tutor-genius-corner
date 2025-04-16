@@ -1,4 +1,3 @@
-
 {
   "nav": {
     "learn": "Learn",
@@ -28,5 +27,20 @@
     "termsOfService": "Terms",
     "privacyPolicy": "Privacy",
     "help": "Help"
+  },
+  "achievements": {
+    "title": "My Achievements",
+    "learningStreak": {
+      "title": "Learning Streak",
+      "description": "Consecutive days of learning"
+    },
+    "topicMastery": {
+      "title": "Topic Mastery",
+      "description": "Completing lessons and quizzes"
+    },
+    "goalProgress": {
+      "title": "Goal Progress",
+      "description": "Moving closer to your learning goals"
+    }
   }
 }

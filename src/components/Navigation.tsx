@@ -11,13 +11,26 @@ import MobileMenu from './navigation/MobileMenu';
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   
   const isActive = (path: string) => location.pathname === path;
   
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  
+  // If we're on the login page, return null or a minimal navigation
+  if (location.pathname === '/login') {
+    return (
+      <nav className="fixed top-0 left-0 right-0 z-50">
+        <div className="bg-white/80 backdrop-blur-md shadow-sm">
+          <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <Logo />
+          </div>
+        </div>
+      </nav>
+    );
+  }
   
   return (
     <nav className="fixed top-0 left-0 right-0 z-50">
