@@ -11,7 +11,7 @@ import MobileMenu from './navigation/MobileMenu';
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   
   const isActive = (path: string) => location.pathname === path;
   
