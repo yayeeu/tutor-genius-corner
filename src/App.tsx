@@ -11,6 +11,7 @@ import Footer from "./components/Footer";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Learn from "./pages/Learn";
+import Chat from "./pages/Chat";
 import Practice from "./pages/Practice";
 import ScreeningAssignment from "./pages/ScreeningAssignment";
 import Profile from "./pages/Profile";
@@ -41,6 +42,11 @@ const App = () => (
               <Route path="/learn" element={
                 <ProtectedRoute>
                   <Learn />
+                </ProtectedRoute>
+              } />
+              <Route path="/chat" element={
+                <ProtectedRoute>
+                  <Chat />
                 </ProtectedRoute>
               } />
               <Route path="/practice" element={
