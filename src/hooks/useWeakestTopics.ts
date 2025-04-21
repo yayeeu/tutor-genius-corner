@@ -71,4 +71,3 @@ export const useWeakestTopics = () => {
 
   return { weakestTopics, isLoading };
 };
-

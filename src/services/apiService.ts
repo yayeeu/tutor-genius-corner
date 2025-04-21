@@ -1,5 +1,9 @@
-
 import { supabase } from '@/integrations/supabase/client';
+
+export interface RecentTopic {
+  topicName: string;
+  createdAt: string;
+}
 
 export const fetchRecentTopics = async (): Promise<RecentTopic[]> => {
   try {
@@ -62,7 +66,7 @@ export const fetchRecentTopics = async (): Promise<RecentTopic[]> => {
   }
 };
 
-// Update the existing fetchRandomQuestion function to use the student's grade level
+// Renamed from fetchRandomQuestion to fetchTopicQuestion to match usage
 export const fetchTopicQuestion = async (topic: string) => {
   try {
     const { data: { user } } = await supabase.auth.getUser();
@@ -103,4 +107,3 @@ export const fetchTopicQuestion = async (topic: string) => {
     return null;
   }
 };
-
