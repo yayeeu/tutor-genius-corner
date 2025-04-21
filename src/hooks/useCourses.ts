@@ -25,11 +25,30 @@ export const useCourses = () => {
   const fetchCourses = async () => {
     setIsLoading(true);
     try {
-      // Get only available courses
+      // First get the student's grade level
+      const { data: studentData, error: studentError } = await supabase
+        .from('students')
+        .select('grade_level')
+        .eq('id', user?.id)
+        .single();
+
+      if (studentError) {
+        console.error('Error fetching student grade level:', studentError);
+        throw studentError;
+      }
+
+      if (!studentData?.grade_level) {
+        console.log('No grade level set for student');
+        setCourses([]);
+        return;
+      }
+
+      // Get available courses matching student's grade level
       const { data: coursesData, error: coursesError } = await supabase
         .from('courses')
         .select('id, name, grade_level')
-        .eq('is_available', true);
+        .eq('is_available', true)
+        .eq('grade_level', studentData.grade_level);
 
       if (coursesError) throw coursesError;
 
