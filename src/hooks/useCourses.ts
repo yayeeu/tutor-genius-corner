@@ -1,7 +1,12 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/integrations/supabase/client';
+import { 
+  fetchStudentGradeLevel, 
+  fetchAvailableCourses, 
+  fetchCourseUnits, 
+  fetchStudentMastery 
+} from '@/utils/courseUtils';
 
 export interface CourseData {
   id: string;
@@ -25,70 +30,46 @@ export const useCourses = () => {
   const fetchCourses = async () => {
     setIsLoading(true);
     try {
-      // First get the student's grade level
-      const { data: studentData, error: studentError } = await supabase
-        .from('students')
-        .select('grade_level')
-        .eq('id', user?.id)
-        .single();
-
-      if (studentError) {
-        console.error('Error fetching student grade level:', studentError);
-        throw studentError;
-      }
-
-      if (!studentData?.grade_level) {
+      // Get student's grade level
+      const gradeLevel = await fetchStudentGradeLevel(user?.id);
+      
+      if (!gradeLevel) {
         console.log('No grade level set for student');
         setCourses([]);
         return;
       }
 
-      // Get available courses matching student's grade level
-      const { data: coursesData, error: coursesError } = await supabase
-        .from('courses')
-        .select('id, name, grade_level')
-        .eq('is_available', true)
-        .eq('grade_level', studentData.grade_level);
+      // Get available courses for grade level
+      const coursesData = await fetchAvailableCourses(gradeLevel);
 
-      if (coursesError) throw coursesError;
-
-      if (coursesData && coursesData.length > 0) {
-        // For each course, get its units
+      if (coursesData.length > 0) {
+        // Process each course
         const enrichedCourses = await Promise.all(
           coursesData.map(async (course) => {
             // Get units for this course
-            const { data: unitsData, error: unitsError } = await supabase
-              .from('units')
-              .select('id, name')
-              .eq('course_id', course.id);
+            const unitsData = await fetchCourseUnits(course.id);
 
-            if (unitsError) throw unitsError;
+            // Get student mastery data
+            const masteryData = await fetchStudentMastery(
+              user?.id || '', 
+              unitsData.map(unit => unit.id)
+            );
 
-            // Get student mastery for this course
-            const { data: masteryData, error: masteryError } = await supabase
-              .from('student_topic_mastery')
-              .select('unit_id, mastery_score')
-              .eq('user_id', user?.id)
-              .in(
-                'unit_id', 
-                unitsData?.map(unit => unit.id) || []
-              );
-
-            if (masteryError) throw masteryError;
-
-            // Calculate overall progress for the course
+            // Calculate progress
             let progress = 0;
-            if (masteryData && masteryData.length > 0 && unitsData && unitsData.length > 0) {
-              const avgMastery = masteryData.reduce((sum, item) => sum + (item.mastery_score || 0), 0) / unitsData.length;
+            if (masteryData.length > 0 && unitsData.length > 0) {
+              const avgMastery = masteryData.reduce(
+                (sum, item) => sum + (item.mastery_score || 0), 
+                0
+              ) / unitsData.length;
               progress = Math.round(avgMastery * 100);
             }
 
-            // Get recent topics (unit names) - limit to 3
+            // Get recent topics
             const recentTopics = unitsData ? 
               unitsData.slice(0, 3).map(unit => unit.name) : 
               [];
 
-            // Create course object
             return {
               id: course.id,
               title: course.name,
@@ -117,3 +98,4 @@ export const useCourses = () => {
     refreshData: fetchCourses
   };
 };
+
