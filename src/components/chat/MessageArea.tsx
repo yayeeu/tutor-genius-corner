@@ -1,20 +1,13 @@
 
 import { useRef, useEffect } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import MessageItem from './MessageItem';
-import TypingIndicator from './TypingIndicator';
+import { Question } from '@/types/question';
 import QuizQuestion from '@/components/QuizQuestion';
 import FeedbackCard from '@/components/practice/FeedbackCard';
 import { Card, CardContent } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
-import { Question } from '@/types/question';
-
-interface Message {
-  id: number;
-  content: string;
-  sender: 'user' | 'ai';
-  timestamp: Date;
-}
+import TypingIndicator from './TypingIndicator';
+import MessageGroup from './MessageGroup';
+import { useMessageGroups } from '@/hooks/useMessageGroups';
 
 interface QuestionData {
   id: string | number;
@@ -43,44 +36,17 @@ const MessageArea = ({
   handleNextQuestion 
 }: MessageAreaProps) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messageGroups = useMessageGroups(messages);
   
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, isTyping]);
-  
-  const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  // Group consecutive AI messages for better visual separation
-  const groupedMessages = messages.reduce((acc: Message[][], current) => {
-    // Start a new group if this is the first message or if the sender changed
-    if (acc.length === 0 || acc[acc.length - 1][0].sender !== current.sender) {
-      acc.push([current]);
-    } else {
-      // Add to existing group
-      acc[acc.length - 1].push(current);
-    }
-    return acc;
-  }, []);
+  }, [messages, isTyping]);
 
   return (
     <ScrollArea className="flex-1 p-4 bg-gradient-to-b from-tutor-beige/30 to-white">
       <div className="space-y-6 max-w-3xl mx-auto">
-        {groupedMessages.map((group, groupIndex) => (
-          <div key={`group-${groupIndex}`} className={cn(
-            "space-y-1",
-            group[0].sender === 'user' ? 'flex flex-col items-end' : 'flex flex-col items-start'
-          )}>
-            {group.map((message) => (
-              <MessageItem 
-                key={message.id}
-                id={message.id}
-                content={message.content}
-                sender={message.sender}
-              />
-            ))}
-          </div>
+        {messageGroups.map((group, index) => (
+          <MessageGroup key={`group-${index}`} messages={group} />
         ))}
         
         {currentQuestion && (
