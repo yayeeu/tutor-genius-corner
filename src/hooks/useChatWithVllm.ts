@@ -60,11 +60,23 @@ export const useChatWithVllm = () => {
     }
   }, [messages, addUserMessage, streamAIResponse, updateStreamingMessage, finishStreaming, toast]);
 
+  // Add this function to handle clean up when the component unmounts
+  const endSession = useCallback(() => {
+    // Cancel any pending request
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+    // Any other cleanup needed
+    Logger.info('Chat session ended');
+  }, []);
+
   return {
     messages,
     isTyping,
     streamingMessageId,
     handleSendMessage,
-    addUserMessage
+    addUserMessage,
+    endSession // Add this to the returned object
   };
 };

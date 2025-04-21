@@ -14,7 +14,7 @@ const ChatContainer = () => {
     isTyping, 
     handleSendMessage,
     addUserMessage,
-    endSession
+    endSession // This function now exists in the hook return value
   } = useChatWithVllm();
   
   // Initialize assignment/quiz state
@@ -38,7 +38,7 @@ const ChatContainer = () => {
     
     // End session when component unmounts
     return () => {
-      endSession();
+      endSession(); // This will properly call the function we added
     };
   }, [checkAssignmentStatus, endSession]);
   
