@@ -9,6 +9,45 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      aku_blog: {
+        Row: {
+          author_name: string
+          content: string
+          created_at: string
+          featured_image: string | null
+          id: string
+          is_featured: boolean | null
+          slug: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_name: string
+          content: string
+          created_at?: string
+          featured_image?: string | null
+          id?: string
+          is_featured?: boolean | null
+          slug: string
+          status: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_name?: string
+          content?: string
+          created_at?: string
+          featured_image?: string | null
+          id?: string
+          is_featured?: boolean | null
+          slug?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       answers: {
         Row: {
           answer: string | null
@@ -119,6 +158,24 @@ export type Database = {
           },
         ]
       }
+      categories: {
+        Row: {
+          created_at: string
+          id: number
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          name: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
       courses: {
         Row: {
           grade_level: number
@@ -166,6 +223,66 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      marketing: {
+        Row: {
+          blog_updates: boolean
+          created_at: string
+          email: string
+          id: string
+          name: string
+          phone: string | null
+          product_releases: boolean
+        }
+        Insert: {
+          blog_updates?: boolean
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          phone?: string | null
+          product_releases?: boolean
+        }
+        Update: {
+          blog_updates?: boolean
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          phone?: string | null
+          product_releases?: boolean
+        }
+        Relationships: []
+      }
+      post_categories: {
+        Row: {
+          category_id: number
+          post_id: string
+        }
+        Insert: {
+          category_id: number
+          post_id: string
+        }
+        Update: {
+          category_id?: number
+          post_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "post_categories_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "post_categories_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "aku_blog"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       questions_generated: {
         Row: {
