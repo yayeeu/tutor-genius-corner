@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 const config = {
@@ -39,6 +40,12 @@ const config = {
         "tutor-purple": "#9b87f5",
         "tutor-dark-purple": "#7A65DB",
         "aku-cream": "#FFEFE0",
+        // Add aku-specific color variants that were missing
+        "aku-yellow": "#FFD60A", // Adding Aku yellow color
+        "aku-green": "#4CAF50",  // Adding Aku green color
+        "aku-blue": "#1A2857",   // Using the same as tutor-navy for consistency
+        "aku-light-orange": "#FFB74D",
+        "aku-light-purple": "#B39DDB",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
