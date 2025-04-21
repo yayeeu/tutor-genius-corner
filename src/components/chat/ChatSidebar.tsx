@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -45,21 +44,21 @@ const ChatSidebar = ({ onTopicSelect, isLoadingTopics }: ChatSidebarProps) => {
   }, []);
 
   return (
-    <div className="hidden md:flex w-64 flex-col bg-tutor-beige border-r border-tutor-light-gray">
-      <div className="p-4 border-b border-tutor-light-gray">
+    <div className="hidden md:flex w-64 flex-shrink-0 flex-col bg-tutor-beige border-r border-tutor-light-gray">
+      <div className="p-3 md:p-4 border-b border-tutor-light-gray">
         <h2 className="font-semibold text-tutor-dark-gray">Learning Topics</h2>
       </div>
       
       <ScrollArea className="flex-1">
-        <div className="p-4 space-y-6">
-          <div className="space-y-3">
+        <div className="p-3 md:p-4 space-y-4 md:space-y-6">
+          <div className="space-y-2 md:space-y-3">
             <h3 className="text-sm font-medium text-tutor-gray flex items-center">
               <Clock className="w-4 h-4 mr-2" />
               Recent Topics
             </h3>
             
             {isLoadingRecent ? (
-              <div className="py-4 text-center text-tutor-gray">
+              <div className="py-3 md:py-4 text-center text-tutor-gray">
                 <div className="animate-pulse flex flex-col space-y-2">
                   <div className="h-6 bg-tutor-light-gray rounded w-3/4 mx-auto"></div>
                   <div className="h-6 bg-tutor-light-gray rounded w-full mx-auto"></div>
@@ -67,13 +66,13 @@ const ChatSidebar = ({ onTopicSelect, isLoadingTopics }: ChatSidebarProps) => {
                 </div>
               </div>
             ) : (
-              <ul className="space-y-2">
+              <ul className="space-y-1 md:space-y-2">
                 {recentTopics.length > 0 ? (
                   recentTopics.map((topic, index) => (
                     <li key={index}>
                       <Button 
                         variant="ghost" 
-                        className="w-full justify-start text-tutor-gray hover:text-tutor-dark-orange hover:bg-white"
+                        className="w-full justify-start text-sm md:text-base text-tutor-gray hover:text-tutor-dark-orange hover:bg-white min-h-[40px] md:min-h-[44px]"
                         onClick={() => onTopicSelect(topic.topicName)}
                       >
                         <span>{topic.topicName}</span>
@@ -94,14 +93,14 @@ const ChatSidebar = ({ onTopicSelect, isLoadingTopics }: ChatSidebarProps) => {
             )}
           </div>
           
-          <div className="space-y-3">
+          <div className="space-y-2 md:space-y-3">
             <h3 className="text-sm font-medium text-tutor-gray flex items-center">
               <BookOpen className="w-4 h-4 mr-2" />
               Suggested Topics
             </h3>
             
             {isLoadingSuggested ? (
-              <div className="py-4 text-center text-tutor-gray">
+              <div className="py-3 md:py-4 text-center text-tutor-gray">
                 <div className="animate-pulse flex flex-col space-y-2">
                   <div className="h-6 bg-tutor-light-gray rounded w-3/4 mx-auto"></div>
                   <div className="h-6 bg-tutor-light-gray rounded w-full mx-auto"></div>
@@ -109,13 +108,13 @@ const ChatSidebar = ({ onTopicSelect, isLoadingTopics }: ChatSidebarProps) => {
                 </div>
               </div>
             ) : (
-              <ul className="space-y-2">
+              <ul className="space-y-1 md:space-y-2">
                 {weakestTopics.length > 0 ? (
                   weakestTopics.map((topic) => (
                     <li key={topic.unitId}>
                       <Button 
                         variant="ghost" 
-                        className="w-full justify-start text-tutor-gray hover:text-tutor-dark-orange hover:bg-white"
+                        className="w-full justify-start text-sm md:text-base text-tutor-gray hover:text-tutor-dark-orange hover:bg-white min-h-[40px] md:min-h-[44px]"
                         onClick={() => onTopicSelect(topic.topicName)}
                       >
                         <span>{topic.topicName}</span>
