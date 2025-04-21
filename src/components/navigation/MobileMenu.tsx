@@ -1,6 +1,5 @@
-
 import { Link } from 'react-router-dom';
-import { LogIn, LogOut, FileText, MessageCircle, LayoutDashboard, HelpCircle, BookOpen, Globe, Trophy, Star } from 'lucide-react';
+import { LogIn, LogOut, FileText, MessageCircle, LayoutDashboard, HelpCircle, BookOpen, Globe, Star } from 'lucide-react';
 import { Separator } from "@/components/ui/separator";
 import UserAvatar from '../UserAvatar';
 import { useLanguage } from '@/hooks/useLanguage';
@@ -50,6 +49,7 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
               <MessageCircle className="h-4 w-4 mr-2" />
               <span>{t('nav.learn')}</span>
             </Link>
+            
             <Link 
               to="/practice" 
               className={`${isActive('/practice') ? 'bg-aku-green/10 text-aku-blue font-medium' : 'text-aku-blue'} flex items-center p-2 rounded-xl hover:bg-aku-green/10 transition-colors`}
@@ -58,6 +58,7 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
               <BookOpen className="h-4 w-4 mr-2" />
               <span>{t('nav.practice')}</span>
             </Link>
+            
             <Link 
               to="/dashboard" 
               className={`${isActive('/dashboard') ? 'bg-aku-yellow/10 text-aku-blue font-medium' : 'text-aku-blue'} flex items-center p-2 rounded-xl hover:bg-aku-yellow/10 transition-colors`}
@@ -66,17 +67,6 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
               <LayoutDashboard className="h-4 w-4 mr-2" />
               <span>{t('nav.dashboard')}</span>
             </Link>
-
-            {!isTeacher && !isAdmin && (
-              <Link 
-                to="/achievements" 
-                className={`${isActive('/achievements') ? 'bg-aku-yellow/10 text-aku-blue font-medium' : 'text-aku-blue'} flex items-center p-2 rounded-xl hover:bg-aku-yellow/10 transition-colors`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <Trophy className="h-4 w-4 mr-2" />
-                <span>{t('nav.achievements')}</span>
-              </Link>
-            )}
 
             {isTeacher && (
               <Link 
@@ -110,32 +100,6 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
             </Link>
           </>
         )}
-        
-        {/* Commented out Language selector */}
-        {/* <div className="p-2">
-          <div className="flex items-center mb-2">
-            <Globe className="h-4 w-4 mr-2" />
-            <span className="text-sm font-medium">{t('general.language')}</span>
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            {languages.map((lang) => (
-              <button
-                key={lang.code}
-                onClick={() => {
-                  changeLanguage(lang.code);
-                  setIsMenuOpen(false);
-                }}
-                className={`text-center py-2 px-3 text-sm rounded-lg transition-colors ${
-                  currentLanguage === lang.code 
-                    ? 'bg-aku-yellow font-medium text-aku-blue' 
-                    : 'bg-aku-cream/30 text-aku-blue hover:bg-aku-cream/50'
-                }`}
-              >
-                <span className="block">{lang.name}</span>
-              </button>
-            ))}
-          </div>
-        </div> */}
         
         <Separator className="my-2 bg-aku-cream" />
         

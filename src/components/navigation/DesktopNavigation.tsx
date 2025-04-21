@@ -1,4 +1,3 @@
-
 import { Link, useLocation } from 'react-router-dom';
 import { MessageCircle, LayoutDashboard, HelpCircle, BookOpen, Star, Trophy, Globe, LogIn } from 'lucide-react';
 import { 
@@ -22,7 +21,6 @@ const DesktopNavigation = ({ user, isActive }: DesktopNavigationProps) => {
   const { t } = useTranslation();
   const location = useLocation();
 
-  // Hide sign-in link on login page
   const showSignIn = !user && location.pathname !== '/login';
 
   return (
@@ -44,15 +42,7 @@ const DesktopNavigation = ({ user, isActive }: DesktopNavigationProps) => {
             <span>{t('nav.dashboard')}</span>
           </Link>
           
-          {/* Achievement section for students */}
-          {!isTeacher && !isAdmin && (
-            <Link to="/achievements" className={`${isActive('/achievements') ? 'nav-link-active' : 'nav-link'} flex items-center rounded-full px-4 py-2 transition-all duration-200 hover:bg-aku-yellow/10`}>
-              <Trophy className="h-4 w-4 mr-2 text-aku-yellow" />
-              <span>{t('nav.achievements')}</span>
-            </Link>
-          )}
-          
-          {/* Teacher-specific navigation (for future) */}
+          {/* Teacher-specific navigation */}
           {isTeacher && (
             <Link to="/my-students" className={`${isActive('/my-students') ? 'nav-link-active' : 'nav-link'} flex items-center rounded-full px-4 py-2 transition-all duration-200 hover:bg-aku-green/10`}>
               <Star className="h-4 w-4 mr-2 text-aku-green" />
@@ -60,7 +50,7 @@ const DesktopNavigation = ({ user, isActive }: DesktopNavigationProps) => {
             </Link>
           )}
           
-          {/* Admin-specific navigation (for future) */}
+          {/* Admin-specific navigation */}
           {isAdmin && (
             <Link to="/school-admin" className={`${isActive('/school-admin') ? 'nav-link-active' : 'nav-link'} flex items-center rounded-full px-4 py-2 transition-all duration-200 hover:bg-aku-green/10`}>
               <Star className="h-4 w-4 mr-2 text-aku-green" />

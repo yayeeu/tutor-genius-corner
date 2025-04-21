@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -31,7 +30,6 @@ const App = () => (
           <Navigation />
           <div className="pt-16 min-h-screen flex flex-col bg-gradient-to-br from-aku-cream/50 to-white">
             <Routes>
-              {/* Redirect root to login for non-logged-in users, Learn for logged-in users */}
               <Route path="/" element={<Navigate to="/login" replace />} />
               <Route path="/login" element={<Login />} />
               <Route path="/dashboard" element={
@@ -66,7 +64,6 @@ const App = () => (
                   <Profile />
                 </ProtectedRoute>
               } />
-              {/* Future routes for teacher and admin views will go here */}
               <Route path="*" element={<NotFound />} />
             </Routes>
             <Footer />
