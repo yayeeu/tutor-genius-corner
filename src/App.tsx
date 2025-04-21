@@ -32,7 +32,7 @@ const App = () => (
           <Navigation />
           <div className="pt-16 min-h-screen flex flex-col bg-gradient-to-br from-aku-cream/50 to-white">
             <Routes>
-              <Route path="/" element={<Navigate to="/login" replace />} />
+              <Route path="/" element={<Navigate to="/chat" replace />} />
               <Route path="/login" element={<Login />} />
               <Route path="/dashboard" element={
                 <ProtectedRoute>

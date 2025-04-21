@@ -20,8 +20,8 @@ const Login = () => {
         localStorage.setItem(`has_logged_in_before_${user.id}`, 'true');
       }
       
-      // Always redirect to learn page
-      navigate('/learn');
+      // Always redirect to chat page
+      navigate('/chat');
     }
   }, [user, isLoading, navigate]);
 
