@@ -1,20 +1,22 @@
-
 import { useEffect } from 'react';
 import ChatSidebar from './ChatSidebar';
 import MessageArea from './MessageArea';
 import ChatInputArea from './ChatInputArea';
 import { useChatWithVllm } from '@/hooks/useChatWithVllm';
 import { useAssignmentState } from '@/hooks/useAssignmentState';
-import { questions } from '@/pages/ScreeningAssignment'; // Import screening questions
+import { questions } from '@/pages/ScreeningAssignment';
+import { useResponsive } from '@/hooks/useResponsive';
 
 const ChatContainer = () => {
+  const { isMobile } = useResponsive();
+  
   // Initialize chat state
   const { 
     messages, 
     isTyping, 
     handleSendMessage,
     addUserMessage,
-    endSession // This function now exists in the hook return value
+    endSession 
   } = useChatWithVllm();
   
   // Initialize assignment/quiz state
@@ -38,7 +40,7 @@ const ChatContainer = () => {
     
     // End session when component unmounts
     return () => {
-      endSession(); // This will properly call the function we added
+      endSession();
     };
   }, [checkAssignmentStatus, endSession]);
   
@@ -51,8 +53,8 @@ const ChatContainer = () => {
   
   return (
     <div className="flex h-[calc(100vh-4rem)] animate-fade-in">
-      {/* Sidebar - only show topics after assignment completion */}
-      {!showAssignment && hasTakenAssignment && (
+      {/* Sidebar - only show on non-mobile if assignment completed */}
+      {!showAssignment && hasTakenAssignment && !isMobile && (
         <ChatSidebar
           onTopicSelect={handleTopicSelect}
           isLoadingTopics={isLoadingQuestion}
@@ -60,7 +62,7 @@ const ChatContainer = () => {
       )}
       
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col">
+      <div className={`flex-1 flex flex-col ${isMobile ? 'w-full' : ''}`}>
         {/* Chat Messages */}
         <MessageArea
           messages={messages}

@@ -39,7 +39,7 @@ const MessageArea = ({
 }: MessageAreaProps) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messageGroups = useMessageGroups(messages);
-  const { isMobile } = useResponsive();
+  const { isMobile, isTablet } = useResponsive();
   
   useEffect(() => {
     try {
@@ -53,10 +53,14 @@ const MessageArea = ({
   }, [messages, isTyping]);
 
   return (
-    <ScrollArea className={`flex-1 p-2 md:p-4 bg-gradient-to-b from-tutor-beige/30 to-white ${
+    <ScrollArea className={`flex-1 ${
+      isMobile ? 'p-2' : isTablet ? 'p-3' : 'p-4'
+    } bg-gradient-to-b from-tutor-beige/30 to-white ${
       isMobile ? 'touch-pan-y' : ''
     }`}>
-      <div className="space-y-4 md:space-y-6 max-w-3xl mx-auto">
+      <div className={`space-y-4 ${
+        isMobile ? 'space-y-3' : 'space-y-4'
+      } max-w-3xl mx-auto`}>
         {messageGroups.map((group, index) => {
           try {
             return (
@@ -76,7 +80,9 @@ const MessageArea = ({
         })}
         
         {currentQuestion && (
-          <div className="my-2 md:my-4 animate-fade-in">
+          <div className={`${
+            isMobile ? 'my-2' : 'my-4'
+          } animate-fade-in`}>
             <QuizQuestion 
               id={currentQuestion.id}
               question={currentQuestion.question}
