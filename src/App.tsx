@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,7 +11,6 @@ import Footer from "./components/Footer";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Learn from "./pages/Learn";
-import Practice from "./pages/Practice";
 import ScreeningAssignment from "./pages/ScreeningAssignment";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
@@ -40,11 +40,6 @@ const App = () => (
               <Route path="/learn" element={
                 <ProtectedRoute>
                   <Learn />
-                </ProtectedRoute>
-              } />
-              <Route path="/practice" element={
-                <ProtectedRoute>
-                  <Practice />
                 </ProtectedRoute>
               } />
               <Route path="/screening" element={

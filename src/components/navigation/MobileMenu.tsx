@@ -1,8 +1,8 @@
+
 import { Link } from 'react-router-dom';
-import { LogIn, LogOut, FileText, MessageCircle, LayoutDashboard, HelpCircle, BookOpen, Globe, Star } from 'lucide-react';
+import { LogIn, LogOut, FileText, MessageCircle, LayoutDashboard, HelpCircle, Globe, Star } from 'lucide-react';
 import { Separator } from "@/components/ui/separator";
 import UserAvatar from '../UserAvatar';
-import { useLanguage } from '@/hooks/useLanguage';
 import { useTranslation } from 'react-i18next';
 
 interface MobileMenuProps {
@@ -17,7 +17,6 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
   const isTeacher = user?.user_metadata?.role === 'teacher';
   const isAdmin = user?.user_metadata?.role === 'admin';
   const { t } = useTranslation();
-  const { languages, currentLanguage, changeLanguage } = useLanguage();
 
   if (!isMenuOpen) return null;
 
@@ -48,15 +47,6 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
             >
               <MessageCircle className="h-4 w-4 mr-2" />
               <span>{t('nav.learn')}</span>
-            </Link>
-            
-            <Link 
-              to="/practice" 
-              className={`${isActive('/practice') ? 'bg-aku-green/10 text-aku-blue font-medium' : 'text-aku-blue'} flex items-center p-2 rounded-xl hover:bg-aku-green/10 transition-colors`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <BookOpen className="h-4 w-4 mr-2" />
-              <span>{t('nav.practice')}</span>
             </Link>
             
             <Link 
@@ -141,3 +131,4 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
 };
 
 export default MobileMenu;
+

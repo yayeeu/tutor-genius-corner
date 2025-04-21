@@ -1,11 +1,6 @@
+
 import { Link, useLocation } from 'react-router-dom';
-import { MessageCircle, LayoutDashboard, HelpCircle, BookOpen, Star, Trophy, Globe, LogIn } from 'lucide-react';
-import { 
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
+import { MessageCircle, LayoutDashboard, HelpCircle, Star, Globe, LogIn } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useTranslation } from 'react-i18next';
 
@@ -17,7 +12,6 @@ interface DesktopNavigationProps {
 const DesktopNavigation = ({ user, isActive }: DesktopNavigationProps) => {
   const isTeacher = user?.user_metadata?.role === 'teacher';
   const isAdmin = user?.user_metadata?.role === 'admin';
-  const { languages, currentLanguage, changeLanguage } = useLanguage();
   const { t } = useTranslation();
   const location = useLocation();
 
@@ -30,11 +24,6 @@ const DesktopNavigation = ({ user, isActive }: DesktopNavigationProps) => {
           <Link to="/learn" className={`${isActive('/learn') ? 'nav-link-active' : 'nav-link'} flex items-center rounded-full px-4 py-2 transition-all duration-200 hover:bg-aku-yellow/10`}>
             <MessageCircle className="h-4 w-4 mr-2" />
             <span>{t('nav.learn')}</span>
-          </Link>
-          
-          <Link to="/practice" className={`${isActive('/practice') ? 'nav-link-active' : 'nav-link'} flex items-center rounded-full px-4 py-2 transition-all duration-200 hover:bg-aku-green/10`}>
-            <BookOpen className="h-4 w-4 mr-2" />
-            <span>{t('nav.practice')}</span>
           </Link>
           
           <Link to="/dashboard" className={`${isActive('/dashboard') ? 'nav-link-active' : 'nav-link'} flex items-center rounded-full px-4 py-2 transition-all duration-200 hover:bg-aku-yellow/10`}>
@@ -62,26 +51,6 @@ const DesktopNavigation = ({ user, isActive }: DesktopNavigationProps) => {
             <HelpCircle className="h-4 w-4 mr-2" />
             <span>{t('nav.help')}</span>
           </Link>
-
-          {/* Commented out Language selector */}
-          {/* <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center space-x-1 px-3 py-2 rounded-full hover:bg-aku-cream/50 transition-colors">
-              <Globe className="h-4 w-4 text-aku-blue" />
-              <span className="text-sm font-medium">{currentLanguage.toUpperCase()}</span>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-40 rounded-xl shadow-lg border-aku-cream">
-              {languages.map((lang) => (
-                <DropdownMenuItem 
-                  key={lang.code}
-                  onClick={() => changeLanguage(lang.code)}
-                  className="rounded-lg cursor-pointer"
-                >
-                  <span className="font-medium mr-2">{lang.code.toUpperCase()}</span>
-                  <span className="text-sm text-aku-blue/70">{lang.name}</span>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu> */}
         </>
       )}
 
@@ -96,3 +65,4 @@ const DesktopNavigation = ({ user, isActive }: DesktopNavigationProps) => {
 };
 
 export default DesktopNavigation;
+
