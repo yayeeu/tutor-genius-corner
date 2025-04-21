@@ -1,21 +1,15 @@
 
 import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { useTranslation } from 'react-i18next';
-import { useLanguage } from '@/hooks/useLanguage';
-import { Shield, Globe, Bell, User, Image as ImageIcon, Edit, Lock, Info, Trash2, LogOut } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import ProfileHeader from '@/components/profile/ProfileHeader';
+import TabNavigation from '@/components/profile/TabNavigation';
+import EditProfileForm from '@/components/profile/EditProfileForm';
+import ChangePasswordForm from '@/components/profile/ChangePasswordForm';
+import NotificationSettings from '@/components/profile/NotificationSettings';
+import LanguageSelector from '@/components/profile/LanguageSelector';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Switch } from '@/components/ui/switch';
+import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -25,18 +19,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-
-import UserAvatar from '@/components/UserAvatar';
-import ChangePasswordForm from '@/components/profile/ChangePasswordForm';
-import EditProfileForm from '@/components/profile/EditProfileForm';
-import NotificationSettings from '@/components/profile/NotificationSettings';
-import LanguageSelector from '@/components/profile/LanguageSelector';
+import { Edit, Globe, Bell, Info, Trash2, LogOut } from 'lucide-react';
 
 const Profile = () => {
-  const { user, signOut } = useAuth();
+  const { signOut } = useAuth();
   const { t } = useTranslation();
   const { toast } = useToast();
-  const { currentLanguage, changeLanguage, languages } = useLanguage();
   const [activeTab, setActiveTab] = useState('profile');
 
   const handleDeleteAccount = async () => {
@@ -55,45 +43,15 @@ const Profile = () => {
     }
   };
 
-  const tabs = [
-    { id: 'profile', label: t('profile.tabs.profile'), icon: User },
-    { id: 'security', label: t('profile.tabs.security'), icon: Shield }
-  ];
-
   return (
     <div className="min-h-screen bg-aku-cream/30 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto space-y-8">
-        {/* Profile Header */}
-        <div className="flex flex-col items-center text-center pb-8">
-          <UserAvatar className="h-24 w-24 mb-4" />
-          <h1 className="text-2xl font-bold text-tutor-navy">{user?.email}</h1>
-          <p className="text-tutor-gray">Student</p>
-        </div>
+        <ProfileHeader />
+        <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
 
-        {/* Navigation Tabs */}
-        <div className="flex justify-center space-x-2 border-b border-gray-200">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`
-                flex items-center space-x-2 px-4 py-2 font-medium text-sm rounded-t-lg transition-colors
-                ${activeTab === tab.id 
-                  ? 'text-tutor-orange border-b-2 border-tutor-orange' 
-                  : 'text-tutor-gray hover:text-tutor-dark-orange'}
-              `}
-            >
-              <tab.icon className="h-4 w-4" />
-              <span>{tab.label}</span>
-            </button>
-          ))}
-        </div>
-
-        {/* Main Content */}
         <div className="space-y-6">
           {activeTab === 'profile' ? (
             <>
-              {/* Edit Profile Section */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -106,7 +64,6 @@ const Profile = () => {
                 </CardContent>
               </Card>
 
-              {/* Language Preferences */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -119,7 +76,6 @@ const Profile = () => {
                 </CardContent>
               </Card>
 
-              {/* Notification Settings */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -134,11 +90,10 @@ const Profile = () => {
             </>
           ) : (
             <>
-              {/* Security Settings */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Lock className="h-5 w-5 text-tutor-orange" />
+                    <Shield className="h-5 w-5 text-tutor-orange" />
                     {t('profile.changePassword')}
                   </CardTitle>
                 </CardHeader>
@@ -147,7 +102,6 @@ const Profile = () => {
                 </CardContent>
               </Card>
 
-              {/* Privacy and Terms */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -171,7 +125,6 @@ const Profile = () => {
                 </CardContent>
               </Card>
 
-              {/* Danger Zone */}
               <Card className="border-destructive/50">
                 <CardHeader>
                   <CardTitle className="text-destructive flex items-center gap-2">
@@ -180,7 +133,6 @@ const Profile = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {/* Delete Account Dialog */}
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <Button variant="destructive">
@@ -206,7 +158,6 @@ const Profile = () => {
                     </AlertDialogContent>
                   </AlertDialog>
 
-                  {/* Logout Button */}
                   <Button 
                     variant="outline" 
                     className="w-full text-destructive hover:text-destructive"
