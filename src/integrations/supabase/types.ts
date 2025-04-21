@@ -390,6 +390,7 @@ export type Database = {
       students: {
         Row: {
           created_at: string
+          default_lang: string
           email: string | null
           first_name: string | null
           grade_level: number | null
@@ -398,6 +399,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          default_lang?: string
           email?: string | null
           first_name?: string | null
           grade_level?: number | null
@@ -406,6 +408,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          default_lang?: string
           email?: string | null
           first_name?: string | null
           grade_level?: number | null
