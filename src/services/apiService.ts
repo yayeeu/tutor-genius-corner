@@ -1,16 +1,9 @@
-
 import { supabase } from '@/integrations/supabase/client';
+import { fetchTopicQuestion } from './vllmService';
 
 interface RecentTopic {
   topicName: string;
   createdAt: string;
-}
-
-interface Question {
-  id: number;
-  question: string;
-  options: string[];
-  correctAnswer: string;
 }
 
 export const fetchRecentTopics = async (): Promise<RecentTopic[]> => {
@@ -47,37 +40,6 @@ export const fetchRecentTopics = async (): Promise<RecentTopic[]> => {
   }
 };
 
-export const fetchRandomQuestion = async (topicName: string): Promise<Question | null> => {
-  try {
-    // In development, we'll mock the response since the endpoint doesn't exist
-    // In production, this would be:
-    // const response = await fetch(`/get-question?topic=${encodeURIComponent(topicName)}`);
-    
-    // Mock implementation for development
-    console.log(`Fetching question for topic: ${topicName}`);
-    
-    // Simulate API response
-    return {
-      id: Math.floor(Math.random() * 100) + 1,
-      question: `${topicName}: What is the main concept behind this topic?`,
-      options: [
-        "Option A: This is the first explanation",
-        "Option B: This is the second explanation",
-        "Option C: This is the third explanation",
-        "Option D: This is the fourth explanation"
-      ],
-      correctAnswer: "Option A: This is the first explanation"
-    };
-    
-    /* Uncomment when API is available
-    if (!response.ok) {
-      throw new Error('Failed to fetch question');
-    }
-    const data = await response.json();
-    return data;
-    */
-  } catch (error) {
-    console.error(`Error fetching question for topic ${topicName}:`, error);
-    throw error; // Propagate error to be handled by the caller
-  }
-};
+// We've moved the fetchRandomQuestion functionality to vllmService.ts
+// but we'll keep this as a compatibility layer for now
+export const fetchRandomQuestion = fetchTopicQuestion;

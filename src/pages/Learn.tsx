@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import ChatInterface from '@/components/ChatInterface';
+import ChatContainer from '@/components/chat/ChatContainer';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowRight, BookOpen } from 'lucide-react';
 import SubjectCard from '@/components/SubjectCard';
@@ -105,7 +105,7 @@ const Learn = () => {
           </TabsList>
           
           <TabsContent value="chat-tutor" className="animate-fade-in">
-            <ChatInterface />
+            <ChatContainer />
           </TabsContent>
           
           <TabsContent value="your-subjects" className="animate-fade-in">
