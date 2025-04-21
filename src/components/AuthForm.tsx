@@ -1,9 +1,10 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 
 interface SignUpData {
@@ -16,62 +17,17 @@ interface SignUpData {
 const AuthForm = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const navigate = useNavigate();
+  const { signIn, signUp } = useAuth();
 
   const onSubmit = async (data: SignUpData) => {
     if (isSignUp) {
-      await signUp(data);
-    } else {
-      await signIn(data.email, data.password || '');
-    }
-  };
-
-  const signIn = async (email: string, password: string) => {
-    try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-
-      if (error) {
-        toast.error(error.message);
-        return;
-      }
-
-      toast.success('Signed in successfully!');
-      navigate('/learn');
-    } catch (error) {
-      console.error('Signin error:', error);
-      toast.error('An unexpected error occurred');
-    }
-  };
-
-  const signUp = async (data: SignUpData) => {
-    try {
-      const { password, confirmPassword, ...userData } = data;
-      
-      if (password !== confirmPassword) {
+      if (data.password !== data.confirmPassword) {
         toast.error('Passwords do not match');
         return;
       }
-
-      const { error } = await supabase.auth.signUp({
-        email: userData.email,
-        password,
-        options: {
-          data: {
-            full_name: userData.full_name,
-            role: 'student'
-          }
-        }
-      });
-
-      if (error) {
-        toast.error(error.message);
-        return;
-      }
-
-      toast.success('Account created successfully! Please check your email to verify.');
-      navigate('/login');
-    } catch (error) {
-      console.error('Signup error:', error);
-      toast.error('An unexpected error occurred');
+      await signUp(data.email, data.password || '', data.full_name);
+    } else {
+      await signIn(data.email, data.password || '');
     }
   };
 

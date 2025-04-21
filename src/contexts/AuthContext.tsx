@@ -86,6 +86,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signUp = async (email: string, password: string, name: string) => {
     try {
       setIsLoading(true);
+      console.log('Starting signup process for:', email);
       
       // First, sign up the user with Supabase Auth
       const { data: authData, error: authError } = await supabase.auth.signUp({ 
@@ -99,13 +100,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
       
       if (authError) {
+        console.error('Auth signup error:', authError);
         throw authError;
       }
+
+      console.log('Auth signup successful:', authData);
 
       // Then, create a record in the students table
       if (authData.user) {
         const [firstName, ...lastNameParts] = name.split(' ');
         const lastName = lastNameParts.join(' ');
+        
+        console.log('Creating student record for user:', authData.user.id, {
+          firstName,
+          lastName,
+          email
+        });
         
         const { error: studentError } = await supabase
           .from('students')
@@ -114,17 +124,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             first_name: firstName,
             last_name: lastName || null,
             email: email,
+            // You can set a default grade level here if needed
+            // grade_level: 9
           });
         
         if (studentError) {
           console.error('Error creating student record:', studentError);
-          // We don't throw here to prevent blocking the signup
-          // Instead, we log the error and show a modified success message
+          // We log the error but don't throw to prevent blocking signup
           toast({
-            title: "Account created!",
-            description: "You've successfully created an account, but some profile data couldn't be saved. Please update your profile later.",
+            title: "Account created with warning",
+            description: "Your account was created, but there was an issue setting up your profile. Some features may be limited until this is resolved.",
+            variant: "warning"
           });
         } else {
+          console.log('Student record created successfully');
           toast({
             title: "Account created!",
             description: "You've successfully created an account.",
