@@ -1,7 +1,7 @@
 
 import { useState, useCallback } from 'react';
 import { QuestionData } from '@/data/practiceData';
-import { fetchRandomQuestion } from '@/services/apiService';
+import { fetchTopicQuestion } from '@/services/apiService'; // Updated import name
 import { toast } from "@/hooks/use-toast";
 import { useAuth } from '@/contexts/AuthContext';
 import { updateLearningActivity } from '@/services/tracking';
@@ -22,7 +22,7 @@ export const useQuizState = (addAIMessage: (content: string) => void) => {
       addAIMessage(`Let's practice "${topicName}". I'm preparing a question for you...`);
       
       // Fetch a random question for this topic
-      const question = await fetchRandomQuestion(topicName);
+      const question = await fetchTopicQuestion(topicName);
       
       if (question) {
         setCurrentQuestion(question);
@@ -52,7 +52,7 @@ export const useQuizState = (addAIMessage: (content: string) => void) => {
       
       try {
         const topicName = currentQuestion.question.split(' ')[0]; // Simple extraction of topic from question
-        const question = await fetchRandomQuestion(topicName);
+        const question = await fetchTopicQuestion(topicName);
         
         if (question) {
           setCurrentQuestion(question);
