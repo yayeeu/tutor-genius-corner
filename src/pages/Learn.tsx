@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpen } from 'lucide-react';
@@ -7,10 +6,12 @@ import { Button } from '@/components/ui/button';
 import { useCourses } from '@/hooks/useCourses';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
+import { useGradeLevel } from '@/hooks/useGradeLevel';
 
 const Learn = () => {
   const [displayedSubjects, setDisplayedSubjects] = useState(6);
   const { courses, isLoading } = useCourses();
+  const gradeLevel = useGradeLevel();
 
   const handleShowMore = () => {
     setDisplayedSubjects(prevCount => Math.min(prevCount + 3, courses.length));
@@ -91,7 +92,7 @@ const Learn = () => {
         <div className="mb-6">
           <h1 className="text-2xl md:text-3xl font-bold mb-2">Your Subjects</h1>
           <p className="text-tutor-gray">
-            Browse and study your Ethiopian curriculum subjects.
+            {gradeLevel ? `Browse and study your Grade ${gradeLevel} Courses` : 'Loading...'}
           </p>
         </div>
 
