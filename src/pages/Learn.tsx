@@ -1,8 +1,6 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import ChatContainer from '@/components/chat/ChatContainer';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowRight, BookOpen } from 'lucide-react';
 import SubjectCard from '@/components/SubjectCard';
 import { Button } from '@/components/ui/button';
@@ -11,7 +9,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
 
 const Learn = () => {
-  const [activeTab, setActiveTab] = useState('chat-tutor');
   const [displayedSubjects, setDisplayedSubjects] = useState(6);
   const { courses, isLoading } = useCourses();
 
@@ -92,39 +89,15 @@ const Learn = () => {
     <div className="min-h-screen bg-white p-4 md:p-6">
       <div className="max-w-7xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-2xl md:text-3xl font-bold mb-2">Ethiopian Curriculum AI Tutor</h1>
+          <h1 className="text-2xl md:text-3xl font-bold mb-2">Your Subjects</h1>
           <p className="text-tutor-gray">
-            Get personalized help with your studies based on the Ethiopian curriculum for your grade level.
+            Browse and study your Ethiopian curriculum subjects.
           </p>
         </div>
 
-        <Tabs defaultValue="chat-tutor" value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="bg-white border border-tutor-light-gray mb-4">
-            <TabsTrigger value="chat-tutor">Chat with Tutor</TabsTrigger>
-            <TabsTrigger value="your-subjects">Your Subjects</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="chat-tutor" className="animate-fade-in">
-            <ChatContainer />
-          </TabsContent>
-          
-          <TabsContent value="your-subjects" className="animate-fade-in">
-            <div className="space-y-6">
-              <div className="flex justify-between items-center">
-                <h2 className="text-xl font-semibold">Your Subjects</h2>
-                <Link 
-                  to="/dashboard" 
-                  className="text-sm text-tutor-orange hover:text-tutor-dark-orange flex items-center gap-1"
-                >
-                  View all
-                  <ArrowRight className="h-3 w-3" />
-                </Link>
-              </div>
-              
-              {renderSubjectsContent()}
-            </div>
-          </TabsContent>
-        </Tabs>
+        <div className="space-y-6">
+          {renderSubjectsContent()}
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
-
 import { Link, useLocation } from 'react-router-dom';
-import { MessageCircle, LayoutDashboard, HelpCircle, Star, LogIn } from 'lucide-react';
+import { MessageCircle, LayoutDashboard, HelpCircle, Star, LogIn, BookOpen } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useTranslation } from 'react-i18next';
 
@@ -27,7 +26,7 @@ const DesktopNavigation = ({ user, isActive }: DesktopNavigationProps) => {
           </Link>
           
           <Link to="/learn" className={`${isActive('/learn') ? 'nav-link-active' : 'nav-link'} flex items-center rounded-full px-4 py-2 transition-all duration-200 hover:bg-aku-yellow/10`}>
-            <MessageCircle className="h-4 w-4 mr-2" />
+            <BookOpen className="h-4 w-4 mr-2" />
             <span>{t('nav.learn')}</span>
           </Link>
           
@@ -36,7 +35,6 @@ const DesktopNavigation = ({ user, isActive }: DesktopNavigationProps) => {
             <span>{t('nav.dashboard')}</span>
           </Link>
           
-          {/* Teacher-specific navigation */}
           {isTeacher && (
             <Link to="/my-students" className={`${isActive('/my-students') ? 'nav-link-active' : 'nav-link'} flex items-center rounded-full px-4 py-2 transition-all duration-200 hover:bg-aku-green/10`}>
               <Star className="h-4 w-4 mr-2 text-aku-green" />
@@ -44,7 +42,6 @@ const DesktopNavigation = ({ user, isActive }: DesktopNavigationProps) => {
             </Link>
           )}
           
-          {/* Admin-specific navigation */}
           {isAdmin && (
             <Link to="/school-admin" className={`${isActive('/school-admin') ? 'nav-link-active' : 'nav-link'} flex items-center rounded-full px-4 py-2 transition-all duration-200 hover:bg-aku-green/10`}>
               <Star className="h-4 w-4 mr-2 text-aku-green" />
