@@ -5,22 +5,14 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
+import { Question } from '@/types/question';
 
-export interface QuizQuestionProps {
-  id: number;
-  question: string;
-  options: string[];
-  correctAnswer: string;
+interface QuizQuestionProps {
+  question: Question;
   onAnswer: (isCorrect: boolean) => void;
 }
 
-const QuizQuestion = ({ 
-  id, 
-  question, 
-  options, 
-  correctAnswer, 
-  onAnswer 
-}: QuizQuestionProps) => {
+const QuizQuestion = ({ question, onAnswer }: QuizQuestionProps) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
@@ -44,7 +36,7 @@ const QuizQuestion = ({
   const handleSubmit = () => {
     if (!selectedOption || submitted) return;
     
-    const correct = selectedOption === correctAnswer;
+    const correct = selectedOption === question.correctAnswerId;
     setIsCorrect(correct);
     setSubmitted(true);
     setIsAnimating(true);
@@ -56,16 +48,16 @@ const QuizQuestion = ({
     return isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200';
   };
   
-  const getOptionClass = (option: string) => {
-    if (!submitted || selectedOption !== option) {
+  const getOptionClass = (optionId: string) => {
+    if (!submitted || selectedOption !== optionId) {
       return 'border-gray-200 bg-white';
     }
     
-    if (option === correctAnswer) {
+    if (optionId === question.correctAnswerId) {
       return 'border-green-500 bg-green-50';
     }
     
-    return option === selectedOption
+    return optionId === selectedOption
       ? 'border-red-500 bg-red-50'
       : 'border-gray-200 bg-white opacity-50';
   };
@@ -74,37 +66,37 @@ const QuizQuestion = ({
     <Card className={`w-full transition-all duration-300 ${isAnimating ? 'scale-102' : 'scale-100'} ${getFeedbackColor()}`}>
       <CardContent className="pt-6">
         <div className="mb-6">
-          <h3 className="text-xl font-medium mb-2">Question {id}</h3>
-          <p className="text-tutor-dark-gray">{question}</p>
+          <h3 className="text-xl font-medium mb-2">Level: {question.level}</h3>
+          <p className="text-tutor-dark-gray">{question.content}</p>
         </div>
         
         <RadioGroup value={selectedOption || ''} className="space-y-3">
-          {options.map((option, index) => (
+          {question.choices.map((choice, index) => (
             <div
-              key={index}
-              className={`flex items-center space-x-2 p-3 border rounded-lg transition-all ${getOptionClass(option)}`}
-              onClick={() => handleOptionSelect(option)}
+              key={choice.id}
+              className={`flex items-center space-x-2 p-3 border rounded-lg transition-all ${getOptionClass(choice.id)}`}
+              onClick={() => handleOptionSelect(choice.id)}
             >
               <RadioGroupItem 
-                value={option} 
-                id={`option-${id}-${index}`} 
+                value={choice.id} 
+                id={`option-${choice.id}`} 
                 disabled={submitted}
               />
               <Label 
-                htmlFor={`option-${id}-${index}`}
+                htmlFor={`option-${choice.id}`}
                 className="flex-1 cursor-pointer"
               >
                 <div className="flex justify-between items-center">
                   <span>
                     <span className="font-medium mr-2">{String.fromCharCode(65 + index)}.</span>
-                    {option}
+                    {choice.text}
                   </span>
                   
-                  {submitted && option === correctAnswer && (
+                  {submitted && choice.id === question.correctAnswerId && (
                     <Check className="h-5 w-5 text-green-500" />
                   )}
                   
-                  {submitted && option === selectedOption && option !== correctAnswer && (
+                  {submitted && choice.id === selectedOption && choice.id !== question.correctAnswerId && (
                     <X className="h-5 w-5 text-red-500" />
                   )}
                 </div>
@@ -118,7 +110,7 @@ const QuizQuestion = ({
             <p className="font-medium">
               {isCorrect 
                 ? 'Correct! Well done.' 
-                : `Incorrect. The correct answer is ${correctAnswer}.`
+                : `Incorrect. The correct answer was ${question.choices.find(c => c.id === question.correctAnswerId)?.text}.`
               }
             </p>
           </div>
