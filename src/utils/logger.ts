@@ -7,6 +7,7 @@ interface LogOptions {
   level?: LogLevel;
   context?: string;
   error?: unknown; // Add error property to support error objects
+  groupIndex?: number; // Add groupIndex property to support indexing in loops
 }
 
 class Logger {
@@ -30,6 +31,11 @@ class Logger {
           errorOutput = `\n[Unstringifiable error object]`;
         }
       }
+    }
+    
+    // Add groupIndex information if provided
+    if (options?.groupIndex !== undefined) {
+      errorOutput += `\nGroup Index: ${options.groupIndex}`;
     }
     
     const fullMessage = formattedMessage + errorOutput;
