@@ -134,7 +134,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           toast({
             title: "Account created with warning",
             description: "Your account was created, but there was an issue setting up your profile. Some features may be limited until this is resolved.",
-            variant: "warning"
+            variant: "default" // Changed from "warning" to "default" to fix the type error
           });
         } else {
           console.log('Student record created successfully');
