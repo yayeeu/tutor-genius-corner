@@ -1,3 +1,4 @@
+
 import { Link, useLocation } from 'react-router-dom';
 import { MessageCircle, LayoutDashboard, HelpCircle, Star, LogIn, BookOpen } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
@@ -20,36 +21,36 @@ const DesktopNavigation = ({ user, isActive }: DesktopNavigationProps) => {
     <div className="hidden md:flex items-center space-x-2">
       {user && (
         <>
-          <Link to="/chat" className={`${isActive('/chat') ? 'nav-link-active' : 'nav-link'} flex items-center rounded-full px-4 py-2 transition-all duration-200 hover:bg-aku-yellow/10`}>
+          <Link to="/chat" className={`${isActive('/chat') ? 'nav-link-active' : 'nav-link'} flex items-center rounded-full px-4 py-2 transition-all duration-200 hover:bg-tutor-orange/10 hover:text-tutor-orange`}>
             <MessageCircle className="h-4 w-4 mr-2" />
             <span>{t('nav.chat')}</span>
           </Link>
           
-          <Link to="/learn" className={`${isActive('/learn') ? 'nav-link-active' : 'nav-link'} flex items-center rounded-full px-4 py-2 transition-all duration-200 hover:bg-aku-yellow/10`}>
+          <Link to="/learn" className={`${isActive('/learn') ? 'nav-link-active' : 'nav-link'} flex items-center rounded-full px-4 py-2 transition-all duration-200 hover:bg-tutor-orange/10 hover:text-tutor-orange`}>
             <BookOpen className="h-4 w-4 mr-2" />
             <span>{t('nav.learn')}</span>
           </Link>
           
-          <Link to="/dashboard" className={`${isActive('/dashboard') ? 'nav-link-active' : 'nav-link'} flex items-center rounded-full px-4 py-2 transition-all duration-200 hover:bg-aku-yellow/10`}>
+          <Link to="/dashboard" className={`${isActive('/dashboard') ? 'nav-link-active' : 'nav-link'} flex items-center rounded-full px-4 py-2 transition-all duration-200 hover:bg-tutor-orange/10 hover:text-tutor-orange`}>
             <LayoutDashboard className="h-4 w-4 mr-2" />
             <span>{t('nav.dashboard')}</span>
           </Link>
           
           {isTeacher && (
-            <Link to="/my-students" className={`${isActive('/my-students') ? 'nav-link-active' : 'nav-link'} flex items-center rounded-full px-4 py-2 transition-all duration-200 hover:bg-aku-green/10`}>
+            <Link to="/my-students" className={`${isActive('/my-students') ? 'nav-link-active' : 'nav-link'} flex items-center rounded-full px-4 py-2 transition-all duration-200 hover:bg-tutor-orange/10 hover:text-tutor-orange`}>
               <Star className="h-4 w-4 mr-2 text-aku-green" />
               <span>{t('nav.myStudents')}</span>
             </Link>
           )}
           
           {isAdmin && (
-            <Link to="/school-admin" className={`${isActive('/school-admin') ? 'nav-link-active' : 'nav-link'} flex items-center rounded-full px-4 py-2 transition-all duration-200 hover:bg-aku-green/10`}>
+            <Link to="/school-admin" className={`${isActive('/school-admin') ? 'nav-link-active' : 'nav-link'} flex items-center rounded-full px-4 py-2 transition-all duration-200 hover:bg-tutor-orange/10 hover:text-tutor-orange`}>
               <Star className="h-4 w-4 mr-2 text-aku-green" />
               <span>{t('nav.schoolAdmin')}</span>
             </Link>
           )}
           
-          <Link to="/help" className={`${isActive('/help') ? 'nav-link-active' : 'nav-link'} flex items-center rounded-full px-4 py-2 transition-all duration-200 hover:bg-aku-green/10`}>
+          <Link to="/help" className={`${isActive('/help') ? 'nav-link-active' : 'nav-link'} flex items-center rounded-full px-4 py-2 transition-all duration-200 hover:bg-tutor-orange/10 hover:text-tutor-orange`}>
             <HelpCircle className="h-4 w-4 mr-2" />
             <span>{t('nav.help')}</span>
           </Link>

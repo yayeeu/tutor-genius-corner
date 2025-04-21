@@ -30,7 +30,7 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
         ) : (
           <Link 
             to="/login" 
-            className="flex items-center gap-2 p-2 text-aku-blue rounded-xl hover:bg-aku-yellow/10 transition-colors"
+            className="flex items-center gap-2 p-2 text-aku-blue hover:text-tutor-orange hover:bg-tutor-orange/10 rounded-xl transition-colors"
             onClick={() => setIsMenuOpen(false)}
           >
             <LogIn className="h-4 w-4" />
@@ -42,7 +42,7 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
           <>
             <Link 
               to="/learn" 
-              className={`${isActive('/learn') ? 'bg-aku-yellow/10 text-aku-blue font-medium' : 'text-aku-blue'} flex items-center p-2 rounded-xl hover:bg-aku-yellow/10 transition-colors`}
+              className={`${isActive('/learn') ? 'bg-aku-yellow/10 text-aku-blue font-medium' : 'text-aku-blue'} flex items-center p-2 rounded-xl hover:bg-tutor-orange/10 hover:text-tutor-orange transition-colors`}
               onClick={() => setIsMenuOpen(false)}
             >
               <MessageCircle className="h-4 w-4 mr-2" />
@@ -51,7 +51,7 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
             
             <Link 
               to="/dashboard" 
-              className={`${isActive('/dashboard') ? 'bg-aku-yellow/10 text-aku-blue font-medium' : 'text-aku-blue'} flex items-center p-2 rounded-xl hover:bg-aku-yellow/10 transition-colors`}
+              className={`${isActive('/dashboard') ? 'bg-aku-yellow/10 text-aku-blue font-medium' : 'text-aku-blue'} flex items-center p-2 rounded-xl hover:bg-tutor-orange/10 hover:text-tutor-orange transition-colors`}
               onClick={() => setIsMenuOpen(false)}
             >
               <LayoutDashboard className="h-4 w-4 mr-2" />
@@ -61,7 +61,7 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
             {isTeacher && (
               <Link 
                 to="/my-students" 
-                className={`${isActive('/my-students') ? 'bg-aku-green/10 text-aku-blue font-medium' : 'text-aku-blue'} flex items-center p-2 rounded-xl hover:bg-aku-green/10 transition-colors`}
+                className={`${isActive('/my-students') ? 'bg-aku-green/10 text-aku-blue font-medium' : 'text-aku-blue'} flex items-center p-2 rounded-xl hover:bg-tutor-orange/10 hover:text-tutor-orange transition-colors`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 <Star className="h-4 w-4 mr-2" />
@@ -72,7 +72,7 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
             {isAdmin && (
               <Link 
                 to="/school-admin" 
-                className={`${isActive('/school-admin') ? 'bg-aku-green/10 text-aku-blue font-medium' : 'text-aku-blue'} flex items-center p-2 rounded-xl hover:bg-aku-green/10 transition-colors`}
+                className={`${isActive('/school-admin') ? 'bg-aku-green/10 text-aku-blue font-medium' : 'text-aku-blue'} flex items-center p-2 rounded-xl hover:bg-tutor-orange/10 hover:text-tutor-orange transition-colors`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 <Star className="h-4 w-4 mr-2" />
@@ -82,7 +82,7 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
 
             <Link 
               to="/help" 
-              className={`${isActive('/help') ? 'bg-aku-green/10 text-aku-blue font-medium' : 'text-aku-blue'} flex items-center p-2 rounded-xl hover:bg-aku-green/10 transition-colors`}
+              className={`${isActive('/help') ? 'bg-aku-green/10 text-aku-blue font-medium' : 'text-aku-blue'} flex items-center p-2 rounded-xl hover:bg-tutor-orange/10 hover:text-tutor-orange transition-colors`}
               onClick={() => setIsMenuOpen(false)}
             >
               <HelpCircle className="h-4 w-4 mr-2" />
@@ -96,7 +96,7 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
         <div className="flex flex-col space-y-3 text-sm">
           <Link 
             to="/terms" 
-            className="flex items-center gap-2 text-aku-blue hover:text-aku-green rounded-xl p-2 hover:bg-aku-green/5 transition-colors"
+            className="flex items-center gap-2 text-aku-blue hover:text-tutor-orange rounded-xl p-2 hover:bg-tutor-orange/10 transition-colors"
             onClick={() => setIsMenuOpen(false)}
           >
             <FileText className="w-4 h-4" />
@@ -105,7 +105,7 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
           
           <Link 
             to="/privacy" 
-            className="flex items-center gap-2 text-aku-blue hover:text-aku-green rounded-xl p-2 hover:bg-aku-green/5 transition-colors"
+            className="flex items-center gap-2 text-aku-blue hover:text-tutor-orange rounded-xl p-2 hover:bg-tutor-orange/10 transition-colors"
             onClick={() => setIsMenuOpen(false)}
           >
             <FileText className="w-4 h-4" />
@@ -118,7 +118,7 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
                 signOut();
                 setIsMenuOpen(false);
               }}
-              className="flex items-center gap-2 text-aku-red hover:text-aku-red/80 p-2 rounded-xl hover:bg-aku-red/5 transition-colors"
+              className="flex items-center gap-2 text-aku-red hover:text-tutor-orange p-2 rounded-xl hover:bg-tutor-orange/5 transition-colors"
             >
               <LogOut className="w-4 h-4" />
               <span>{t('nav.signOut')}</span>
@@ -131,4 +131,3 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
 };
 
 export default MobileMenu;
-

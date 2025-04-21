@@ -22,13 +22,13 @@ const Footer = () => {
           <div className="flex items-center space-x-6 text-sm">
             <Link 
               to="/terms" 
-              className="text-aku-blue/70 hover:text-aku-green transition-colors"
+              className="text-aku-blue/70 hover:text-tutor-orange transition-colors"
             >
               {t('footer.termsOfService')}
             </Link>
             <Link 
               to="/privacy" 
-              className="text-aku-blue/70 hover:text-aku-green transition-colors"
+              className="text-aku-blue/70 hover:text-tutor-orange transition-colors"
             >
               {t('footer.privacyPolicy')}
             </Link>
@@ -36,7 +36,7 @@ const Footer = () => {
             {user && (
               <Link 
                 to="/help" 
-                className="text-aku-blue/70 hover:text-aku-green transition-colors"
+                className="text-aku-blue/70 hover:text-tutor-orange transition-colors"
               >
                 {t('footer.help')}
               </Link>
