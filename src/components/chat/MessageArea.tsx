@@ -2,6 +2,7 @@
 import { useRef, useEffect } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Question } from '@/types/question';
+import { Message } from '@/types/chat';  // Add this import for the Message type
 import QuizQuestion from '@/components/QuizQuestion';
 import FeedbackCard from '@/components/practice/FeedbackCard';
 import { Card, CardContent } from '@/components/ui/card';
