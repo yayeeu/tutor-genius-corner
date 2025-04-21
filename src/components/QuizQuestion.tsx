@@ -8,15 +8,34 @@ import { Label } from '@/components/ui/label';
 import { Question } from '@/types/question';
 
 interface QuizQuestionProps {
-  question: Question;
+  question: string | Question;
+  options?: string[];  // For backward compatibility
+  correctAnswer?: string;  // For backward compatibility
+  id?: string | number;
   onAnswer: (isCorrect: boolean) => void;
 }
 
-const QuizQuestion = ({ question, onAnswer }: QuizQuestionProps) => {
+const QuizQuestion = ({ question, options, correctAnswer, id, onAnswer }: QuizQuestionProps) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
+  
+  // Determine if we're using the new Question type or old format
+  const isQuestionObject = typeof question !== 'string';
+  
+  // Extract the actual question content and choices based on what we received
+  const questionContent = isQuestionObject ? question.content : question;
+  const questionChoices = isQuestionObject 
+    ? question.choices 
+    : options?.map((text, i) => ({ 
+        id: String.fromCharCode(97 + i), // 'a', 'b', 'c', etc.
+        text 
+      })) || [];
+  const correctAnswerId = isQuestionObject 
+    ? question.correctAnswerId 
+    : questionChoices.find(c => c.text === correctAnswer)?.id || '';
+  const questionLevel = isQuestionObject ? question.level : 'beginner';
   
   useEffect(() => {
     if (isAnimating) {
@@ -36,7 +55,7 @@ const QuizQuestion = ({ question, onAnswer }: QuizQuestionProps) => {
   const handleSubmit = () => {
     if (!selectedOption || submitted) return;
     
-    const correct = selectedOption === question.correctAnswerId;
+    const correct = selectedOption === correctAnswerId;
     setIsCorrect(correct);
     setSubmitted(true);
     setIsAnimating(true);
@@ -53,7 +72,7 @@ const QuizQuestion = ({ question, onAnswer }: QuizQuestionProps) => {
       return 'border-gray-200 bg-white';
     }
     
-    if (optionId === question.correctAnswerId) {
+    if (optionId === correctAnswerId) {
       return 'border-green-500 bg-green-50';
     }
     
@@ -66,12 +85,14 @@ const QuizQuestion = ({ question, onAnswer }: QuizQuestionProps) => {
     <Card className={`w-full transition-all duration-300 ${isAnimating ? 'scale-102' : 'scale-100'} ${getFeedbackColor()}`}>
       <CardContent className="pt-6">
         <div className="mb-6">
-          <h3 className="text-xl font-medium mb-2">Level: {question.level}</h3>
-          <p className="text-tutor-dark-gray">{question.content}</p>
+          {isQuestionObject && (
+            <h3 className="text-xl font-medium mb-2">Level: {questionLevel}</h3>
+          )}
+          <p className="text-tutor-dark-gray">{questionContent}</p>
         </div>
         
         <RadioGroup value={selectedOption || ''} className="space-y-3">
-          {question.choices.map((choice, index) => (
+          {questionChoices.map((choice, index) => (
             <div
               key={choice.id}
               className={`flex items-center space-x-2 p-3 border rounded-lg transition-all ${getOptionClass(choice.id)}`}
@@ -92,11 +113,11 @@ const QuizQuestion = ({ question, onAnswer }: QuizQuestionProps) => {
                     {choice.text}
                   </span>
                   
-                  {submitted && choice.id === question.correctAnswerId && (
+                  {submitted && choice.id === correctAnswerId && (
                     <Check className="h-5 w-5 text-green-500" />
                   )}
                   
-                  {submitted && choice.id === selectedOption && choice.id !== question.correctAnswerId && (
+                  {submitted && choice.id === selectedOption && choice.id !== correctAnswerId && (
                     <X className="h-5 w-5 text-red-500" />
                   )}
                 </div>
@@ -110,7 +131,7 @@ const QuizQuestion = ({ question, onAnswer }: QuizQuestionProps) => {
             <p className="font-medium">
               {isCorrect 
                 ? 'Correct! Well done.' 
-                : `Incorrect. The correct answer was ${question.choices.find(c => c.id === question.correctAnswerId)?.text}.`
+                : `Incorrect. The correct answer was ${questionChoices.find(c => c.id === correctAnswerId)?.text}.`
               }
             </p>
           </div>

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -53,6 +52,8 @@ export const questions = [
     correctAnswer: "Energy production"
   }
 ];
+
+// These question objects use the old format, but our QuizQuestion component will handle both formats
 
 const ScreeningAssignment = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);

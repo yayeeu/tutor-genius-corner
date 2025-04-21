@@ -13,11 +13,19 @@ import { Home } from 'lucide-react';
 import { useUnits } from '@/hooks/useUnits';
 import { supabase } from '@/integrations/supabase/client';
 
+// Define interface for QuestionData to ensure consistency
+interface EnhancedQuestionData {
+  id: string | number;
+  question: string; // We'll keep this as string for backward compatibility
+  options: string[];
+  correctAnswer: string;
+}
+
 const Practice = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
-  const [currentQuestion, setCurrentQuestion] = useState<QuestionData | null>(null);
+  const [currentQuestion, setCurrentQuestion] = useState<EnhancedQuestionData | null>(null);
   const [feedback, setFeedback] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<Array<{ sender: string, message: string }>>([]);
   const [availableQuestions, setAvailableQuestions] = useState<QuestionData[]>([]);

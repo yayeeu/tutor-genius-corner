@@ -1,4 +1,6 @@
 
+import { Question } from './question';
+
 export interface Message {
   id: number;
   content: string;
@@ -7,8 +9,8 @@ export interface Message {
 }
 
 export interface QuestionData {
-  id: number;
-  question: string;
-  options: string[];
-  correctAnswer: string;
+  id: string | number;
+  question: string | Question;  // Allow both string and Question object
+  options?: string[];
+  correctAnswer?: string;
 }

@@ -5,15 +5,22 @@ import MessageItem from './MessageItem';
 import TypingIndicator from './TypingIndicator';
 import QuizQuestion from '@/components/QuizQuestion';
 import FeedbackCard from '@/components/practice/FeedbackCard';
-import { QuestionData } from '@/data/practiceData';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { Question } from '@/types/question';
 
 interface Message {
   id: number;
   content: string;
   sender: 'user' | 'ai';
   timestamp: Date;
+}
+
+interface QuestionData {
+  id: string | number;
+  question: string | Question;
+  options?: string[];
+  correctAnswer?: string;
 }
 
 interface MessageAreaProps {
