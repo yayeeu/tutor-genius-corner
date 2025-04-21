@@ -27,10 +27,10 @@ export const useQuizState = (addAIMessage: (content: string) => void) => {
       if (questionData) {
         // Transform the data to match our QuestionData type
         const transformedQuestion: QuestionData = {
-          id: questionData.id,
+          id: typeof questionData.id === 'string' ? parseInt(questionData.id, 10) || 0 : questionData.id,
           question: questionData.question,
           options: Array.isArray(questionData.options) 
-            ? questionData.options 
+            ? questionData.options.map(option => String(option))
             : typeof questionData.options === 'object' && questionData.options !== null
               ? Object.values(questionData.options).map(String)
               : ["Option A", "Option B", "Option C", "Option D"], // Fallback
@@ -69,10 +69,10 @@ export const useQuizState = (addAIMessage: (content: string) => void) => {
         if (questionData) {
           // Transform the data to match our QuestionData type
           const transformedQuestion: QuestionData = {
-            id: questionData.id,
+            id: typeof questionData.id === 'string' ? parseInt(questionData.id, 10) || 0 : questionData.id,
             question: questionData.question,
             options: Array.isArray(questionData.options) 
-              ? questionData.options 
+              ? questionData.options.map(option => String(option))
               : typeof questionData.options === 'object' && questionData.options !== null
                 ? Object.values(questionData.options).map(String)
                 : ["Option A", "Option B", "Option C", "Option D"], // Fallback
