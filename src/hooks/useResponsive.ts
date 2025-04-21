@@ -1,5 +1,7 @@
 
 import { useState, useEffect } from 'react';
+import { useToast } from '@/hooks/use-toast';
+import Logger from '@/utils/logger';
 
 export type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
@@ -30,39 +32,69 @@ const getBreakpoint = (width: number): Breakpoint => {
 };
 
 export const useResponsive = (): ResponsiveConfig => {
-  const [config, setConfig] = useState<ResponsiveConfig>({
-    width: window.innerWidth,
-    height: window.innerHeight,
-    breakpoint: getBreakpoint(window.innerWidth),
-    isMobile: window.innerWidth < breakpoints.md,
-    isTablet: window.innerWidth >= breakpoints.md && window.innerWidth < breakpoints.lg,
-    isDesktop: window.innerWidth >= breakpoints.lg,
-    orientation: window.innerHeight > window.innerWidth ? 'portrait' : 'landscape'
-  });
-
-  useEffect(() => {
-    const handleResize = () => {
+  const { toast } = useToast();
+  const [config, setConfig] = useState<ResponsiveConfig>(() => {
+    try {
       const width = window.innerWidth;
       const height = window.innerHeight;
-      const breakpoint = getBreakpoint(width);
       
-      setConfig({
+      return {
         width,
         height,
-        breakpoint,
+        breakpoint: getBreakpoint(width),
         isMobile: width < breakpoints.md,
         isTablet: width >= breakpoints.md && width < breakpoints.lg,
         isDesktop: width >= breakpoints.lg,
         orientation: height > width ? 'portrait' : 'landscape'
-      });
+      };
+    } catch (error) {
+      Logger.error('Failed to initialize responsive config', { error });
+      // Fallback to mobile-first defaults
+      return {
+        width: 360,
+        height: 640,
+        breakpoint: 'xs',
+        isMobile: true,
+        isTablet: false,
+        isDesktop: false,
+        orientation: 'portrait'
+      };
+    }
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      try {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const breakpoint = getBreakpoint(width);
+        
+        setConfig({
+          width,
+          height,
+          breakpoint,
+          isMobile: width < breakpoints.md,
+          isTablet: width >= breakpoints.md && width < breakpoints.lg,
+          isDesktop: width >= breakpoints.lg,
+          orientation: height > width ? 'portrait' : 'landscape'
+        });
+      } catch (error) {
+        Logger.error('Error handling window resize', { error });
+        toast({
+          title: "Display Error",
+          description: "Failed to update display settings. Please refresh the page.",
+          variant: "destructive"
+        });
+      }
     };
 
-    window.addEventListener('resize', handleResize);
-    handleResize(); // Initial call
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    try {
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    } catch (error) {
+      Logger.error('Failed to add resize listener', { error });
+    }
+  }, [toast]);
 
   return config;
 };
-

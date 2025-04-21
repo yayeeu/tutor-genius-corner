@@ -1,14 +1,20 @@
+
 import { useEffect } from 'react';
-import ChatSidebar from './ChatSidebar';
-import MessageArea from './MessageArea';
-import ChatInputArea from './ChatInputArea';
+import { useResponsive } from '@/hooks/useResponsive';
+import { useGlobalUser } from '@/hooks/useGlobalUser';
 import { useChatWithVllm } from '@/hooks/useChatWithVllm';
 import { useAssignmentState } from '@/hooks/useAssignmentState';
 import { questions } from '@/pages/ScreeningAssignment';
-import { useResponsive } from '@/hooks/useResponsive';
+import ChatSidebar from './ChatSidebar';
+import MessageArea from './MessageArea';
+import ChatInputArea from './ChatInputArea';
+import { useToast } from '@/hooks/use-toast';
+import Logger from '@/utils/logger';
 
 const ChatContainer = () => {
   const { isMobile } = useResponsive();
+  const { profile, isLoading: isLoadingProfile } = useGlobalUser();
+  const { toast } = useToast();
   
   // Initialize chat state
   const { 
@@ -34,26 +40,43 @@ const ChatContainer = () => {
     setCurrentQuestion
   } = useAssignmentState(addUserMessage);
   
-  // Check if user has completed the assignment
   useEffect(() => {
-    checkAssignmentStatus();
-    
-    // End session when component unmounts
-    return () => {
-      endSession();
-    };
-  }, [checkAssignmentStatus, endSession]);
+    try {
+      checkAssignmentStatus();
+      return () => {
+        endSession();
+      };
+    } catch (error) {
+      Logger.error('Failed to check assignment status', { error });
+      toast({
+        title: "Error",
+        description: "Failed to load assignment status. Please refresh the page.",
+        variant: "destructive"
+      });
+    }
+  }, [checkAssignmentStatus, endSession, toast]);
   
-  // Set first question when starting assignment
   useEffect(() => {
     if (showAssignment && questions.length > 0) {
-      setCurrentQuestion(questions[0]);
+      try {
+        setCurrentQuestion(questions[0]);
+      } catch (error) {
+        Logger.error('Failed to set initial question', { error });
+        toast({
+          title: "Error",
+          description: "Failed to load the first question. Please try again.",
+          variant: "destructive"
+        });
+      }
     }
-  }, [showAssignment, setCurrentQuestion]);
+  }, [showAssignment, setCurrentQuestion, toast]);
   
+  if (isLoadingProfile) {
+    return <div className="flex h-screen items-center justify-center">Loading...</div>;
+  }
+
   return (
     <div className="flex h-[calc(100vh-4rem)] animate-fade-in">
-      {/* Sidebar - only show on non-mobile if assignment completed */}
       {!showAssignment && hasTakenAssignment && !isMobile && (
         <ChatSidebar
           onTopicSelect={handleTopicSelect}
@@ -61,9 +84,7 @@ const ChatContainer = () => {
         />
       )}
       
-      {/* Main Chat Area */}
       <div className={`flex-1 flex flex-col ${isMobile ? 'w-full' : ''}`}>
-        {/* Chat Messages */}
         <MessageArea
           messages={messages}
           isTyping={isTyping}
@@ -74,7 +95,6 @@ const ChatContainer = () => {
           handleNextQuestion={handleNextQuestion}
         />
         
-        {/* Input Area - hide during assignment */}
         {!showAssignment && (
           <ChatInputArea onSendMessage={handleSendMessage} />
         )}
