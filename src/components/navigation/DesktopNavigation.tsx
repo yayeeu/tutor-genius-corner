@@ -1,3 +1,4 @@
+
 import { Link, useLocation } from 'react-router-dom';
 import { MessageCircle, LayoutDashboard, HelpCircle, BookOpen, Star, Trophy, Globe, LogIn } from 'lucide-react';
 import { 
@@ -72,8 +73,8 @@ const DesktopNavigation = ({ user, isActive }: DesktopNavigationProps) => {
             <span>{t('nav.help')}</span>
           </Link>
 
-          {/* Language selector */}
-          <DropdownMenu>
+          {/* Commented out Language selector */}
+          {/* <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center space-x-1 px-3 py-2 rounded-full hover:bg-aku-cream/50 transition-colors">
               <Globe className="h-4 w-4 text-aku-blue" />
               <span className="text-sm font-medium">{currentLanguage.toUpperCase()}</span>
@@ -90,7 +91,7 @@ const DesktopNavigation = ({ user, isActive }: DesktopNavigationProps) => {
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
-          </DropdownMenu>
+          </DropdownMenu> */}
         </>
       )}
 

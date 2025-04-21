@@ -1,3 +1,4 @@
+
 import { Link } from 'react-router-dom';
 import { LogIn, LogOut, FileText, MessageCircle, LayoutDashboard, HelpCircle, BookOpen, Globe, Trophy, Star } from 'lucide-react';
 import { Separator } from "@/components/ui/separator";
@@ -110,7 +111,8 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
           </>
         )}
         
-        <div className="p-2">
+        {/* Commented out Language selector */}
+        {/* <div className="p-2">
           <div className="flex items-center mb-2">
             <Globe className="h-4 w-4 mr-2" />
             <span className="text-sm font-medium">{t('general.language')}</span>
@@ -133,7 +135,7 @@ const MobileMenu = ({ isMenuOpen, isActive, user, signOut, setIsMenuOpen }: Mobi
               </button>
             ))}
           </div>
-        </div>
+        </div> */}
         
         <Separator className="my-2 bg-aku-cream" />
         
