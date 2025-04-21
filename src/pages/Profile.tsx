@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import ProfileHeader from '@/components/profile/ProfileHeader';
@@ -6,7 +5,6 @@ import TabNavigation from '@/components/profile/TabNavigation';
 import EditProfileForm from '@/components/profile/EditProfileForm';
 import ChangePasswordForm from '@/components/profile/ChangePasswordForm';
 import NotificationSettings from '@/components/profile/NotificationSettings';
-import LanguageSelector from '@/components/profile/LanguageSelector';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
@@ -19,7 +17,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Edit, Globe, Bell, Info, Trash2, LogOut } from 'lucide-react';
+import { Edit, Bell, Info, Trash2, LogOut, Shield } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const Profile = () => {
   const { signOut } = useAuth();
@@ -64,17 +63,8 @@ const Profile = () => {
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Globe className="h-5 w-5 text-tutor-orange" />
-                    {t('profile.language')}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <LanguageSelector />
-                </CardContent>
-              </Card>
+              {/* Language selector temporarily hidden */}
+              
 
               <Card>
                 <CardHeader>
