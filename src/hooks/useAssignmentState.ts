@@ -1,10 +1,10 @@
-
 import { useState, useCallback } from 'react';
 import { QuestionData } from '@/types/chat';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/hooks/use-toast';
 import { updateLearningActivity } from '@/services/tracking';
 import { fetchTopicQuestion } from '@/services/vllmService';
+import { Question } from '@/types/question';
 
 export const useAssignmentState = (addAIMessage: (content: string) => void) => {
   const [currentQuestion, setCurrentQuestion] = useState<QuestionData | null>(null);
@@ -100,7 +100,11 @@ export const useAssignmentState = (addAIMessage: (content: string) => void) => {
       setFeedback("");
       
       try {
-        const topicName = currentQuestion.question.split(' ')[0]; // Simple extraction of topic from question
+        // Extract topic name safely based on question type
+        const topicName = typeof currentQuestion.question === 'string' 
+          ? currentQuestion.question.split(' ')[0] // Extract from string
+          : currentQuestion.question.content.split(' ')[0]; // Extract from Question object's content
+        
         const question = await fetchTopicQuestion(topicName);
         
         if (question) {
