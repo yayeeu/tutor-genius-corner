@@ -4,6 +4,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Send } from 'lucide-react';
+// Uncomment if needed later: import VoiceRecorder from '@/components/chat/VoiceRecorder';
 
 interface ChatMessage {
   sender: string;
@@ -64,6 +65,7 @@ const DiscussionChat = ({ chatHistory, onSendMessage }: DiscussionChatProps) => 
           >
             <Send className="h-4 w-4" />
           </Button>
+          {/* <VoiceRecorder onTranscriptionComplete={setChatMessage} /> */}
         </div>
       </CardContent>
     </Card>

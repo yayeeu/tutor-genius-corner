@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import QuickPrompts from './QuickPrompts';
-import VoiceRecorder from './VoiceRecorder';
+// import VoiceRecorder from './VoiceRecorder';  // Commented out as requested
 import MessageInput from './MessageInput';
 
 interface ChatInputAreaProps {
@@ -23,7 +23,7 @@ const ChatInputArea = ({ onSendMessage }: ChatInputAreaProps) => {
         <div className="flex space-x-2">
           <div className="flex space-x-2">
             <QuickPrompts onPromptSelect={setInputValue} />
-            <VoiceRecorder onTranscriptionComplete={setInputValue} />
+            {/* <VoiceRecorder onTranscriptionComplete={setInputValue} />  // Commented out as requested */}
           </div>
           
           <MessageInput
