@@ -1,6 +1,5 @@
-
 import { useState, useRef } from 'react';
-import { SendHorizontal, Sparkles, Mic, MicOff, Languages } from 'lucide-react';
+import { SendHorizontal, Sparkles, Mic, MicOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -13,7 +12,6 @@ import {
   DropdownMenuGroup,
   DropdownMenuLabel
 } from '@/components/ui/dropdown-menu';
-import { useLanguage } from '@/hooks/useLanguage';
 import { useToast } from '@/hooks/use-toast';
 import { Progress } from '@/components/ui/progress';
 
@@ -27,7 +25,6 @@ const ChatInputArea = ({ onSendMessage }: ChatInputAreaProps) => {
   const [recordingProgress, setRecordingProgress] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
   const { toast } = useToast();
-  const { currentLanguage, changeLanguage, languages } = useLanguage();
   
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
@@ -164,7 +161,6 @@ const ChatInputArea = ({ onSendMessage }: ChatInputAreaProps) => {
     };
   };
 
-  // Expand textarea on focus if there's already text
   const handleFocus = () => {
     if (inputValue.trim().length > 0) {
       setIsExpanded(true);
@@ -222,36 +218,6 @@ const ChatInputArea = ({ onSendMessage }: ChatInputAreaProps) => {
             >
               {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
             </Button>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="h-10 w-10 border-tutor-light-gray bg-white"
-                >
-                  <Languages className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start">
-                <DropdownMenuLabel>Select Language</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  {languages.map((lang) => (
-                    <DropdownMenuItem 
-                      key={lang.code}
-                      onClick={() => changeLanguage(lang.code)}
-                      className={currentLanguage === lang.code ? "bg-muted" : ""}
-                    >
-                      {lang.name}
-                      {currentLanguage === lang.code && (
-                        <span className="ml-auto">✓</span>
-                      )}
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
           </div>
           
           <div className="flex-1 relative">
