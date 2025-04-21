@@ -21,12 +21,26 @@
     "sending": "እየላከ...",
     "termsOfService": "የአገልግሎት ውል",
     "privacyPolicy": "የግላዊነት ፖሊሲ",
-    "language": "ቋንቋ"
+    "language": "ቋንቋ",
+    "save": "አስቀምጥ",
+    "saving": "በማስቀመጥ ላይ...",
+    "cancel": "ሰርዝ"
   },
   "footer": {
     "allRightsReserved": "መብቱ በህግ የተጠበቀ ነው",
     "termsOfService": "መስፈርቶች",
     "privacyPolicy": "ግላዊነት",
     "help": "እገዛ"
+  },
+  "profile": {
+    "tabs": {
+      "profile": "መገለጫ",
+      "security": "ደህንነት"
+    },
+    "editProfile": "መገለጫ አስተካክል",
+    "language": "ቋንቋ",
+    "notifications": "ማሳወቂያዎች",
+    "settingsUpdated": "ቅንብሮች ተዘምነዋል",
+    "notificationSettingsUpdated": "የማሳወቂያ ምርጫዎችዎ ተቀምጠዋል"
   }
 }

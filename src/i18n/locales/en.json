@@ -1,3 +1,4 @@
+
 {
   "nav": {
     "learn": "Learn",
@@ -20,7 +21,10 @@
     "sending": "Sending...",
     "termsOfService": "Terms of Service",
     "privacyPolicy": "Privacy Policy",
-    "language": "Language"
+    "language": "Language",
+    "save": "Save",
+    "saving": "Saving...",
+    "cancel": "Cancel"
   },
   "footer": {
     "allRightsReserved": "All rights reserved",
@@ -42,5 +46,49 @@
       "title": "Goal Progress",
       "description": "Moving closer to your learning goals"
     }
+  },
+  "profile": {
+    "tabs": {
+      "profile": "Profile",
+      "security": "Security"
+    },
+    "editProfile": "Edit Profile",
+    "language": "Language",
+    "notifications": {
+      "assignments": "Assignments",
+      "assignmentsDesc": "Notifications about new assignments and deadlines",
+      "newContent": "New Content",
+      "newContentDesc": "Alerts when new lessons or practice materials are added",
+      "reminders": "Learning Reminders",
+      "remindersDesc": "Reminders to continue your learning progress",
+      "updates": "System Updates",
+      "updatesDesc": "Information about new features and improvements"
+    },
+    "notifications": "Notifications",
+    "settingsUpdated": "Settings Updated",
+    "notificationSettingsUpdated": "Your notification preferences have been saved",
+    "profileUpdated": "Profile Updated",
+    "profileUpdateSuccess": "Your profile information has been updated successfully",
+    "changePassword": "Change Password",
+    "passwordChanged": "Password Changed",
+    "passwordChangeSuccess": "Your password has been updated successfully",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "updatePassword": "Update Password",
+    "displayName": "Display Name",
+    "email": "Email Address",
+    "privacyAndTerms": "Privacy & Terms",
+    "dangerZone": "Danger Zone",
+    "deleteAccount": "Delete Account",
+    "confirmDeletion": "Confirm Account Deletion",
+    "deletionWarning": "This action cannot be undone. Your account and all associated data will be permanently deleted.",
+    "confirmDelete": "Yes, Delete My Account",
+    "accountDeleted": "Account Deleted",
+    "accountDeletedDescription": "Your account has been successfully deleted",
+    "error": "Error",
+    "errorDeletingAccount": "There was an error deleting your account. Please try again.",
+    "errorUpdatingProfile": "There was an error updating your profile. Please try again.",
+    "errorChangingPassword": "There was an error changing your password. Please try again."
   }
 }
