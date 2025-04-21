@@ -66,10 +66,10 @@ const TopicsList = ({ topics, isLoading, selectedTopic, onTopicSelect }: TopicsL
   }
 
   return (
-    <Card>
+    <Card className="w-60">
       <CardHeader className="pb-3">
-        <CardTitle>Learning Topics</CardTitle>
-        <CardDescription>
+        <CardTitle className="text-base">Learning Topics</CardTitle>
+        <CardDescription className="text-xs">
           Select a topic to practice
         </CardDescription>
       </CardHeader>
@@ -78,18 +78,18 @@ const TopicsList = ({ topics, isLoading, selectedTopic, onTopicSelect }: TopicsL
           {displayedTopics.map((topic, index) => (
             <div 
               key={topic.id}
-              className={`p-3 rounded-lg border transition-all cursor-pointer hover:bg-gray-50 ${
-                selectedTopic === topic.name ? 'border-tutor-orange bg-orange-50' : 'border-gray-200'
+              className={`p-2 rounded-lg border transition-all cursor-pointer hover:bg-gray-50 ${
+                selectedTopic === topic.name ? 'border-aku-green bg-aku-green/5' : 'border-gray-200'
               }`}
               onClick={() => onTopicSelect(topic.name)}
             >
-              <div className="flex justify-between items-center mb-2">
-                <span className="font-medium">{topic.name}</span>
-                <ChevronRight className="h-4 w-4 text-tutor-gray" />
+              <div className="flex justify-between items-center mb-1.5">
+                <span className="text-sm font-medium truncate">{topic.name}</span>
+                <ChevronRight className="h-3 w-3 text-tutor-gray" />
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex-1">
-                  <Progress value={topic.competency} className="h-1.5" />
+                  <Progress value={topic.competency} className="h-1" />
                 </div>
                 <span className="text-xs font-medium text-tutor-gray">
                   {topic.competency}%
@@ -101,11 +101,11 @@ const TopicsList = ({ topics, isLoading, selectedTopic, onTopicSelect }: TopicsL
           {topics.length > 5 && (
             <Button
               variant="ghost" 
-              className="w-full text-tutor-orange" 
+              className="w-full text-aku-green text-xs" 
               onClick={() => setShowAllTopics(!showAllTopics)}
             >
               {showAllTopics ? 'Show Less' : 'Show More'}
-              <ChevronDown className="h-4 w-4 ml-1" />
+              <ChevronDown className="h-3 w-3 ml-1" />
             </Button>
           )}
         </div>

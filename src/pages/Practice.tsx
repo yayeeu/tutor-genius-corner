@@ -13,10 +13,9 @@ import { Home } from 'lucide-react';
 import { useUnits } from '@/hooks/useUnits';
 import { supabase } from '@/integrations/supabase/client';
 
-// Define interface for QuestionData to ensure consistency
 interface EnhancedQuestionData {
   id: string | number;
-  question: string; // We'll keep this as string for backward compatibility
+  question: string;
   options: string[];
   correctAnswer: string;
 }
@@ -190,7 +189,7 @@ const Practice = () => {
         </div>
 
         <div className="mb-6">
-          <h1 className="text-2xl md:text-3xl font-bold mb-2">{subjectName} Practice</h1>
+          <h1 className="text-2xl md:text-3xl font-bold mb-2 text-aku-green">{subjectName} Practice</h1>
           <div className="flex items-center gap-3 mb-4">
             <p className="text-tutor-gray">Overall Competency:</p>
             <div className="flex-1 max-w-xs">
@@ -200,7 +199,7 @@ const Practice = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-6">
           <div className="md:col-span-1">
             <TopicsList 
               topics={units} 
