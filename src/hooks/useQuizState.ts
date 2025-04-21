@@ -22,10 +22,22 @@ export const useQuizState = (addAIMessage: (content: string) => void) => {
       addAIMessage(`Let's practice "${topicName}". I'm preparing a question for you...`);
       
       // Fetch a random question for this topic
-      const question = await fetchTopicQuestion(topicName);
+      const questionData = await fetchTopicQuestion(topicName);
       
-      if (question) {
-        setCurrentQuestion(question);
+      if (questionData) {
+        // Transform the data to match our QuestionData type
+        const transformedQuestion: QuestionData = {
+          id: questionData.id,
+          question: questionData.question,
+          options: Array.isArray(questionData.options) 
+            ? questionData.options 
+            : typeof questionData.options === 'object' && questionData.options !== null
+              ? Object.values(questionData.options).map(String)
+              : ["Option A", "Option B", "Option C", "Option D"], // Fallback
+          correctAnswer: questionData.correct_answer || ""
+        };
+        
+        setCurrentQuestion(transformedQuestion);
       } else {
         // Handle case when no question is returned
         addAIMessage(`I don't have any practice questions for "${topicName}" yet. Let me know if you'd like to discuss this topic instead.`);
@@ -52,10 +64,22 @@ export const useQuizState = (addAIMessage: (content: string) => void) => {
       
       try {
         const topicName = currentQuestion.question.split(' ')[0]; // Simple extraction of topic from question
-        const question = await fetchTopicQuestion(topicName);
+        const questionData = await fetchTopicQuestion(topicName);
         
-        if (question) {
-          setCurrentQuestion(question);
+        if (questionData) {
+          // Transform the data to match our QuestionData type
+          const transformedQuestion: QuestionData = {
+            id: questionData.id,
+            question: questionData.question,
+            options: Array.isArray(questionData.options) 
+              ? questionData.options 
+              : typeof questionData.options === 'object' && questionData.options !== null
+                ? Object.values(questionData.options).map(String)
+                : ["Option A", "Option B", "Option C", "Option D"], // Fallback
+            correctAnswer: questionData.correct_answer || ""
+          };
+          
+          setCurrentQuestion(transformedQuestion);
           
           // Add a message about the new question
           addAIMessage("Here's another question for you to practice:");
