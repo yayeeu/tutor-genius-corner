@@ -180,16 +180,19 @@ export type Database = {
         Row: {
           grade_level: number
           id: string
+          is_available: boolean
           name: string
         }
         Insert: {
           grade_level: number
           id?: string
+          is_available?: boolean
           name: string
         }
         Update: {
           grade_level?: number
           id?: string
+          is_available?: boolean
           name?: string
         }
         Relationships: []

@@ -25,10 +25,11 @@ export const useCourses = () => {
   const fetchCourses = async () => {
     setIsLoading(true);
     try {
-      // Get courses data
+      // Get only available courses
       const { data: coursesData, error: coursesError } = await supabase
         .from('courses')
-        .select('id, name, grade_level');
+        .select('id, name, grade_level')
+        .eq('is_available', true);
 
       if (coursesError) throw coursesError;
 
