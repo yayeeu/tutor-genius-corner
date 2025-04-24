@@ -212,7 +212,21 @@ const Practice = () => {
           <div className="md:col-span-2">
             {selectedTopic ? (
               <div className="space-y-6">
-                {currentQuestion ? (
+                {availableQuestions.length === 0 ? (
+                  <Card>
+                    <CardContent className="pt-6 text-center">
+                      <div className="flex flex-col items-center justify-center py-12">
+                        <BookOpen className="h-12 w-12 text-tutor-light-gray mb-4 opacity-70" />
+                        <p className="text-tutor-gray text-lg">
+                          No practice questions available for this topic yet.
+                        </p>
+                        <p className="text-tutor-light-gray mt-2">
+                          Check back later or explore other topics.
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ) : currentQuestion ? (
                   <QuizQuestion 
                     id={currentQuestion.id}
                     question={currentQuestion.question}
@@ -220,13 +234,7 @@ const Practice = () => {
                     correctAnswer={currentQuestion.correctAnswer}
                     onAnswer={handleAnswer}
                   />
-                ) : (
-                  <Card>
-                    <CardContent className="pt-6">
-                      <p>No practice questions available for this topic yet.</p>
-                    </CardContent>
-                  </Card>
-                )}
+                ) : null}
 
                 <FeedbackCard 
                   feedback={feedback} 
