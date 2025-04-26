@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
@@ -9,7 +10,7 @@ import DiscussionChat from '@/components/practice/DiscussionChat';
 import WelcomeScreen from '@/components/practice/WelcomeScreen';
 import { sampleQuestions, QuestionData } from '@/data/practiceData';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
-import { Home } from 'lucide-react';
+import { Home, BookOpen } from 'lucide-react';  // Added BookOpen import
 import { useUnits } from '@/hooks/useUnits';
 import { supabase } from '@/integrations/supabase/client';
 
