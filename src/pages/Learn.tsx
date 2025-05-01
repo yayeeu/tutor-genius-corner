@@ -1,20 +1,75 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpen } from 'lucide-react';
 import SubjectCard from '@/components/SubjectCard';
 import { Button } from '@/components/ui/button';
-import { useCourses } from '@/hooks/useCourses';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
-import { useGradeLevel } from '@/hooks/useGradeLevel';
+import { useAuth } from '@/contexts/AuthContext';
+import { useCourse } from '@/contexts/CourseContext';
+import { api } from '@/lib/api'; // Axios instance
+
+// Types
+interface Course {
+  id: string;
+  name: string;
+  description?: string;
+  grade_level?: number;
+  progress?: number; // Future field for tracking
+  recentTopics?: string[];
+}
 
 const Learn = () => {
-  const [displayedSubjects, setDisplayedSubjects] = useState(6);
-  const { courses, isLoading } = useCourses();
-  const gradeLevel = useGradeLevel();
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [displayedSubjects, setDisplayedSubjects] = useState<number>(6);
+  const [gradeLevel, setGradeLevel] = useState<number | null>(null);
+  const { user, session } = useAuth();
+  const { setCourses: setGlobalCourses } = useCourse();
+
+  useEffect(() => {
+    const fetchGradeLevel = async () => {
+      if (!user?.id || !session?.access_token) return;
+      try {
+        const response = await api.get(`/api/students/${user.id}/grade-level`, {
+          headers: {
+            Authorization: `Bearer ${session.access_token}`
+          }
+        });
+        setGradeLevel(response.data.grade_level);
+      } catch (error) {
+        console.error('Failed to fetch grade level:', error);
+      }
+    };
+
+    fetchGradeLevel();
+  }, [user?.id, session?.access_token]);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      if (!gradeLevel || !session?.access_token) return;
+      try {
+        const response = await api.get<Course[]>(`/api/courses/grade/${gradeLevel}`, {
+          headers: {
+            Authorization: `Bearer ${session.access_token}`
+          }
+        });
+        const coursesData = response.data || [];
+        setCourses(coursesData);
+        // Set courses in global context
+        setGlobalCourses(coursesData);
+      } catch (error) {
+        console.error('Failed to fetch courses:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, [gradeLevel, session?.access_token, setGlobalCourses]);
 
   const handleShowMore = () => {
-    setDisplayedSubjects(prevCount => Math.min(prevCount + 3, courses.length));
+    setDisplayedSubjects((prev) => Math.min(prev + 3, courses.length));
   };
 
   const renderSubjectsContent = () => {
@@ -58,18 +113,18 @@ const Learn = () => {
     return (
       <>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {courses.slice(0, displayedSubjects).map((subject, index) => (
-            <Link to={`/practice?subject=${subject.title}`} key={index}>
+          {courses.slice(0, displayedSubjects).map((subject) => (
+            <Link to={`/practice?courseId=${subject.id}`} key={subject.id}>
               <SubjectCard 
-                title={subject.title}
-                description={subject.description}
-                progress={subject.progress}
-                recentTopics={subject.recentTopics}
+                title={subject.name}
+                description={subject.description || ''}
+                progress={subject.progress || 0}
+                recentTopics={subject.recentTopics || []}
               />
             </Link>
           ))}
         </div>
-        
+
         {displayedSubjects < courses.length && (
           <div className="flex justify-center mt-6">
             <Button 

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -10,7 +9,7 @@ interface TopicsListProps {
   topics: UnitData[];
   isLoading: boolean;
   selectedTopic: string | null;
-  onTopicSelect: (topicName: string) => void;
+  onTopicSelect: (topicId: string) => void;
 }
 
 const TopicsList = ({ topics, isLoading, selectedTopic, onTopicSelect }: TopicsListProps) => {
@@ -20,7 +19,7 @@ const TopicsList = ({ topics, isLoading, selectedTopic, onTopicSelect }: TopicsL
 
   if (isLoading) {
     return (
-      <Card>
+      <Card className="w-[105%]">
         <CardHeader className="pb-3">
           <CardTitle>Learning Topics</CardTitle>
           <CardDescription>
@@ -46,7 +45,7 @@ const TopicsList = ({ topics, isLoading, selectedTopic, onTopicSelect }: TopicsL
 
   if (topics.length === 0) {
     return (
-      <Card>
+      <Card className="w-[105%]">
         <CardHeader className="pb-3">
           <CardTitle>Learning Topics</CardTitle>
           <CardDescription>
@@ -66,49 +65,45 @@ const TopicsList = ({ topics, isLoading, selectedTopic, onTopicSelect }: TopicsL
   }
 
   return (
-    <Card className="w-60">
+    <Card className="w-[105%]">
       <CardHeader className="pb-3">
-        <CardTitle className="text-base">Learning Topics</CardTitle>
-        <CardDescription className="text-xs">
+        <CardTitle>Learning Topics</CardTitle>
+        <CardDescription>
           Select a topic to practice
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-2">
-          {displayedTopics.map((topic, index) => (
-            <div 
+          {displayedTopics.map((topic) => (
+            <div
               key={topic.id}
-              className={`p-2 rounded-lg border transition-all cursor-pointer hover:bg-gray-50 ${
-                selectedTopic === topic.name ? 'border-aku-green bg-aku-green/5' : 'border-gray-200'
-              }`}
-              onClick={() => onTopicSelect(topic.name)}
+              onClick={() => onTopicSelect(topic.id)}
+              className={`p-3 rounded-lg border cursor-pointer transition-colors
+                ${selectedTopic === topic.id ? 'bg-blue-50 border-blue-500' : 'hover:bg-gray-50 border-gray-200'}
+              `}
             >
-              <div className="flex justify-between items-center mb-1.5">
-                <span className="text-sm font-medium truncate">{topic.name}</span>
-                <ChevronRight className="h-3 w-3 text-tutor-gray" />
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="flex-1">
-                  <Progress value={topic.competency} className="h-1" />
+              <div className="flex items-center justify-between">
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate">
+                    {topic.name}
+                  </p>
                 </div>
-                <span className="text-xs font-medium text-tutor-gray">
-                  {topic.competency}%
-                </span>
+                <div className="ml-2 flex-shrink-0">
+                  <Progress value={topic.competency} className="w-20" />
+                </div>
               </div>
             </div>
           ))}
-
-          {topics.length > 5 && (
-            <Button
-              variant="ghost" 
-              className="w-full text-aku-green text-xs" 
-              onClick={() => setShowAllTopics(!showAllTopics)}
-            >
-              {showAllTopics ? 'Show Less' : 'Show More'}
-              <ChevronDown className="h-3 w-3 ml-1" />
-            </Button>
-          )}
         </div>
+        {topics.length > 5 && (
+          <Button
+            variant="ghost"
+            className="w-full mt-4"
+            onClick={() => setShowAllTopics(!showAllTopics)}
+          >
+            {showAllTopics ? 'Show Less' : 'Show More'}
+          </Button>
+        )}
       </CardContent>
     </Card>
   );
